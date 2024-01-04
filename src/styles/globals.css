@@ -3,25 +3,59 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+	--action-color: #f93c00;
+	--primary-color: #000;
+	--secondary-color: #fff;
+	--separator-color: #e5e5e5;
+	--silver-color: #c1c1c1;
+	--light-gray-color: #888;
+	--tundora-color: #444444;
+	--mint-color: #a5d2a0;
+	--loading-grey-color: #ededed;
+	--blue-20-color: #d9e4ee;
+	--dark-blue-color: #3c5064;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+@keyframes skeleton-loading {
+	to {
+		background-position-x: -20%;
+	}
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.skeleton {
+	background-color: var(--loading-grey-color);
+	background: linear-gradient(
+			100deg,
+			rgba(255, 255, 255, 0) 40%,
+			rgba(255, 255, 255, 0.5) 50%,
+			rgba(255, 255, 255, 0) 60%
+		)
+		var(--loading-grey-color);
+	background-size: 200% 100%;
+	background-position-x: 180%;
+	animation: 1s skeleton-loading ease-in-out infinite;
+}
+
+.card-grid {
+	display: grid;
+	width: 960px;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 24px 12px;
+}
+
+.checkbox-ui:checked + .checkbox-ui-fake {
+	@apply bg-primary-color border-none;
+}
+
+.checkbox-ui:checked + .checkbox-ui-fake .checkbox-ui-fake-icon {
+	@apply opacity-100;
+}
+
+.radio-ui-fake::before {
+	content: '';
+	@apply absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 block w-[10px] h-[10px] rounded-full bg-transparent transition-colors ease-in-out duration-200;
+}
+
+.radio-ui:checked + .radio-ui-fake::before {
+	@apply bg-primary-color;
 }

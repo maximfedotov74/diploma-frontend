@@ -1,118 +1,241 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import { withLayout } from '@/layout/with-layout';
+import { CategoryAvatar } from '@/shared/ui/avatars/category-avatar';
+import { UserAvatar } from '@/shared/ui/avatars/user-avatar';
 
-const inter = Inter({ subsets: ['latin'] })
+import { Badge } from '@/shared/ui/badge';
+import { ProductCard } from '@/shared/widgets/cards/product-card';
+import { ProgressCarousel } from '@/shared/ui/carousel/progress-carousel';
+import { Input } from '@/shared/ui/form-elements/input';
+import { PasswordInput } from '@/shared/ui/form-elements/password-input';
+import { AppLink } from '@/shared/ui/link';
+import { GetServerSideProps } from 'next';
+import { WishlistBtn } from '@/shared/features/wishlist-btn';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Button } from '@/shared/ui/button';
+import { Radio } from '@/shared/ui/form-elements/radio';
+import { RadioGroup } from '@headlessui/react';
 
-export default function Home() {
-  return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/pages/index.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+const slides = [
+	{ alt: 'asdasd', src: '/img/1.webp', link: 'http://ya.ru' },
+	{ alt: 'aaa', src: '/img/2.webp', link: '/' },
+	{ alt: 'xxx', src: '/img/33.webp', link: '/' },
+	{ alt: 'zzz', src: '/img/4.webp', link: '/' },
+	{ alt: 'asda22sd', src: '/img/5.webp', link: '/' },
+	{ alt: 'asda13234sd', src: '/img/6.webp', link: '/' },
+];
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+const slidesHover = [
+	{ alt: 'asdasd', path: '/img/1.webp', id: 1 },
+	{ alt: 'aaa', path: '/img/2.webp', id: 2 },
+	{ alt: 'xxx', path: '/img/33.webp', id: 3 },
+	{ alt: 'zzz', path: '/img/4.webp', id: 4 },
+];
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+const ps = [
+	{
+		images: slidesHover,
+		title: 'Поло',
+		price: 4500,
+		id: 1,
+		discount: 33,
+		brand: 'Adidas',
+		category: 'Поло',
+	},
+	{
+		images: slidesHover,
+		title: 'Поло',
+		price: 4500,
+		id: 2,
+		discount: 33,
+		brand: 'Adidas',
+		category: 'Поло',
+	},
+	{
+		images: slidesHover,
+		title: 'Поло',
+		price: 4500,
+		id: 3,
+		discount: 33,
+		brand: 'Adidas',
+		category: 'Поло',
+	},
+	{
+		images: slidesHover,
+		title: 'Поло',
+		price: 4500,
+		id: 4,
+		discount: 33,
+		brand: 'Adidas',
+		category: 'Поло',
+	},
+	{
+		images: slidesHover,
+		title: 'Поло',
+		price: 4500,
+		id: 5,
+		discount: 33,
+		brand: 'Adidas',
+		category: 'Поло',
+	},
+	{
+		images: slidesHover,
+		title: 'Поло',
+		price: 4500,
+		id: 6,
+		discount: 33,
+		brand: 'Adidas',
+		category: 'Поло',
+	},
+];
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+const sizes = [
+	{
+		size_id: 1,
+		model_id: 1,
+		size_model_id: 1,
+		literal: 'S',
+		size_value: '44',
+		in_stock: 100,
+	},
+	{
+		size_id: 2,
+		model_id: 1,
+		size_model_id: 2,
+		literal: 'M',
+		size_value: '46',
+		in_stock: 150,
+	},
+];
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
+type SizeSelect = {
+	size_model_id: number;
+	size_id: number;
+	literal: string;
+	model_id: number;
+	size_value: string;
+	in_stock: number;
+};
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+export const validEmail =
+	/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+function Home() {
+	const {
+		handleSubmit,
+		register,
+		formState: { errors },
+		control,
+	} = useForm<{
+		password: string;
+		email: string;
+		sex: string;
+	}>({
+		mode: 'onChange',
+	});
+
+	const onSubmit: SubmitHandler<{
+		password: string;
+		email: string;
+	}> = data => {
+		console.log(data);
+	};
+
+	return (
+		<div>
+			<div className='w-[450px]'>
+				<AppLink href='/admin'>ADMIN</AppLink>
+				<ProgressCarousel items={slides} />
+				<Badge>-33%</Badge>
+			</div>
+
+			<div className='card-grid'>
+				{ps.map(p => (
+					<ProductCard key={p.id} product={p} />
+				))}
+			</div>
+
+			<UserAvatar alt='федотов максим' src='/img/jason-eyes.jpg' />
+			<CategoryAvatar
+				alt='федотов максим'
+				src='/img/06-jumpers.webp'
+				type='circle'
+			/>
+			<br />
+
+			<div className='mb-10'>
+				<WishlistBtn modelId={5} />
+			</div>
+			<div className='mb-10 w-[200px]'>
+				<form onSubmit={handleSubmit(onSubmit)}>
+					<div className='mb-10'>
+						<PasswordInput
+							error={errors.password?.message}
+							placeholder='Введите пароль'
+							{...register('password', {
+								required: 'Пароль обязательное поле!',
+								minLength: {
+									message: 'Минимальная длина - 10 символов',
+									value: 10,
+								},
+							})}
+						/>
+					</div>
+					<div className='mb-8'>
+						<Input
+							{...register('email', {
+								required: 'Email обязательное поле!',
+								pattern: {
+									value: validEmail,
+									message: 'Некорректный емайл!',
+								},
+							})}
+							type='email'
+							error={errors.email?.message}
+							placeholder='Email'
+						/>
+					</div>
+					<div className='mb-10'>
+						<Controller
+							control={control}
+							name='sex'
+							rules={{ required: 'Пол обязательное поле!' }}
+							render={({ field }) => (
+								<RadioGroup
+									onChange={field.onChange}
+									defaultValue={field.value}
+								>
+									<RadioGroup.Label>Пол</RadioGroup.Label>
+									<RadioGroup.Option value='men'>
+										{({ checked }) => (
+											<Radio
+												variant={checked ? 'active' : 'disable'}
+												title='Мужской'
+											/>
+										)}
+									</RadioGroup.Option>
+									<RadioGroup.Option value='women'>
+										{({ checked }) => (
+											<Radio
+												variant={checked ? 'active' : 'disable'}
+												title='Женский'
+											/>
+										)}
+									</RadioGroup.Option>
+								</RadioGroup>
+							)}
+						/>
+					</div>
+					<Button className='mt-2'>отправить</Button>
+				</form>
+			</div>
+		</div>
+	);
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+	return {
+		props: {},
+	};
+};
+
+export default withLayout(Home);

@@ -1,0 +1,4 @@
+type Icons = 
+			{"arrow_left_outline_24":"arrow_left_outline_24","arrow_right_outline_24":"arrow_right_outline_24","cancel_16":"cancel_16","chevron_down_small_24":"chevron_down_small_24","error_circle_outline_16":"error_circle_outline_16","hide_outline_20":"hide_outline_20","like_24":"like_24","like_outline_24":"like_outline_24","menu_outline_24":"menu_outline_24","more_info":"more_info","search_outline_24":"search_outline_24","selected_24":"selected_24","shopping_cart_outline_24":"shopping_cart_outline_24","view_outline_20":"view_outline_20","warning_triangle_outline_16":"warning_triangle_outline_16"}
+			type IconType = keyof Icons;
+		
