@@ -4,21 +4,18 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = withBundleAnalyzer({
-	env: {
-		API_HOST: process.env.API_HOST,
-		API_PORT: process.env.API_PORT,
-		API_PROTOCOL: process.env.API_PROTOCOL,
-		API_STATIC_PATHNAME: process.env.API_STATIC_PATHNAME,
-		API_PATHNAME: process.env.API_PATHNAME,
-		API_URL_DEV: process.env.API_URL_DEV,
-		API_STATIC_URL_DEV: process.env.API_STATIC_URL_DEV,
-	},
+	// env: {
+	// 	API_HOST: process.env.API_HOST,
+	// 	API_PORT: process.env.API_PORT,
+	// 	API_PROTOCOL: process.env.API_PROTOCOL,
+	// 	API_URL: process.env.API_URL,
+	// },
 	reactStrictMode: false,
 	images: {
 		remotePatterns: [
 			{
 				hostname: process.env.API_HOST,
-				pathname: `/${process.env.API_STATIC_PATHNAME}/**`,
+				pathname: `/images/**`,
 				protocol: process.env.API_PROTOCOL,
 				port: process.env.API_PORT,
 			},
@@ -28,11 +25,11 @@ const nextConfig = withBundleAnalyzer({
 		return [
 			{
 				source: '/api/:path*',
-				destination: `${process.env.API_URL_DEV}/:path*`,
+				destination: `${process.env.API_URL}/api/:path*`,
 			},
 			{
-				source: '/static/:path*',
-				destination: `${process.env.API_STATIC_URL_DEV}/:path*`,
+				source: '/storage/:path*',
+				destination: `${process.env.STORAGE_URL}/:path*`,
 			},
 		];
 	},

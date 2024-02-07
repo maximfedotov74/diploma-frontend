@@ -17,4 +17,7 @@ export const cleanText = (
 
 export const SITE_NAME = 'Family Moda';
 
-export const titleMerge = (title: string) => `${title} | "${SITE_NAME}"`;
+export const DEFAULT_DESCRIPTION =
+	'Магазин одежды Family Moda - это идеальное место для всей семьи, где каждый найдет что-то по своему вкусу. У нас представлен огромный выбор модной одежды для женщин, мужчин и детей всех возрастов';
+
+export const titleMerge = (title: string) => `${title} | ${SITE_NAME}`;

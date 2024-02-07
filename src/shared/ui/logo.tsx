@@ -1,16 +1,12 @@
-import Link from 'next/link';
-import { AnchorHTMLAttributes, FC } from 'react';
-import { SITE_NAME } from '../utils/text-formatting';
+import { cn } from '../utils/cn';
+import { Link } from './link';
 
-type LogoProps = AnchorHTMLAttributes<HTMLAnchorElement>;
-
-export const Logo: FC<LogoProps> = ({ className }): JSX.Element => {
+export const Logo = ({ className }: { className?: string }): JSX.Element => {
 	return (
-		<Link
-			href='/'
-			className={`md:text-3xl text-xl  ${className ? className : ''}`}
-		>
-			{SITE_NAME}
-		</Link>
+		<div className={cn(className)}>
+			<Link variant='menu' href='/' className='text-xl lg:text-3xl'>
+				Fam Moda
+			</Link>
+		</div>
 	);
 };

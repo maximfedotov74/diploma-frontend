@@ -1,12 +1,17 @@
+import { IS_SERVER } from '../constants/env';
+
 export function getCookie(key: string) {
-	let matches = document.cookie.match(
-		new RegExp(
-			'(?:^|; )' +
-				key.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') +
-				'=([^;]*)'
-		)
-	);
-	return matches ? decodeURIComponent(matches[1]) : null;
+	if (!IS_SERVER) {
+		let matches = document.cookie.match(
+			new RegExp(
+				'(?:^|; )' +
+					key.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') +
+					'=([^;]*)'
+			)
+		);
+		return matches ? decodeURIComponent(matches[1]) : null;
+	}
+	return null;
 }
 
 export function setCookie(key: string, value: string, options: any = {}) {

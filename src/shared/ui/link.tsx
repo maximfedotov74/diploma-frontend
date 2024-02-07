@@ -1,11 +1,13 @@
 import { VariantProps, cva } from 'class-variance-authority';
-import Link from 'next/link';
-import { AnchorHTMLAttributes, forwardRef } from 'react';
+import NextLink from 'next/link';
+import { cn } from '../utils/cn';
 
-const link = cva('text-center transition-colors flex items-center', {
+const link = cva('transition-colors text-sm', {
 	variants: {
 		variant: {
-			primary: 'text-primary-color hover:text-light-gray-color',
+			primary: 'text-foreground/60 hover:text-foreground/80',
+			secondary: 'text-foreground/60  hover:underline',
+			menu: '',
 		},
 	},
 	defaultVariants: {
@@ -13,24 +15,21 @@ const link = cva('text-center transition-colors flex items-center', {
 	},
 });
 
-type LinkProps = AnchorHTMLAttributes<HTMLAnchorElement> &
-	VariantProps<typeof link> & {
-		href: string;
-	};
-
-export const AppLink = forwardRef<HTMLAnchorElement, LinkProps>(
-	({ href, variant, className, children, ...props }, ref): JSX.Element => {
-		return (
-			<Link
-				ref={ref}
-				href={href}
-				className={link({ variant, className })}
-				{...props}
-			>
-				{children}
-			</Link>
-		);
-	}
-);
-
-AppLink.displayName = 'AppLink';
+type LinkProps = Parameters<typeof NextLink>[0] & VariantProps<typeof link>;
+export const Link = ({
+	href,
+	children,
+	variant,
+	className,
+	...props
+}: LinkProps): JSX.Element => {
+	return (
+		<NextLink
+			className={cn(link({ variant, className }))}
+			href={href}
+			{...props}
+		>
+			{children}
+		</NextLink>
+	);
+};

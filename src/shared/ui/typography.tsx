@@ -1,67 +1,70 @@
-import { VariantProps, cva } from 'class-variance-authority';
-import { FC, HTMLAttributes } from 'react';
+import { ReactNode } from 'react';
+import { cn } from '../utils/cn';
 
-const title = cva('font-normal text-primary-color', {
-	variants: {
-		variant: {
-			h1: 'text-3xl',
-			h2: 'text-2xl',
-			h3: 'text-xl',
-			h4: 'text-lg',
-			p: 'text-[13px] leading-[18px]',
-		},
-	},
-	defaultVariants: {
-		variant: 'h1',
-	},
-});
+type TypographyProps = { className?: string; children: ReactNode };
 
-type TitleProps = HTMLAttributes<HTMLHeadingElement> &
-	VariantProps<typeof title>;
+export function TypographyH1({ className, children }: TypographyProps) {
+	return (
+		<h1
+			className={cn(
+				'scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl',
+				className
+			)}
+		>
+			{children}
+		</h1>
+	);
+}
 
-export const Typography: FC<TitleProps> = ({
-	variant,
-	children,
-	className,
-	...props
-}): JSX.Element => {
-	const classes = title({ variant, className });
-	switch (variant) {
-		case 'h1':
-			return (
-				<h1 className={classes} {...props}>
-					{children}
-				</h1>
-			);
-		case 'h2':
-			return (
-				<h2 className={classes} {...props}>
-					{children}
-				</h2>
-			);
-		case 'h3':
-			return (
-				<h3 className={classes} {...props}>
-					{children}
-				</h3>
-			);
-		case 'h4':
-			return (
-				<h4 className={classes} {...props}>
-					{children}
-				</h4>
-			);
-		case 'p':
-			return (
-				<p className={classes} {...props}>
-					{children}
-				</p>
-			);
-		default:
-			return (
-				<h1 className={classes} {...props}>
-					{children}
-				</h1>
-			);
-	}
-};
+export function TypographyH2({ className, children }: TypographyProps) {
+	return (
+		<h2
+			className={cn(
+				'scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0',
+				className
+			)}
+		>
+			{children}
+		</h2>
+	);
+}
+
+export function TypographyH3({ className, children }: TypographyProps) {
+	return (
+		<h3
+			className={cn(
+				'scroll-m-20 text-2xl font-semibold tracking-tight',
+				className
+			)}
+		>
+			{children}
+		</h3>
+	);
+}
+
+export function TypographyH4({ className, children }: TypographyProps) {
+	return (
+		<h3
+			className={cn(
+				'scroll-m-20 text-xl font-semibold tracking-tight',
+				className
+			)}
+		>
+			{children}
+		</h3>
+	);
+}
+
+export function TypographyP({ className, children }: TypographyProps) {
+	return (
+		<p className={cn('eading-7 [&:not(:first-child)]:mt-6', className)}>
+			{children}
+		</p>
+	);
+}
+
+export function TypographySmall({ className, children }: TypographyProps) {
+	return (
+		<span className={cn('text-sm leading-none', className)}>{children}</span>
+	);
+}

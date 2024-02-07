@@ -1,31 +1,38 @@
-import { parsePrice } from '../utils/parse-price';
+import { cn } from '../utils/cn';
+import { parsePrice, parsePriceRUB } from '../utils/parse-price';
+import { TypographySmall } from './typography';
 
 type PriceProps = {
 	price: number;
 	discount?: number;
+	className?: string;
 };
 
-export const Price = ({ discount, price }: PriceProps): JSX.Element => {
+export const Price = ({
+	discount,
+	price,
+	className,
+}: PriceProps): JSX.Element => {
 	let currentPrice = discount
 		? Math.round(price - (price / 100) * discount)
 		: price;
 
 	return (
-		<div className='flex items-center'>
+		<div className={cn('flex items-center', className)}>
 			{discount ? (
 				<>
-					<span className='line-through text-[13px] text-primary-color'>
-						{price}
-					</span>
-					<span className='text-action-color font-bold ml-[6px]'>
-						{parsePrice(currentPrice)}
-					</span>
+					<TypographySmall className='line-through text-[13px]'>
+						{parsePrice(price)}
+					</TypographySmall>
+					<TypographySmall className='text-action font-bold ml-2'>
+						{parsePriceRUB(currentPrice)}
+					</TypographySmall>
 				</>
 			) : (
 				<>
-					<span className='text-primary-color font-bold'>
-						{parsePrice(currentPrice)}
-					</span>
+					<TypographySmall className='font-bold'>
+						{parsePriceRUB(currentPrice)}
+					</TypographySmall>
 				</>
 			)}
 		</div>

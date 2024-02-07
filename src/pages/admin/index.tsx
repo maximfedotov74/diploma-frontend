@@ -1,11 +1,15 @@
-import { withLayout } from '@/layout/with-layout';
-import { FC } from 'react';
+import { AdminLayout } from '@/widgets/layout/admin-layout';
+import { TypographyH1 } from '@/shared/ui/typography';
+import { Meta } from '@/shared/meta/meta';
 
-const AdminHome: FC = (): JSX.Element => {
+const AdminHome = (): JSX.Element => {
 	return (
-		<div>
-			<h1>AdminHome</h1>
-		</div>
+		<Meta title='Админ-панель' noIndex>
+			<AdminLayout>
+				<TypographyH1>Admin Page</TypographyH1>
+			</AdminLayout>
+		</Meta>
 	);
 };
-export default withLayout(AdminHome, 'admin');
+
+export default AdminHome;

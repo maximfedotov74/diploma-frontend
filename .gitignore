@@ -2,10 +2,11 @@
 
 # dependencies
 /node_modules
+src/generated
 /.pnp
 .pnp.js
 .yarn/install-state.gz
-icons
+assets
 # testing
 /coverage
 

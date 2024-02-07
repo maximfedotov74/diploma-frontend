@@ -4,7 +4,7 @@ const icons = {};
 //fill="\S+"
 
 function genNames() {
-	fs.readdir(path.join(process.cwd(), 'icons'), (err, files) => {
+	fs.readdir(path.join(process.cwd(), 'assets', 'icons'), (err, files) => {
 		for (file of files) {
 			const name = path.parse(file).name;
 			icons[name] = name;

@@ -17,6 +17,14 @@
 			"@/*": ["./src/*"]
 		}
 	},
-	"include": ["next-env.d.ts", "icons.d.ts", "**/*.ts", "**/*.tsx"],
+	"include": [
+		"next-env.d.ts",
+		"icons.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		"kubb.config.ts",
+		"next.config.js",
+		"src/shared/api/queries/get-all-categoriests"
+	],
 	"exclude": ["node_modules"]
 }
