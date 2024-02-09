@@ -5,24 +5,31 @@ import Image from 'next/image';
 
 type FileUploadProps = InputProps & {
 	onChange: (e: any) => void;
-	value: string;
+	value?: string;
 	image?: boolean;
 };
 
 export const FileUpload = ({
 	onChange,
 	value,
+	className,
 	...props
 }: FileUploadProps): JSX.Element => {
 	const { isLoading, uploadFile } = useFileUploadApi(onChange);
 	return (
-		<div>
+		<div className={className}>
 			<FileInput onChange={uploadFile} {...props} />
 			{isLoading ? (
 				<div>Загрузка...</div>
 			) : (
 				value && (
-					<Image src={value} width={60} height={60} alt='uploaded-image' />
+					<Image
+						src={value}
+						width={340}
+						height={340}
+						alt='uploaded-image'
+						className='w-[100px] h-[100px] rounded-md'
+					/>
 				)
 			)}
 		</div>

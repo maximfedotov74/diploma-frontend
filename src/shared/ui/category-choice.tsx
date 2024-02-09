@@ -7,12 +7,23 @@ import { TypographySmall } from './typography';
 import { ErrorText } from './error-text';
 import { cn } from '../utils/cn';
 
-const CategoryItemChoice = ({ item }: { item: ModelCategoryRelation }) => {
+const CategoryItemChoice = ({
+	item,
+	showAll = false,
+}: {
+	item: ModelCategoryRelation;
+	showAll?: boolean;
+}) => {
 	const [open, setOpen] = useState(false);
+
+	const levelShowing = showAll
+		? true
+		: item.subcategories.length === 0 && item.level >= 4;
+
 	return (
 		<div className='mb-2 last:mb-0'>
 			<div className='flex items-center mb-2'>
-				{item.subcategories.length === 0 && item.level >= 4 ? (
+				{levelShowing ? (
 					<div className='flex items-center'>
 						<RadioGroupItem
 							value={item.category_id.toString()}
@@ -34,9 +45,13 @@ const CategoryItemChoice = ({ item }: { item: ModelCategoryRelation }) => {
 				)}
 			</div>
 			{open && item.subcategories.length > 0 && (
-				<div className='pl-2'>
+				<div className='pl-4'>
 					{item.subcategories.map(item => (
-						<CategoryItemChoice key={item.category_id} item={item} />
+						<CategoryItemChoice
+							key={item.category_id}
+							item={item}
+							showAll={showAll}
+						/>
 					))}
 				</div>
 			)}
@@ -50,17 +65,22 @@ export const CategoryChoice = ({
 	defaultValue,
 	error,
 	className,
+	placeholder,
+	showAll = false,
 }: {
 	categories: ModelCategoryRelation[];
 	onChange: (value: string) => void;
+	placeholder: string;
 	defaultValue?: string;
 	error?: string;
 	className?: string;
+
+	showAll?: boolean;
 }): JSX.Element => {
 	return (
 		<div className={className}>
 			<TypographySmall className='text-foreground/60'>
-				Выбор категории
+				{placeholder}
 			</TypographySmall>
 			<RadioGroup
 				onValueChange={onChange}
@@ -68,7 +88,7 @@ export const CategoryChoice = ({
 				className={cn('border border-primary p-2 rounded-md')}
 			>
 				{categories.map(cat => (
-					<CategoryItemChoice item={cat} key={cat.slug} />
+					<CategoryItemChoice item={cat} key={cat.slug} showAll={showAll} />
 				))}
 			</RadioGroup>
 			<ErrorText error={error} />

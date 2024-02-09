@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { cn } from '../utils/cn';
 import { Button } from './button';
 import { Popover, PopoverContent, PopoverTrigger } from './popover';
@@ -33,6 +33,26 @@ export const Combobox = ({
 	className?: string;
 }) => {
 	const [open, setOpen] = useState(false);
+
+	const [filter, setFilter] = useState<string>('');
+
+	const filteredItems = useMemo(
+		() =>
+			items.filter(b => b.title.toLowerCase().includes(filter.toLowerCase())),
+		[filter, items]
+	);
+
+	const renderPlaceholder = () => {
+		if (value) {
+			const b = items.find(item => item.id.toString() === value);
+			if (b) {
+				return b.title;
+			}
+			return placeholder;
+		}
+		return placeholder;
+	};
+
 	return (
 		<div className={cn('flex flex-col', className)}>
 			<Popover open={open} onOpenChange={setOpen}>
@@ -43,9 +63,7 @@ export const Combobox = ({
 						aria-expanded={open}
 						className='w-[200px] justify-between'
 					>
-						{value
-							? items.find(item => item.id.toString() === value)?.title
-							: placeholder}
+						{renderPlaceholder()}
 						<Icon
 							icon='chevron_down_small_24'
 							className='ml-2 h-4 w-4 shrink-0 opacity-50'
@@ -53,16 +71,20 @@ export const Combobox = ({
 					</Button>
 				</PopoverTrigger>
 				<PopoverContent className='w-[200px] p-0'>
-					<Command>
-						<CommandInput placeholder={placeholder} />
+					<Command shouldFilter={false}>
+						<CommandInput
+							placeholder={placeholder}
+							onValueChange={s => setFilter(s)}
+						/>
 						<CommandEmpty>Не найдено</CommandEmpty>
 						<CommandGroup>
-							{items.map(item => (
+							{filteredItems.map(item => (
 								<CommandItem
 									key={item.id}
 									value={item.id.toString()}
 									onSelect={currentValue => {
 										setValue(currentValue === value ? '' : currentValue);
+										setFilter('');
 										setOpen(false);
 									}}
 								>

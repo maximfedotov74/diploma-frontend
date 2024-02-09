@@ -10,7 +10,7 @@ import {
 
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import { Button } from '@/shared/ui/button';
-import { EditProduct } from '../edit-product/ui/edit-product';
+import { EditProduct } from '../admin-edit-product/ui/edit-product';
 import { Icon } from '@/shared/ui/icon';
 import { useDeleteProductApi } from './delete-product-api';
 

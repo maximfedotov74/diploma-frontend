@@ -15,7 +15,9 @@ export const EditModelProduct = ({
 					<Icon icon='more' className='w-5 h-5' />
 				</Button>
 			</DialogTrigger>
-			<DialogContent>Редактирование модели {model.article}</DialogContent>
+			<DialogContent className='max-w-5xl overflow-y-scroll max-h-[500px] px-1 sm:px-3 md:px-4'>
+				Редактирование модели {model.article}
+			</DialogContent>
 		</Dialog>
 	);
 };

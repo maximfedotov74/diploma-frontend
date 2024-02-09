@@ -467,7 +467,10 @@
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created"
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -789,7 +792,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
