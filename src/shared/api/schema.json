@@ -225,7 +225,10 @@
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created"
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -281,7 +284,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -376,7 +382,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -685,7 +694,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -936,7 +948,10 @@
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created"
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -985,7 +1000,10 @@
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created"
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -1032,7 +1050,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -1056,6 +1077,54 @@
             }
         },
         "/api/characteristics/option/{id}": {
+            "get": {
+                "description": "Get option by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "characteristics"
+                ],
+                "summary": "Get option by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Option id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Option"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "description": "Delete option by id",
                 "consumes": [
@@ -1079,7 +1148,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -1133,56 +1205,9 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/fall.ValidationError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/fall.AppErr"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/fall.AppErr"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/characteristics/option/{slug}": {
-            "get": {
-                "description": "Get option by slug",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "characteristics"
-                ],
-                "summary": "Get option by slug",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Option Slug",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Option"
+                            "$ref": "#/definitions/fall.AppErr"
                         }
                     },
                     "400": {
@@ -1207,6 +1232,48 @@
             }
         },
         "/api/characteristics/size": {
+            "get": {
+                "description": "Get all sizes",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "characteristics"
+                ],
+                "summary": "Get all sizes",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Size"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Create size",
                 "consumes": [
@@ -1232,7 +1299,10 @@
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created"
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -1281,7 +1351,10 @@
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created"
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -1328,7 +1401,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -1375,7 +1451,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -1424,7 +1503,10 @@
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created"
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -1471,7 +1553,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -1525,7 +1610,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -4881,6 +4969,11 @@
         },
         "model.OptionValue": {
             "type": "object",
+            "required": [
+                "id",
+                "option_id",
+                "value"
+            ],
             "properties": {
                 "id": {
                     "type": "integer",
@@ -5160,6 +5253,21 @@
                 "user_id": {
                     "type": "integer",
                     "example": 1
+                }
+            }
+        },
+        "model.Size": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "value": {
+                    "type": "string"
                 }
             }
         },

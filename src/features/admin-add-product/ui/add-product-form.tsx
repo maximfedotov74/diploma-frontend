@@ -7,6 +7,7 @@ import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
 import { CategoryChoice } from '@/shared/ui/category-choice';
 import { Combobox } from '@/shared/ui/combobox';
+import { useEffect } from 'react';
 
 export const AddProductForm = (): JSX.Element => {
 	const { createProduct } = useAddProductApi();
@@ -17,7 +18,6 @@ export const AddProductForm = (): JSX.Element => {
 		formState: { errors },
 		control,
 		setValue,
-		getValues,
 	} = useForm<ModelCreateProductDto>({
 		mode: 'onChange',
 	});
@@ -39,7 +39,8 @@ export const AddProductForm = (): JSX.Element => {
 		});
 		setValue('description', '');
 		setValue('title', '');
-		console.log(getValues());
+		setValue('category_id', 0);
+		setValue('brand_id', 0);
 	};
 
 	const { data: brands } = useGetAllBrands();
@@ -76,14 +77,17 @@ export const AddProductForm = (): JSX.Element => {
 				render={({ field }) => (
 					<CategoryChoice
 						onChange={setCategoryId}
-						defaultValue={field.value?.toString()}
+						value={field.value?.toString()}
 						categories={categories || []}
 						error={errors.category_id?.message}
 						placeholder='Выбор категории'
 						className='mb-3'
 					/>
 				)}
-				rules={{ required: 'ID категории обязательное поле!' }}
+				rules={{
+					required: 'ID категории обязательное поле!',
+					min: { value: 1, message: 'ID должен быть больше нуля!' },
+				}}
 			/>
 			<Controller
 				control={control}

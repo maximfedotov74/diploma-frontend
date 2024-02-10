@@ -14,14 +14,8 @@ const CategoriesListItem = ({ item }: { item: ModelCategoryRelation }) => {
 				<Button
 					variant='link'
 					size='sm'
-					onClick={() =>
-						setOpen(current => {
-							if (item.subcategories.length <= 0) {
-								return current;
-							}
-							return !current;
-						})
-					}
+					disabled={item.subcategories.length === 0}
+					onClick={() => setOpen(c => !c)}
 				>
 					{item.short_title}
 				</Button>

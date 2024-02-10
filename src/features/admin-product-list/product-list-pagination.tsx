@@ -35,7 +35,7 @@ export const ProductListPagination = ({
 						</PaginationLink>
 					</PaginationItem>
 				))}
-				{page + 1 === pages && (
+				{page + 1 <= pages && (
 					<PaginationItem>
 						<PaginationNext href={`/admin/products/?page=${page + 1}`} />
 					</PaginationItem>

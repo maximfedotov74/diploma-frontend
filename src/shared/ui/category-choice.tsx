@@ -62,7 +62,7 @@ const CategoryItemChoice = ({
 export const CategoryChoice = ({
 	categories,
 	onChange,
-	defaultValue,
+	value,
 	error,
 	className,
 	placeholder,
@@ -71,7 +71,7 @@ export const CategoryChoice = ({
 	categories: ModelCategoryRelation[];
 	onChange: (value: string) => void;
 	placeholder: string;
-	defaultValue?: string;
+	value?: string;
 	error?: string;
 	className?: string;
 
@@ -83,8 +83,8 @@ export const CategoryChoice = ({
 				{placeholder}
 			</TypographySmall>
 			<RadioGroup
+				value={value}
 				onValueChange={onChange}
-				defaultValue={defaultValue}
 				className={cn('border border-primary p-2 rounded-md')}
 			>
 				{categories.map(cat => (

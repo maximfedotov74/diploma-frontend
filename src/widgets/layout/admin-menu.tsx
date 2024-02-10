@@ -19,6 +19,10 @@ const adminMenu = [
 		href: '/admin/products',
 	},
 	{
+		title: 'Характеристики',
+		href: '/admin/characteristics',
+	},
+	{
 		title: 'Клиенты',
 		href: '/admin/users',
 	},
@@ -33,7 +37,7 @@ const adminMenu = [
 ];
 
 export const AdminMenu = (): JSX.Element => {
-	const { pathname, asPath } = useRouter();
+	const { asPath } = useRouter();
 
 	return (
 		<Sheet>

@@ -120,6 +120,11 @@ export interface ModelUpdateBrandDto {
   title?: string;
 }
 
+export interface ModelSize {
+  id: number;
+  value?: string;
+}
+
 export interface ModelRoleUser {
   email: string;
   user_id: number;
@@ -192,10 +197,10 @@ export interface ModelProductModelColors {
 }
 
 export interface ModelOptionValue {
-  id?: number;
+  id: number;
   info?: string;
-  option_id?: number;
-  value?: string;
+  option_id: number;
+  value: string;
 }
 
 export interface ModelOption {
@@ -625,7 +630,7 @@ export const getApiBrand = (
 export const postApiBrand = (
     modelCreateBrandDto: BodyType<ModelCreateBrandDto>,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/brand/`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: modelCreateBrandDto
@@ -641,7 +646,7 @@ export const patchApiBrandId = (
     id: number,
     modelUpdateBrandDto: BodyType<ModelUpdateBrandDto>,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/brand/${id}`, method: 'PATCH',
       headers: {'Content-Type': 'application/json', },
       data: modelUpdateBrandDto
@@ -669,7 +674,7 @@ export const getApiBrandSlug = (
 export const deleteApiBrandSlug = (
     slug: string,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/brand/${slug}`, method: 'DELETE'
     },
       );
@@ -750,7 +755,7 @@ export const patchApiCategoryId = (
     id: number,
     modelUpdateCategoryDto: BodyType<ModelUpdateCategoryDto>,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/category/${id}`, method: 'PATCH',
       headers: {'Content-Type': 'application/json', },
       data: modelUpdateCategoryDto
@@ -817,7 +822,7 @@ export const getApiCharacteristicsOption = (
 export const postApiCharacteristicsOption = (
     modelCreateOptionDto: BodyType<ModelCreateOptionDto>,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/characteristics/option`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: modelCreateOptionDto
@@ -832,7 +837,7 @@ export const postApiCharacteristicsOption = (
 export const postApiCharacteristicsOptionModel = (
     modelAddOptionToProductModelDto: BodyType<ModelAddOptionToProductModelDto>,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/characteristics/option/model`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: modelAddOptionToProductModelDto
@@ -847,8 +852,21 @@ export const postApiCharacteristicsOptionModel = (
 export const deleteApiCharacteristicsOptionModelId = (
     id: number,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/characteristics/option/model/${id}`, method: 'DELETE'
+    },
+      );
+    }
+  
+/**
+ * Get option by id
+ * @summary Get option by id
+ */
+export const getApiCharacteristicsOptionId = (
+    id: number,
+ ) => {
+      return api<ModelOption>(
+      {url: `/api/characteristics/option/${id}`, method: 'GET'
     },
       );
     }
@@ -860,7 +878,7 @@ export const deleteApiCharacteristicsOptionModelId = (
 export const deleteApiCharacteristicsOptionId = (
     id: number,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/characteristics/option/${id}`, method: 'DELETE'
     },
       );
@@ -874,7 +892,7 @@ export const patchApiCharacteristicsOptionId = (
     id: number,
     modelUpdateOptionDto: BodyType<ModelUpdateOptionDto>,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/characteristics/option/${id}`, method: 'PATCH',
       headers: {'Content-Type': 'application/json', },
       data: modelUpdateOptionDto
@@ -883,14 +901,14 @@ export const patchApiCharacteristicsOptionId = (
     }
   
 /**
- * Get option by slug
- * @summary Get option by slug
+ * Get all sizes
+ * @summary Get all sizes
  */
-export const getApiCharacteristicsOptionSlug = (
-    slug: string,
+export const getApiCharacteristicsSize = (
+    
  ) => {
-      return api<ModelOption>(
-      {url: `/api/characteristics/option/${slug}`, method: 'GET'
+      return api<ModelSize[]>(
+      {url: `/api/characteristics/size`, method: 'GET'
     },
       );
     }
@@ -902,7 +920,7 @@ export const getApiCharacteristicsOptionSlug = (
 export const postApiCharacteristicsSize = (
     modelCreateSizeDto: BodyType<ModelCreateSizeDto>,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/characteristics/size`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: modelCreateSizeDto
@@ -917,7 +935,7 @@ export const postApiCharacteristicsSize = (
 export const postApiCharacteristicsSizeModel = (
     modelAddSizeToProductModelDto: BodyType<ModelAddSizeToProductModelDto>,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/characteristics/size/model`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: modelAddSizeToProductModelDto
@@ -932,7 +950,7 @@ export const postApiCharacteristicsSizeModel = (
 export const deleteApiCharacteristicsSizeModelId = (
     id: number,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/characteristics/size/model/${id}`, method: 'DELETE'
     },
       );
@@ -945,7 +963,7 @@ export const deleteApiCharacteristicsSizeModelId = (
 export const deleteApiCharacteristicsSizeId = (
     id: number,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/characteristics/size/${id}`, method: 'DELETE'
     },
       );
@@ -958,7 +976,7 @@ export const deleteApiCharacteristicsSizeId = (
 export const postApiCharacteristicsValue = (
     modelCreateOptionValueDto: BodyType<ModelCreateOptionValueDto>,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/characteristics/value`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: modelCreateOptionValueDto
@@ -973,7 +991,7 @@ export const postApiCharacteristicsValue = (
 export const deleteApiCharacteristicsValueId = (
     id: number,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/characteristics/value/${id}`, method: 'DELETE'
     },
       );
@@ -987,7 +1005,7 @@ export const patchApiCharacteristicsValueId = (
     id: number,
     modelUpdateOptionValueDto: BodyType<ModelUpdateOptionValueDto>,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/characteristics/value/${id}`, method: 'PATCH',
       headers: {'Content-Type': 'application/json', },
       data: modelUpdateOptionValueDto
@@ -1548,9 +1566,10 @@ export type GetApiCharacteristicsOptionResult = NonNullable<Awaited<ReturnType<t
 export type PostApiCharacteristicsOptionResult = NonNullable<Awaited<ReturnType<typeof postApiCharacteristicsOption>>>
 export type PostApiCharacteristicsOptionModelResult = NonNullable<Awaited<ReturnType<typeof postApiCharacteristicsOptionModel>>>
 export type DeleteApiCharacteristicsOptionModelIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiCharacteristicsOptionModelId>>>
+export type GetApiCharacteristicsOptionIdResult = NonNullable<Awaited<ReturnType<typeof getApiCharacteristicsOptionId>>>
 export type DeleteApiCharacteristicsOptionIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiCharacteristicsOptionId>>>
 export type PatchApiCharacteristicsOptionIdResult = NonNullable<Awaited<ReturnType<typeof patchApiCharacteristicsOptionId>>>
-export type GetApiCharacteristicsOptionSlugResult = NonNullable<Awaited<ReturnType<typeof getApiCharacteristicsOptionSlug>>>
+export type GetApiCharacteristicsSizeResult = NonNullable<Awaited<ReturnType<typeof getApiCharacteristicsSize>>>
 export type PostApiCharacteristicsSizeResult = NonNullable<Awaited<ReturnType<typeof postApiCharacteristicsSize>>>
 export type PostApiCharacteristicsSizeModelResult = NonNullable<Awaited<ReturnType<typeof postApiCharacteristicsSizeModel>>>
 export type DeleteApiCharacteristicsSizeModelIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiCharacteristicsSizeModelId>>>
