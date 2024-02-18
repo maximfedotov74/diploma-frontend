@@ -5,8 +5,6 @@ const REMOVE_SLASH = /([^:]\/)\/+/g;
 
 type QueryParams = Record<string, unknown>;
 
-type ApiOptions = Omit<RequestInit, 'method' | 'body'>;
-
 type ExecuterOptions = {
 	method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 	url: string;
@@ -21,10 +19,10 @@ export const api = async <T>(options: ExecuterOptions): Promise<T> => {
 };
 
 const executer = async (options: ExecuterOptions) => {
-	let url = '';
+	let host = '';
 
 	if (IS_SERVER) {
-		url = process.env.API_URL as string;
+		host = process.env.API_URL as string;
 	}
 
 	const searchParams = new URLSearchParams('');
@@ -35,7 +33,7 @@ const executer = async (options: ExecuterOptions) => {
 		}
 	}
 
-	url = `${url}${options.url}`;
+	let url = `${host}${options.url}`;
 
 	if (searchParams.size > 0) {
 		url = `${url}/?${searchParams.toString()}`;
@@ -70,7 +68,7 @@ const executer = async (options: ExecuterOptions) => {
 		const response = await initialRequest();
 		if (!response.ok) {
 			if (response.status === 401) {
-				let refreshUrl = `${url}/api/auth/refresh-token`;
+				let refreshUrl = `${host}/api/auth/refresh-token`;
 				refreshUrl = refreshUrl.replace(REMOVE_SLASH, '/');
 				const refreshResponse = await fetch(refreshUrl, {
 					credentials: 'include',

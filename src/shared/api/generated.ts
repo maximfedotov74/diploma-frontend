@@ -7,6 +7,13 @@
  */
 import { api } from './api';
 import type { BodyType } from './api';
+export type GetApiProductModelSearchByArticleParams = {
+/**
+ * model article
+ */
+article: string;
+};
+
 export type GetApiProductCatalogCategorySlugParams = {
 /**
  * sizes
@@ -72,6 +79,11 @@ with_fitting?: boolean;
 search_text?: string;
 };
 
+export interface ModelUserRole {
+  id: number;
+  title: string;
+}
+
 export interface ModelUploadResponse {
   path?: string;
 }
@@ -120,9 +132,30 @@ export interface ModelUpdateBrandDto {
   title?: string;
 }
 
+export interface ModelUpdateActionDto {
+  description?: string;
+  end_date?: string;
+  img_path?: string;
+  is_activated?: boolean;
+  title?: string;
+}
+
 export interface ModelSize {
   id: number;
   value?: string;
+}
+
+export interface ModelSearchProductModel {
+  article: string;
+  brand: ModelBrand;
+  category: ModelCategoryModel;
+  model_discount?: number;
+  model_id: number;
+  model_main_image_path: string;
+  model_price: number;
+  product_id: number;
+  product_slug: string;
+  product_title: string;
 }
 
 export interface ModelRoleUser {
@@ -179,6 +212,7 @@ export interface ModelProductModelOptionValue {
 
 export interface ModelProductModelOption {
   id: number;
+  pmop_id: number;
   slug: string;
   title: string;
   values?: ModelProductModelOptionValue[];
@@ -225,6 +259,13 @@ export interface ModelLoginResponse {
 export interface ModelLoginDto {
   email: string;
   password: string;
+}
+
+export interface ModelLocalSession {
+  email?: string;
+  roles?: ModelUserRole[];
+  userAgent?: string;
+  userId?: number;
 }
 
 export interface ModelFeedbackUser {
@@ -323,6 +364,13 @@ export interface ModelCreateBrandDto {
   title: string;
 }
 
+export interface ModelCreateActionDto {
+  description?: string;
+  end_date: string;
+  img_path?: string;
+  title: string;
+}
+
 export interface ModelColor {
   value: string;
 }
@@ -401,6 +449,13 @@ export interface ModelCatalogOption {
   values: ModelCatalogValue[];
 }
 
+export interface ModelCatalogFilters {
+  brands: ModelCatalogBrand[];
+  options: ModelCatalogOption[];
+  price: ModelCatalogPrice;
+  sizes: ModelCatalogSize[];
+}
+
 export interface ModelCatalogCategoryRelation {
   active: boolean;
   category_id: number;
@@ -428,13 +483,6 @@ export interface ModelCatalogChild {
 export interface ModelCatalogBrand {
   brand_id: number;
   brand_title: string;
-}
-
-export interface ModelCatalogFilters {
-  brands: ModelCatalogBrand[];
-  options: ModelCatalogOption[];
-  price: ModelCatalogPrice;
-  sizes: ModelCatalogSize[];
 }
 
 export interface ModelCartItemProductModel {
@@ -534,10 +582,39 @@ export interface ModelAddOptionToProductModelDto {
   value_id: number;
 }
 
+export interface ModelAddModelToActionDto {
+  action_id: string;
+  product_model_id: number;
+}
+
 export interface ModelAddFeedbackDto {
   model_id: number;
   rate: number;
   text: string;
+}
+
+export interface ModelActionModel {
+  article: string;
+  brand: ModelBrand;
+  category: ModelCategoryModel;
+  model_discount?: number;
+  model_id: number;
+  model_main_image_path: string;
+  model_price: number;
+  product_id: number;
+  product_slug: string;
+  product_title: string;
+}
+
+export interface ModelAction {
+  created_at: string;
+  description?: string;
+  end_date: string;
+  id: string;
+  img_path?: string;
+  is_activated: boolean;
+  title: string;
+  updated_at: string;
 }
 
 export interface JwtTokens {
@@ -568,6 +645,78 @@ export interface FallAppErr {
 
 
   /**
+ * Get all actions
+ * @summary Get all actions
+ */
+export const getApiAction = (
+    
+ ) => {
+      return api<ModelAction[]>(
+      {url: `/api/action/`, method: 'GET'
+    },
+      );
+    }
+  
+/**
+ * Create action
+ * @summary Create action
+ */
+export const postApiAction = (
+    modelCreateActionDto: BodyType<ModelCreateActionDto>,
+ ) => {
+      return api<FallAppErr>(
+      {url: `/api/action/`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: modelCreateActionDto
+    },
+      );
+    }
+  
+/**
+ * Add model to action
+ * @summary Add model to action
+ */
+export const postApiActionModel = (
+    modelAddModelToActionDto: BodyType<ModelAddModelToActionDto>,
+ ) => {
+      return api<FallAppErr>(
+      {url: `/api/action/model`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: modelAddModelToActionDto
+    },
+      );
+    }
+  
+/**
+ * Get action models
+ * @summary Get action models
+ */
+export const getApiActionModelId = (
+    id: string,
+ ) => {
+      return api<ModelActionModel[]>(
+      {url: `/api/action/model/${id}`, method: 'GET'
+    },
+      );
+    }
+  
+/**
+ * Update action
+ * @summary Update action
+ */
+export const patchApiActionId = (
+    id: string,
+    modelUpdateActionDto: BodyType<ModelUpdateActionDto>,
+ ) => {
+      return api<FallAppErr>(
+      {url: `/api/action/${id}`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: modelUpdateActionDto
+    },
+      );
+    }
+  
+/**
  * Login to an account with account data
  * @summary Login
  */
@@ -748,6 +897,19 @@ export const getApiCategoryTop = (
     }
   
 /**
+ * Get categories without children
+ * @summary Get categories without children
+ */
+export const getApiCategoryWithoutChildren = (
+    
+ ) => {
+      return api<ModelCategoryModel[]>(
+      {url: `/api/category/without-children`, method: 'GET'
+    },
+      );
+    }
+  
+/**
  * Update category
  * @summary Update category
  */
@@ -854,19 +1016,6 @@ export const deleteApiCharacteristicsOptionModelId = (
  ) => {
       return api<FallAppErr>(
       {url: `/api/characteristics/option/model/${id}`, method: 'DELETE'
-    },
-      );
-    }
-  
-/**
- * Get option by id
- * @summary Get option by id
- */
-export const getApiCharacteristicsOptionId = (
-    id: number,
- ) => {
-      return api<ModelOption>(
-      {url: `/api/characteristics/option/${id}`, method: 'GET'
     },
       );
     }
@@ -1270,6 +1419,19 @@ export const postApiProductModelImg = (
     }
   
 /**
+ * Get product model images
+ * @summary Get product model images
+ */
+export const getApiProductModelImgId = (
+    id: number,
+ ) => {
+      return api<ModelProductModelImg[]>(
+      {url: `/api/product/model/img/${id}`, method: 'GET'
+    },
+      );
+    }
+  
+/**
  * Delete product model img
  * @summary Delete product model img
  */
@@ -1283,6 +1445,19 @@ export const deleteApiProductModelImgImgId = (
     }
   
 /**
+ * Get product model options
+ * @summary Get product model options
+ */
+export const getApiProductModelOptionsId = (
+    id: number,
+ ) => {
+      return api<ModelProductModelOption[]>(
+      {url: `/api/product/model/options/${id}`, method: 'GET'
+    },
+      );
+    }
+  
+/**
  * Get product model page
  * @summary Get product model page
  */
@@ -1291,6 +1466,33 @@ export const getApiProductModelPageSlug = (
  ) => {
       return api<ModelProductRelation>(
       {url: `/api/product/model/page/${slug}`, method: 'GET'
+    },
+      );
+    }
+  
+/**
+ * Get product models
+ * @summary Get product models
+ */
+export const getApiProductModelSearchByArticle = (
+    params: GetApiProductModelSearchByArticleParams,
+ ) => {
+      return api<ModelSearchProductModel[]>(
+      {url: `/api/product/model/search-by-article`, method: 'GET',
+        params
+    },
+      );
+    }
+  
+/**
+ * Get product model sizes
+ * @summary Get product model sizes
+ */
+export const getApiProductModelSizesId = (
+    id: number,
+ ) => {
+      return api<ModelProductModelSize[]>(
+      {url: `/api/product/model/sizes/${id}`, method: 'GET'
     },
       );
     }
@@ -1438,6 +1640,19 @@ export const getApiRoleTitle = (
     }
   
 /**
+ * Get local session
+ * @summary Get local session
+ */
+export const getApiUser = (
+    
+ ) => {
+      return api<ModelLocalSession>(
+      {url: `/api/user/`, method: 'GET'
+    },
+      );
+    }
+  
+/**
  * Get wish cart items
  * @summary Get user wish items
  */
@@ -1545,6 +1760,11 @@ export const deleteApiWishCartModelSizeId = (
       );
     }
   
+export type GetApiActionResult = NonNullable<Awaited<ReturnType<typeof getApiAction>>>
+export type PostApiActionResult = NonNullable<Awaited<ReturnType<typeof postApiAction>>>
+export type PostApiActionModelResult = NonNullable<Awaited<ReturnType<typeof postApiActionModel>>>
+export type GetApiActionModelIdResult = NonNullable<Awaited<ReturnType<typeof getApiActionModelId>>>
+export type PatchApiActionIdResult = NonNullable<Awaited<ReturnType<typeof patchApiActionId>>>
 export type PostApiAuthLoginResult = NonNullable<Awaited<ReturnType<typeof postApiAuthLogin>>>
 export type GetApiAuthRefreshTokenResult = NonNullable<Awaited<ReturnType<typeof getApiAuthRefreshToken>>>
 export type PostApiAuthRegistrationResult = NonNullable<Awaited<ReturnType<typeof postApiAuthRegistration>>>
@@ -1558,6 +1778,7 @@ export type PostApiCategoryResult = NonNullable<Awaited<ReturnType<typeof postAp
 export type GetApiCategoryCatalogSlugResult = NonNullable<Awaited<ReturnType<typeof getApiCategoryCatalogSlug>>>
 export type GetApiCategoryRelationSlugResult = NonNullable<Awaited<ReturnType<typeof getApiCategoryRelationSlug>>>
 export type GetApiCategoryTopResult = NonNullable<Awaited<ReturnType<typeof getApiCategoryTop>>>
+export type GetApiCategoryWithoutChildrenResult = NonNullable<Awaited<ReturnType<typeof getApiCategoryWithoutChildren>>>
 export type PatchApiCategoryIdResult = NonNullable<Awaited<ReturnType<typeof patchApiCategoryId>>>
 export type GetApiCategorySlugResult = NonNullable<Awaited<ReturnType<typeof getApiCategorySlug>>>
 export type DeleteApiCategorySlugResult = NonNullable<Awaited<ReturnType<typeof deleteApiCategorySlug>>>
@@ -1566,7 +1787,6 @@ export type GetApiCharacteristicsOptionResult = NonNullable<Awaited<ReturnType<t
 export type PostApiCharacteristicsOptionResult = NonNullable<Awaited<ReturnType<typeof postApiCharacteristicsOption>>>
 export type PostApiCharacteristicsOptionModelResult = NonNullable<Awaited<ReturnType<typeof postApiCharacteristicsOptionModel>>>
 export type DeleteApiCharacteristicsOptionModelIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiCharacteristicsOptionModelId>>>
-export type GetApiCharacteristicsOptionIdResult = NonNullable<Awaited<ReturnType<typeof getApiCharacteristicsOptionId>>>
 export type DeleteApiCharacteristicsOptionIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiCharacteristicsOptionId>>>
 export type PatchApiCharacteristicsOptionIdResult = NonNullable<Awaited<ReturnType<typeof patchApiCharacteristicsOptionId>>>
 export type GetApiCharacteristicsSizeResult = NonNullable<Awaited<ReturnType<typeof getApiCharacteristicsSize>>>
@@ -1595,8 +1815,12 @@ export type GetApiProductCatalogCategorySlugResult = NonNullable<Awaited<ReturnT
 export type PostApiProductModelResult = NonNullable<Awaited<ReturnType<typeof postApiProductModel>>>
 export type GetApiProductModelColorsIdResult = NonNullable<Awaited<ReturnType<typeof getApiProductModelColorsId>>>
 export type PostApiProductModelImgResult = NonNullable<Awaited<ReturnType<typeof postApiProductModelImg>>>
+export type GetApiProductModelImgIdResult = NonNullable<Awaited<ReturnType<typeof getApiProductModelImgId>>>
 export type DeleteApiProductModelImgImgIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiProductModelImgImgId>>>
+export type GetApiProductModelOptionsIdResult = NonNullable<Awaited<ReturnType<typeof getApiProductModelOptionsId>>>
 export type GetApiProductModelPageSlugResult = NonNullable<Awaited<ReturnType<typeof getApiProductModelPageSlug>>>
+export type GetApiProductModelSearchByArticleResult = NonNullable<Awaited<ReturnType<typeof getApiProductModelSearchByArticle>>>
+export type GetApiProductModelSizesIdResult = NonNullable<Awaited<ReturnType<typeof getApiProductModelSizesId>>>
 export type PatchApiProductModelIdResult = NonNullable<Awaited<ReturnType<typeof patchApiProductModelId>>>
 export type DeleteApiProductModelModelIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiProductModelModelId>>>
 export type DeleteApiProductIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiProductId>>>
@@ -1607,6 +1831,7 @@ export type PostApiRoleAddToUserResult = NonNullable<Awaited<ReturnType<typeof p
 export type DeleteApiRoleRemoveFromUserResult = NonNullable<Awaited<ReturnType<typeof deleteApiRoleRemoveFromUser>>>
 export type DeleteApiRoleIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiRoleId>>>
 export type GetApiRoleTitleResult = NonNullable<Awaited<ReturnType<typeof getApiRoleTitle>>>
+export type GetApiUserResult = NonNullable<Awaited<ReturnType<typeof getApiUser>>>
 export type GetApiWishResult = NonNullable<Awaited<ReturnType<typeof getApiWish>>>
 export type PostApiWishResult = NonNullable<Awaited<ReturnType<typeof postApiWish>>>
 export type GetApiWishCartResult = NonNullable<Awaited<ReturnType<typeof getApiWishCart>>>

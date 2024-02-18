@@ -8,19 +8,24 @@ import {
 	TableRow,
 } from '@/shared/ui/table';
 
-import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
-import { Button } from '@/shared/ui/button';
-import { EditProduct } from '../admin-edit-product/ui/edit-product';
-import { Icon } from '@/shared/ui/icon';
-import { useDeleteProductApi } from './delete-product-api';
+import dynamic from 'next/dynamic';
+
+const EditProduct = dynamic(
+	() =>
+		import('@/features/admin-edit-product/ui/edit-product').then(
+			module => module.EditProduct
+		),
+	{
+		ssr: false,
+		loading: () => <div>Loading...</div>,
+	}
+);
 
 export const ProductList = ({
 	products,
 }: {
 	products: ModelAdminProduct[];
 }): JSX.Element => {
-	const { deleteProduct } = useDeleteProductApi();
-
 	return (
 		<Table>
 			<TableHeader>
@@ -42,23 +47,7 @@ export const ProductList = ({
 						<TableCell className='p-2'>{item.category.title}</TableCell>
 						<TableCell className='p-2 text-left'>{item.brand.title}</TableCell>
 						<TableCell className='p-2'>
-							<Popover>
-								<PopoverTrigger asChild>
-									<Button variant='ghost' size='icon'>
-										<Icon icon='more' />
-									</Button>
-								</PopoverTrigger>
-								<PopoverContent className='flex flex-col p-2'>
-									<EditProduct product={item} />
-
-									<Button
-										variant='ghost'
-										onClick={() => deleteProduct(item.id)}
-									>
-										Удалить
-									</Button>
-								</PopoverContent>
-							</Popover>
+							<EditProduct product={item} />
 						</TableCell>
 					</TableRow>
 				))}

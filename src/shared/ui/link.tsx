@@ -7,7 +7,7 @@ const link = cva('transition-colors text-sm', {
 		variant: {
 			primary: 'text-foreground/60 hover:text-foreground/80',
 			secondary: 'text-foreground/60  hover:underline',
-			menu: '',
+			menu: 'hover:text-foreground/60',
 		},
 	},
 	defaultVariants: {

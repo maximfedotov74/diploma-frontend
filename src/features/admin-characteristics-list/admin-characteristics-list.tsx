@@ -1,5 +1,5 @@
 import { AdminEditCharacteristic } from '../admin-edit-characteristic/ui/admin-edit-characteristic';
-import { useGetAllCharacteristics } from './get-characteristics-list-api';
+import { useGetAllCharacteristics } from '@/shared/api/queries/get-characteristics-list-api';
 
 export const AdminCharacteristicsList = (): JSX.Element => {
 	const { data: options } = useGetAllCharacteristics();

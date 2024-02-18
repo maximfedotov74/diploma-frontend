@@ -4,11 +4,11 @@ import {
 } from '@/shared/api/generated';
 import {
 	ADD_VALUE,
-	CHARACTERISTICS_VALUES,
+	ALL_CHARACTERISTICS,
 } from '@/shared/api/query-keys/characteristics';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-export const useAddValue = (optionId: number) => {
+export const useAddValue = () => {
 	const queryClient = useQueryClient();
 	const { mutateAsync: addValue } = useMutation({
 		mutationKey: [ADD_VALUE],
@@ -16,7 +16,7 @@ export const useAddValue = (optionId: number) => {
 			postApiCharacteristicsValue(dto),
 		onSuccess: () => {
 			queryClient.invalidateQueries({
-				queryKey: [CHARACTERISTICS_VALUES, optionId],
+				queryKey: [ALL_CHARACTERISTICS],
 			});
 		},
 	});

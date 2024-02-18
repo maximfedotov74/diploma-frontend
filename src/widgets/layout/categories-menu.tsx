@@ -8,31 +8,44 @@ import { Sheet, SheetContent, SheetTrigger } from '@/shared/ui/sheet';
 import { cn } from '@/shared/utils/cn';
 import { useState } from 'react';
 import { GenderMenu } from './gender-menu';
-import { Link } from '@/shared/ui/link';
 import { TypographySmall } from '@/shared/ui/typography';
+import { Link } from '@/shared/ui/link';
 
 const CategoriesMenuItem = ({ item }: { item: ModelCategoryRelation }) => {
 	const [open, setOpen] = useState(false);
+
 	return (
-		<li>
-			<div className='flex items-center mb-2'>
-				<Link href='/'>
-					<TypographySmall>{item.title}</TypographySmall>
+		<li className='mb-2 last:mb-0'>
+			{item.level <= 2 ? (
+				<>
+					<div className='flex items-center mb-2'>
+						<Button
+							variant='link'
+							size='sm'
+							className='p-0'
+							onClick={() => setOpen(p => !p)}
+						>
+							<TypographySmall>{item.short_title}</TypographySmall>
+							<Icon icon='chevron_up_down' className='ml-2' />
+						</Button>
+					</div>
+					{open && (
+						<ul className='pl-2'>
+							<li className='mb-2'>
+								<Link variant='menu' href='/'>
+									{item.short_title}
+								</Link>
+							</li>
+							{item.subcategories.map(item => (
+								<CategoriesMenuItem key={item.category_id} item={item} />
+							))}
+						</ul>
+					)}
+				</>
+			) : (
+				<Link variant='menu' href='/'>
+					{item.short_title}
 				</Link>
-				{item.subcategories.length > 0 && (
-					<Icon
-						icon='chevron_up_down'
-						className='ml-2'
-						onClick={() => setOpen(p => !p)}
-					/>
-				)}
-			</div>
-			{open && item.subcategories.length > 0 && (
-				<ul className='pl-2'>
-					{item.subcategories.map(item => (
-						<CategoriesMenuItem key={item.category_id} item={item} />
-					))}
-				</ul>
 			)}
 		</li>
 	);
@@ -47,8 +60,10 @@ export const CategoriesMenu = ({
 	topLevels: ModelCategoryModel[];
 	className?: string;
 }): JSX.Element => {
+	const secondLevel = menu.subcategories;
+
 	return (
-		<div className={cn(className)}>
+		<div className={cn(className, 'md:hidden block')}>
 			<Sheet>
 				<SheetTrigger asChild>
 					<Button variant='ghost' size='icon'>
@@ -57,8 +72,8 @@ export const CategoriesMenu = ({
 				</SheetTrigger>
 				<SheetContent side='left' className='px-1 sm:px-3 py-3'>
 					<GenderMenu topLevels={topLevels} className='mb-4' />
-					<ul>
-						{menu.subcategories.map(item => (
+					<ul className='pl-2'>
+						{secondLevel.map(item => (
 							<CategoriesMenuItem key={item.category_id} item={item} />
 						))}
 					</ul>

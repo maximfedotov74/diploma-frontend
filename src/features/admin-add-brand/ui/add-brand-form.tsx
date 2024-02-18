@@ -6,6 +6,7 @@ import { ALL_IMAGES } from '@/shared/constants/file-types';
 import { Input } from '@/shared/ui/input';
 import { Button } from '@/shared/ui/button';
 import { useAddBrandApi } from '../api/add-brand-api';
+import { Textarea } from '@/shared/ui/textarea';
 
 export const AddBrandForm = (): JSX.Element => {
 	const {
@@ -40,7 +41,7 @@ export const AddBrandForm = (): JSX.Element => {
 					},
 				})}
 			/>
-			<Input
+			<Textarea
 				placeholder='Описание'
 				className='mb-3'
 				error={errors.description?.message}

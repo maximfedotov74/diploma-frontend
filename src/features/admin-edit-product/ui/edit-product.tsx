@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 import { EditProductForm } from './edit-product-form';
 import { ModelsList } from './models-list';
 import { AddModelProduct } from './add-model-product';
+import { Icon } from '@/shared/ui/icon';
 
 export const EditProduct = ({
 	product,
@@ -21,7 +22,7 @@ export const EditProduct = ({
 		<Dialog>
 			<DialogTrigger asChild>
 				<Button variant='ghost' className='mb-2'>
-					Редактирование
+					<Icon icon='more' />
 				</Button>
 			</DialogTrigger>
 			<DialogContent className='max-w-5xl overflow-y-scroll max-h-[500px] px-1 sm:px-3 md:px-4'>

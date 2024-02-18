@@ -40,7 +40,7 @@ export const AdminEditCharacteristic = ({
 					</TabsContent>
 					<TabsContent value='Значения'>
 						<AdminAddValue option={option} />
-						<AdminCharacteristicValues id={option.id} />
+						<AdminCharacteristicValues values={option.values || []} />
 					</TabsContent>
 				</Tabs>
 			</DialogContent>

@@ -6,6 +6,7 @@ import { FileUpload } from '../../file-upload/file-upload';
 import { ALL_IMAGES } from '@/shared/constants/file-types';
 import { useDeleteBrandApi } from '../api/delete-brand-api';
 import { useEditBrandApi } from '../api/edit-brand-api';
+import { Textarea } from '@/shared/ui/textarea';
 
 export const EditBrandForm = ({
 	brand,
@@ -54,7 +55,7 @@ export const EditBrandForm = ({
 					},
 				})}
 			/>
-			<Input
+			<Textarea
 				placeholder='Описание'
 				className='mb-3'
 				error={errors.description?.message}

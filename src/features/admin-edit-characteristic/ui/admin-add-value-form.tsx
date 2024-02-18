@@ -16,7 +16,7 @@ export const AdminAddValueForm = ({
 		formState: { errors },
 	} = useForm<ModelCreateOptionValueDto>({ mode: 'onChange' });
 
-	const addValue = useAddValue(option.id);
+	const addValue = useAddValue();
 
 	const onSubmit: SubmitHandler<ModelCreateOptionValueDto> = async data => {
 		await addValue({

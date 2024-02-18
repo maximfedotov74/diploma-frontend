@@ -5,6 +5,7 @@ import {
 import {
 	ALL_CATEGORIES,
 	EDIT_CATEGORY,
+	GET_CATEGORIES_WITHOUT_CHILDREN,
 } from '@/shared/api/query-keys/category';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -17,6 +18,9 @@ export const useEditCategoryApi = () => {
 			patchApiCategoryId(id, dto),
 		onSuccess: () => {
 			queryCLient.invalidateQueries({ queryKey: [ALL_CATEGORIES] });
+			queryCLient.invalidateQueries({
+				queryKey: [GET_CATEGORIES_WITHOUT_CHILDREN],
+			});
 		},
 	});
 	return editCategory;

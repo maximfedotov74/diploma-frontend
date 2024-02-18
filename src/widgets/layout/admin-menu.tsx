@@ -34,6 +34,10 @@ const adminMenu = [
 		title: 'Бренды',
 		href: '/admin/brands',
 	},
+	{
+		title: 'Акции',
+		href: '/admin/actions',
+	},
 ];
 
 export const AdminMenu = (): JSX.Element => {

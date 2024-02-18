@@ -26,9 +26,9 @@ export const AdminEditValueForm = ({
 		},
 	});
 
-	const editValue = useEditValue(value.option_id);
+	const editValue = useEditValue();
 
-	const deleteValue = useDeleteValue(value.option_id);
+	const deleteValue = useDeleteValue();
 
 	const onSubmit: SubmitHandler<ModelUpdateOptionValueDto> = async data => {
 		await editValue({

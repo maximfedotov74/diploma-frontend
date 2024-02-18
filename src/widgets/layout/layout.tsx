@@ -11,6 +11,8 @@ import { Logo } from '@/shared/ui/logo';
 import { CategoriesMenu } from './categories-menu';
 import { ModelSearch } from '@/features/model-search/model-search';
 import { TopHeader } from './top-header';
+import { GenderMenu } from './gender-menu';
+import { HoverMenu } from './hover-menu';
 
 type LayoutProps = {
 	children: ReactNode;
@@ -31,10 +33,12 @@ export const Layout = ({
 					<div className='flex flex-col sm:flex-row items-center relative mt-3'>
 						<Logo className='sm:absolute sm:top-1/2 sm:-translate-x-2/3 sm:-translate-y-1/2 sm:left-1/2 mb-3 sm:mb-0 italic' />
 						<div className='flex items-center w-full'>
+							<GenderMenu topLevels={topLevels} className='md:block hidden' />
 							<CategoriesMenu menu={menu} topLevels={topLevels} />
 							<ModelSearch className='ml-auto' />
 						</div>
 					</div>
+					<HoverMenu menu={menu} />
 				</WidthContainer>
 			</header>
 			<main className='mt-5'>

@@ -9,6 +9,7 @@ import {
 	CommandGroup,
 	CommandInput,
 	CommandItem,
+	CommandList,
 } from './command';
 import { ErrorText } from './error-text';
 
@@ -55,7 +56,7 @@ export const Combobox = ({
 
 	return (
 		<div className={cn('flex flex-col', className)}>
-			<Popover open={open} onOpenChange={setOpen}>
+			<Popover open={open} onOpenChange={setOpen} modal>
 				<PopoverTrigger asChild>
 					<Button
 						variant='outline'
@@ -70,35 +71,43 @@ export const Combobox = ({
 						/>
 					</Button>
 				</PopoverTrigger>
-				<PopoverContent className='w-[200px] p-0'>
+				<PopoverContent
+					className='w-[200px] max-h-[200px] p-0 overflow-y-scroll'
+					side='bottom'
+					avoidCollisions={false}
+				>
 					<Command shouldFilter={false}>
 						<CommandInput
 							placeholder={placeholder}
 							onValueChange={s => setFilter(s)}
 						/>
-						<CommandEmpty>Не найдено</CommandEmpty>
-						<CommandGroup>
-							{filteredItems.map(item => (
-								<CommandItem
-									key={item.id}
-									value={item.id.toString()}
-									onSelect={currentValue => {
-										setValue(currentValue === value ? '' : currentValue);
-										setFilter('');
-										setOpen(false);
-									}}
-								>
-									<Icon
-										icon='done_outline_24'
-										className={cn(
-											'mr-2 h-4 w-4',
-											value === item.id.toString() ? 'opacity-100' : 'opacity-0'
-										)}
-									/>
-									{item.title}
-								</CommandItem>
-							))}
-						</CommandGroup>
+						<CommandList>
+							<CommandEmpty>Не найдено</CommandEmpty>
+							<CommandGroup>
+								{filteredItems.map(item => (
+									<CommandItem
+										key={item.id}
+										value={item.id.toString()}
+										onSelect={currentValue => {
+											setValue(currentValue === value ? '' : currentValue);
+											setFilter('');
+											setOpen(false);
+										}}
+									>
+										<Icon
+											icon='done_outline_24'
+											className={cn(
+												'mr-2 h-4 w-4',
+												value === item.id.toString()
+													? 'opacity-100'
+													: 'opacity-0'
+											)}
+										/>
+										{item.title}
+									</CommandItem>
+								))}
+							</CommandGroup>
+						</CommandList>
 					</Command>
 				</PopoverContent>
 			</Popover>

@@ -6,6 +6,8 @@ import {
 } from '@/shared/api/generated';
 import { Input } from '@/shared/ui/input';
 import { Button } from '@/shared/ui/button';
+import { useDeleteProductApi } from '../api/delete-product-api';
+import { Textarea } from '@/shared/ui/textarea';
 
 export const EditProductForm = ({
 	product,
@@ -22,18 +24,30 @@ export const EditProductForm = ({
 		},
 	});
 
+	const { deleteProduct } = useDeleteProductApi();
+
 	const onSubmit: SubmitHandler<ModelUpdateProductDto> = data => {
 		editProduct({ dto: data, id: product.id });
 	};
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<Input placeholder='Название' className='mb-3' {...register('title')} />
-			<Input
+			<Textarea
 				placeholder='Описание'
 				className='mb-3'
 				{...register('description')}
 			/>
-			<Button>Редактировать</Button>
+			<div className='flex items-center'>
+				<Button type='submit'>Редактировать</Button>
+				<Button
+					type='button'
+					variant='outline'
+					onClick={() => deleteProduct(product.id)}
+					className='ml-auto'
+				>
+					Удалить
+				</Button>
+			</div>
 		</form>
 	);
 };

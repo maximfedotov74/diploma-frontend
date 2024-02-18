@@ -14,7 +14,8 @@ export const AddCategoryForm = (): JSX.Element => {
 		formState: { errors },
 		register,
 		handleSubmit,
-		reset,
+		setValue,
+		resetField,
 	} = useForm<ModelCreateCategoryDto>({ mode: 'onChange' });
 	const { data: categories } = useGetAllCategories();
 	const createCategory = useAddCategoryApi();
@@ -25,11 +26,15 @@ export const AddCategoryForm = (): JSX.Element => {
 			title: data.title,
 			img_path: data.img_path,
 			parent_category_id:
-				typeof data.parent_category_id !== 'undefined'
+				typeof data.parent_category_id !== 'undefined' &&
+				data?.parent_category_id > 0
 					? +data.parent_category_id
 					: undefined,
 		});
-		reset();
+		resetField('img_path');
+		setValue('parent_category_id', 0);
+		resetField('title');
+		resetField('short_title');
 	};
 
 	return (
@@ -64,7 +69,7 @@ export const AddCategoryForm = (): JSX.Element => {
 				render={({ field, formState: { errors: fieldErrs } }) => (
 					<CategoryChoice
 						onChange={field.onChange}
-						defaultValue={field.value?.toString()}
+						value={field.value?.toString()}
 						categories={categories || []}
 						error={fieldErrs.parent_category_id?.message}
 						className='mb-3'

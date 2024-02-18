@@ -12,6 +12,264 @@
     "host": "",
     "basePath": "",
     "paths": {
+        "/api/action/": {
+            "get": {
+                "description": "Get all actions",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "action"
+                ],
+                "summary": "Get all actions",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Action"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create action",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "action"
+                ],
+                "summary": "Create action",
+                "parameters": [
+                    {
+                        "description": "Create action with body dto",
+                        "name": "dto",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.CreateActionDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/action/model": {
+            "post": {
+                "description": "Add model to action",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "action"
+                ],
+                "summary": "Add model to action",
+                "parameters": [
+                    {
+                        "description": "Add model to action with body dto",
+                        "name": "dto",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.AddModelToActionDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/action/model/{id}": {
+            "get": {
+                "description": "Get action models",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "action"
+                ],
+                "summary": "Get action models",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Action id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.ActionModel"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/action/{id}": {
+            "patch": {
+                "description": "Update action",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "action"
+                ],
+                "summary": "Update action",
+                "parameters": [
+                    {
+                        "description": "Update action with body dto",
+                        "name": "dto",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.UpdateActionDto"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Action id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
         "/api/auth/login": {
             "post": {
                 "description": "Login to an account with account data",
@@ -661,6 +919,50 @@
                 }
             }
         },
+        "/api/category/without-children": {
+            "get": {
+                "description": "Get categories without children",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "category"
+                ],
+                "summary": "Get categories without children",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.CategoryModel"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
         "/api/category/{id}": {
             "patch": {
                 "description": "Update category",
@@ -1077,54 +1379,6 @@
             }
         },
         "/api/characteristics/option/{id}": {
-            "get": {
-                "description": "Get option by id",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "characteristics"
-                ],
-                "summary": "Get option by id",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Option id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/model.Option"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/fall.ValidationError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/fall.AppErr"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/fall.AppErr"
-                        }
-                    }
-                }
-            },
             "delete": {
                 "description": "Delete option by id",
                 "consumes": [
@@ -2614,6 +2868,59 @@
                 }
             }
         },
+        "/api/product/model/img/{id}": {
+            "get": {
+                "description": "Get product model images",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "product"
+                ],
+                "summary": "Get product model images",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "model id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.ProductModelImg"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
         "/api/product/model/img/{imgId}": {
             "delete": {
                 "description": "Delete product model img",
@@ -2664,6 +2971,59 @@
                 }
             }
         },
+        "/api/product/model/options/{id}": {
+            "get": {
+                "description": "Get product model options",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "product"
+                ],
+                "summary": "Get product model options",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "model id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.ProductModelOption"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
         "/api/product/model/page/{slug}": {
             "get": {
                 "description": "Get product model page",
@@ -2691,6 +3051,117 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/model.ProductRelation"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/product/model/search-by-article": {
+            "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "description": "Get product models",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "product"
+                ],
+                "summary": "Get product models",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "model article",
+                        "name": "article",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.SearchProductModel"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/product/model/sizes/{id}": {
+            "get": {
+                "description": "Get product model sizes",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "product"
+                ],
+                "summary": "Get product model sizes",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "model id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.ProductModelSize"
+                            }
                         }
                     },
                     "400": {
@@ -3232,6 +3703,52 @@
                 }
             }
         },
+        "/api/user/": {
+            "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "description": "Get local session",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get local session",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.LocalSession"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
         "/api/wish/": {
             "get": {
                 "security": [
@@ -3719,6 +4236,99 @@
                 }
             }
         },
+        "model.Action": {
+            "type": "object",
+            "required": [
+                "created_at",
+                "end_date",
+                "id",
+                "is_activated",
+                "title",
+                "updated_at"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string",
+                    "minLength": 10
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "img_path": {
+                    "type": "string"
+                },
+                "is_activated": {
+                    "type": "boolean"
+                },
+                "title": {
+                    "type": "string",
+                    "minLength": 5
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.ActionModel": {
+            "type": "object",
+            "required": [
+                "article",
+                "brand",
+                "category",
+                "model_id",
+                "model_main_image_path",
+                "model_price",
+                "product_id",
+                "product_slug",
+                "product_title"
+            ],
+            "properties": {
+                "article": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "brand": {
+                    "$ref": "#/definitions/model.Brand"
+                },
+                "category": {
+                    "$ref": "#/definitions/model.CategoryModel"
+                },
+                "model_discount": {
+                    "type": "integer",
+                    "example": 15
+                },
+                "model_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "model_main_image_path": {
+                    "type": "string",
+                    "example": "/static/category/test.webp"
+                },
+                "model_price": {
+                    "type": "integer",
+                    "example": 10000
+                },
+                "product_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "product_slug": {
+                    "type": "string",
+                    "example": "botinki"
+                },
+                "product_title": {
+                    "type": "string",
+                    "example": "Ботинки"
+                }
+            }
+        },
         "model.AddFeedbackDto": {
             "type": "object",
             "required": [
@@ -3742,6 +4352,22 @@
                     "type": "string",
                     "minLength": 3,
                     "example": "Хороший товар"
+                }
+            }
+        },
+        "model.AddModelToActionDto": {
+            "type": "object",
+            "required": [
+                "action_id",
+                "product_model_id"
+            ],
+            "properties": {
+                "action_id": {
+                    "type": "string"
+                },
+                "product_model_id": {
+                    "type": "integer",
+                    "minimum": 1
                 }
             }
         },
@@ -4523,6 +5149,29 @@
                 }
             }
         },
+        "model.CreateActionDto": {
+            "type": "object",
+            "required": [
+                "end_date",
+                "title"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "minLength": 10
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "img_path": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string",
+                    "minLength": 5
+                }
+            }
+        },
         "model.CreateBrandDto": {
             "type": "object",
             "required": [
@@ -4638,7 +5287,8 @@
             ],
             "properties": {
                 "info": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 3
                 },
                 "option_id": {
                     "type": "integer",
@@ -4880,6 +5530,26 @@
                 }
             }
         },
+        "model.LocalSession": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.UserRole"
+                    }
+                },
+                "userAgent": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "integer"
+                }
+            }
+        },
         "model.LoginDto": {
             "type": "object",
             "required": [
@@ -5036,11 +5706,16 @@
             "type": "object",
             "required": [
                 "id",
+                "pmop_id",
                 "slug",
                 "title"
             ],
             "properties": {
                 "id": {
+                    "type": "integer",
+                    "example": 4
+                },
+                "pmop_id": {
                     "type": "integer",
                     "example": 4
                 },
@@ -5256,6 +5931,60 @@
                 }
             }
         },
+        "model.SearchProductModel": {
+            "type": "object",
+            "required": [
+                "article",
+                "brand",
+                "category",
+                "model_id",
+                "model_main_image_path",
+                "model_price",
+                "product_id",
+                "product_slug",
+                "product_title"
+            ],
+            "properties": {
+                "article": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "brand": {
+                    "$ref": "#/definitions/model.Brand"
+                },
+                "category": {
+                    "$ref": "#/definitions/model.CategoryModel"
+                },
+                "model_discount": {
+                    "type": "integer",
+                    "example": 15
+                },
+                "model_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "model_main_image_path": {
+                    "type": "string",
+                    "example": "/static/category/test.webp"
+                },
+                "model_price": {
+                    "type": "integer",
+                    "example": 10000
+                },
+                "product_id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "product_slug": {
+                    "type": "string",
+                    "example": "botinki"
+                },
+                "product_title": {
+                    "type": "string",
+                    "example": "Ботинки"
+                }
+            }
+        },
         "model.Size": {
             "type": "object",
             "required": [
@@ -5268,6 +5997,28 @@
                 },
                 "value": {
                     "type": "string"
+                }
+            }
+        },
+        "model.UpdateActionDto": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "minLength": 10
+                },
+                "end_date": {
+                    "type": "string"
+                },
+                "img_path": {
+                    "type": "string"
+                },
+                "is_activated": {
+                    "type": "boolean"
+                },
+                "title": {
+                    "type": "string",
+                    "minLength": 5
                 }
             }
         },
@@ -5407,6 +6158,23 @@
             "properties": {
                 "path": {
                     "type": "string"
+                }
+            }
+        },
+        "model.UserRole": {
+            "type": "object",
+            "required": [
+                "id",
+                "title"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "title": {
+                    "type": "string",
+                    "example": "User"
                 }
             }
         }

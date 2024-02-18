@@ -1,5 +1,5 @@
 import { AdminDeleteSize } from '../admin-delete-size/ui/admin-delete-size';
-import { useGetAllSizes } from './get-all-sizes-api';
+import { useGetAllSizes } from '@/shared/api/queries/get-all-sizes-api';
 
 export const AdminSizesList = (): JSX.Element => {
 	const { data: sizes } = useGetAllSizes();

@@ -1,15 +1,14 @@
-import { useGetCharacteristic } from '../api/get-characteristic-by-slug-api';
 import { AdminEditValue } from './admin-edit-value';
+import { ModelOptionValue } from '@/shared/api/generated';
 
 export const AdminCharacteristicValues = ({
-	id,
+	values,
 }: {
-	id: number;
+	values: ModelOptionValue[];
 }): JSX.Element => {
-	const { data: option } = useGetCharacteristic(id);
 	return (
 		<div>
-			{option?.values?.map(v => (
+			{values?.map(v => (
 				<div key={v.id} className='flex items-center'>
 					<div>{v.value}</div>
 					<AdminEditValue value={v} />

@@ -3,12 +3,14 @@ import { InputProps } from './input';
 import { TypographySmall } from './typography';
 import { cn } from '../utils/cn';
 import { Label } from './label';
+import { ErrorText } from './error-text';
 
 export const FileInput = ({
 	placeholder,
 	className,
 	accept,
 	onChange,
+	error,
 }: InputProps): JSX.Element => {
 	const inputRef = useRef<HTMLInputElement>(null);
 
@@ -33,6 +35,9 @@ export const FileInput = ({
 					onChange={onChange}
 				/>
 			</Label>
+			<div>
+				<ErrorText error={error} />
+			</div>
 		</div>
 	);
 };

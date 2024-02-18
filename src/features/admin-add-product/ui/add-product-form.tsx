@@ -7,7 +7,7 @@ import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
 import { CategoryChoice } from '@/shared/ui/category-choice';
 import { Combobox } from '@/shared/ui/combobox';
-import { useEffect } from 'react';
+import { Textarea } from '@/shared/ui/textarea';
 
 export const AddProductForm = (): JSX.Element => {
 	const { createProduct } = useAddProductApi();
@@ -18,6 +18,7 @@ export const AddProductForm = (): JSX.Element => {
 		formState: { errors },
 		control,
 		setValue,
+		resetField,
 	} = useForm<ModelCreateProductDto>({
 		mode: 'onChange',
 	});
@@ -37,10 +38,11 @@ export const AddProductForm = (): JSX.Element => {
 			title: data.title,
 			description: data.description === '' ? undefined : data.description,
 		});
-		setValue('description', '');
-		setValue('title', '');
+
 		setValue('category_id', 0);
-		setValue('brand_id', 0);
+		resetField('brand_id');
+		resetField('description');
+		resetField('title');
 	};
 
 	const { data: brands } = useGetAllBrands();
@@ -60,7 +62,7 @@ export const AddProductForm = (): JSX.Element => {
 					},
 				})}
 			/>
-			<Input
+			<Textarea
 				placeholder='Описание'
 				className='mb-3'
 				error={errors.description?.message}

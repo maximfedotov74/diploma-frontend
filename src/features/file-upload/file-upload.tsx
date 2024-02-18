@@ -28,7 +28,7 @@ export const FileUpload = ({
 						width={340}
 						height={340}
 						alt='uploaded-image'
-						className='w-[100px] h-[100px] rounded-md'
+						className='w-28 h-32 rounded-md'
 					/>
 				)
 			)}

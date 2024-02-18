@@ -22,7 +22,7 @@ export const GenderMenu = ({
 				{topLevels.map(cat => (
 					<li key={cat.category_id} className='mr-3 last:mr-0'>
 						<Link
-							href='/'
+							href={`/${cat.slug}-home`}
 							variant='primary'
 							className={cn('text-sm sm:text-base relative', {
 								'after:absolute after:top-7 after:left-0 after:h-[2px] after:bg-foreground after:w-full text-foreground':

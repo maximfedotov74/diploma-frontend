@@ -2,7 +2,11 @@ import {
 	ModelCreateCategoryDto,
 	postApiCategory,
 } from '@/shared/api/generated';
-import { ADD_CATEGORY, ALL_CATEGORIES } from '@/shared/api/query-keys/category';
+import {
+	ADD_CATEGORY,
+	ALL_CATEGORIES,
+	GET_CATEGORIES_WITHOUT_CHILDREN,
+} from '@/shared/api/query-keys/category';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useAddCategoryApi = () => {
@@ -13,6 +17,9 @@ export const useAddCategoryApi = () => {
 		mutationFn: (dto: ModelCreateCategoryDto) => postApiCategory(dto),
 		onSuccess: () => {
 			queryCLient.invalidateQueries({ queryKey: [ALL_CATEGORIES] });
+			queryCLient.invalidateQueries({
+				queryKey: [GET_CATEGORIES_WITHOUT_CHILDREN],
+			});
 		},
 	});
 	return createCategory;
