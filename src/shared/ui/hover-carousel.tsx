@@ -2,11 +2,11 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { cn } from '../utils/cn';
 
-type HoverCarouselProps = {
-	images: { id: number; path: string; alt: string }[];
-};
-
-export const HoverCarousel = ({ images }: HoverCarouselProps): JSX.Element => {
+export const HoverCarousel = ({
+	images,
+}: {
+	images: string[];
+}): JSX.Element => {
 	const [active, setActive] = useState(0);
 	return (
 		<div className='flex flex-col relative' onMouseLeave={() => setActive(0)}>
@@ -16,7 +16,7 @@ export const HoverCarousel = ({ images }: HoverCarouselProps): JSX.Element => {
 						className={cn('flex-grow mr-1 last:mr-0 bg-gray-300 h-1', {
 							'bg-black dark:bg-yellow-500': idx === active,
 						})}
-						key={img.id}
+						key={img}
 					></div>
 				))}
 			</div>
@@ -26,8 +26,8 @@ export const HoverCarousel = ({ images }: HoverCarouselProps): JSX.Element => {
 						width={250}
 						height={250}
 						className='w-full block'
-						src={images[active].path}
-						alt={images[active].alt}
+						src={images[active]}
+						alt='Изображение модели'
 					/>
 				</div>
 			</div>
@@ -36,7 +36,7 @@ export const HoverCarousel = ({ images }: HoverCarouselProps): JSX.Element => {
 					<div
 						onMouseEnter={() => setActive(idx)}
 						className='flex-grow'
-						key={img.id}
+						key={img}
 					></div>
 				))}
 			</div>

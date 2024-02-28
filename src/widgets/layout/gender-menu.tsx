@@ -1,21 +1,17 @@
 import { ModelCategoryModel } from '@/shared/api/generated';
+import { GenderCategoryMenu } from '@/shared/constants/genders';
 import { Link } from '@/shared/ui/link';
 import { cn } from '@/shared/utils/cn';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 
 export const GenderMenu = ({
 	topLevels,
 	className,
+	currentMenu,
 }: {
 	topLevels: ModelCategoryModel[];
 	className?: string;
+	currentMenu: GenderCategoryMenu;
 }): JSX.Element => {
-	const [active, setActive] = useState<string>('men');
-	const router = useRouter();
-
-	useEffect(() => {}, [router]);
-
 	return (
 		<nav className={cn(className)}>
 			<ul className='flex items-center'>
@@ -26,7 +22,7 @@ export const GenderMenu = ({
 							variant='primary'
 							className={cn('text-sm sm:text-base relative', {
 								'after:absolute after:top-7 after:left-0 after:h-[2px] after:bg-foreground after:w-full text-foreground':
-									active === cat.slug,
+									currentMenu === cat.slug,
 							})}
 						>
 							{cat.short_title}

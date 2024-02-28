@@ -1,76 +1,62 @@
+import { EditProfileForm } from '@/features/lk/edit-profile/ui/edit-profile-form';
 import {
-	ModelLoginDto,
-	getApiUser,
-	postApiAuthLogin,
+	getApiCategoryRelationSlug,
+	getApiCategoryTop,
 } from '@/shared/api/generated';
-import { validEmail } from '@/shared/constants/regexp';
-import { Button } from '@/shared/ui/button';
-import { Input } from '@/shared/ui/input';
-import { PasswordInput } from '@/shared/ui/password-input';
-import { Separator } from '@/shared/ui/separator';
+import { useGetProfileApi } from '@/shared/api/queries/get-profile-api';
+import { GENDERS, MEN } from '@/shared/constants/genders';
+import { Meta } from '@/shared/meta/meta';
+import { HomePageProps } from '@/shared/types/home-page';
 import { TypographyH1 } from '@/shared/ui/typography';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { LKLayout } from '@/widgets/layout/lk-layout';
+import { GetServerSideProps } from 'next';
 
-const LkPage = (): JSX.Element => {
-	const qc = useQueryClient();
-
-	const { mutateAsync: login } = useMutation({
-		mutationKey: ['login'],
-		mutationFn: (dto: ModelLoginDto) => postApiAuthLogin(dto),
-	});
-
-	const {
-		register,
-		formState: { errors },
-		handleSubmit,
-	} = useForm<ModelLoginDto>({ mode: 'onChange' });
-
-	const onSubmit: SubmitHandler<ModelLoginDto> = async data => {
-		await login(data);
-		qc.invalidateQueries({ queryKey: ['session'] });
-	};
-
-	const { data: session } = useQuery({
-		queryKey: ['session'],
-		queryFn: () => getApiUser(),
-	});
+const LkPage = ({
+	genderMenu,
+	menu,
+	topLevels,
+}: HomePageProps): JSX.Element => {
+	const { data: profile } = useGetProfileApi();
 
 	return (
-		<div className='p-20'>
-			<TypographyH1 className='mb-4'>Вход в систему</TypographyH1>
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<Input
-					placeholder='Email'
-					type='email'
-					className='mb-3'
-					{...register('email', {
-						required: 'Email - обязательное поле!',
-						pattern: {
-							value: validEmail,
-							message: 'Некорректный формат email!',
-						},
-					})}
-					error={errors.email?.message}
-				/>
-				<PasswordInput
-					placeholder='Пароль'
-					className='mb-3'
-					{...register('password', {
-						required: 'Пароль - обязательное поле!',
-						minLength: {
-							value: 6,
-							message: 'Длина пароля должна быть не менее 6 символов!',
-						},
-					})}
-					error={errors.password?.message}
-				/>
-				<Button>Вход</Button>
-			</form>
-			<Separator className='my-4' />
-			{session && <div>{JSON.stringify(session)}</div>}
-		</div>
+		<Meta title='Личный кабинет | Мои данные'>
+			<LKLayout genderMenu={genderMenu} menu={menu} topLevels={topLevels}>
+				<TypographyH1 className='text-2xl font-normal mb-5'>
+					Мои данные
+				</TypographyH1>
+				{profile && <EditProfileForm profile={profile} />}
+			</LKLayout>
+		</Meta>
 	);
 };
 
 export default LkPage;
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+	const gender = req.cookies['page-gender'];
+
+	if (gender && GENDERS.includes(gender)) {
+		return {
+			redirect: {
+				destination: `/${gender}-home`,
+				permanent: true,
+			},
+		};
+	}
+
+	try {
+		const topLevels = await getApiCategoryTop();
+		const menu = await getApiCategoryRelationSlug(MEN);
+		return {
+			props: {
+				topLevels,
+				menu: menu,
+				genderMenu: MEN,
+			},
+		};
+	} catch (e) {
+		return {
+			notFound: true,
+		};
+	}
+};

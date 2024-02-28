@@ -798,10 +798,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/model.CatalogCategoryRelation"
-                            }
+                            "$ref": "#/definitions/model.CatalogCategoryRelationResponse"
                         }
                     },
                     "400": {
@@ -1132,7 +1129,7 @@
                 }
             }
         },
-        "/api/characteristics/catalog/{slug}": {
+        "/api/characteristics/catalog/{categorySlug}": {
             "get": {
                 "description": "Get catalog filters",
                 "consumes": [
@@ -1149,7 +1146,7 @@
                     {
                         "type": "string",
                         "description": "Category slug",
-                        "name": "slug",
+                        "name": "categorySlug",
                         "in": "path",
                         "required": true
                     }
@@ -1916,7 +1913,10 @@
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created"
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -2075,7 +2075,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -2129,7 +2132,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -2429,6 +2435,64 @@
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/order/": {
+            "post": {
+                "description": "Create order",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "order"
+                ],
+                "summary": "Create order",
+                "parameters": [
+                    {
+                        "description": "Create order with body dto",
+                        "name": "dto",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.CreateOrderDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/model.Order"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/fall.AppErr"
                         }
@@ -3294,7 +3358,105 @@
                 }
             }
         },
+        "/api/product/model/{slug}": {
+            "get": {
+                "description": "Get model by slug",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "product"
+                ],
+                "summary": "Get model by slug",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Model slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.ProductModel"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
         "/api/product/{id}": {
+            "get": {
+                "description": "Get product by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "product"
+                ],
+                "summary": "Get product by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Product Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Product"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "description": "Delete product",
                 "consumes": [
@@ -3703,7 +3865,103 @@
                 }
             }
         },
-        "/api/user/": {
+        "/api/user/profile": {
+            "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "description": "Get base profile info",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get base profile info",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update user profile info",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Update user profile info",
+                "parameters": [
+                    {
+                        "description": "Update user profile with body dto",
+                        "name": "dto",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.UpdateUserDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/session": {
             "get": {
                 "security": [
                     {
@@ -3827,7 +4085,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -3928,7 +4189,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -4415,7 +4679,6 @@
         "model.AddSizeToProductModelDto": {
             "type": "object",
             "required": [
-                "in_stock",
                 "literal",
                 "product_model_id",
                 "size_id"
@@ -4774,6 +5037,21 @@
                 }
             }
         },
+        "model.CatalogCategoryRelationResponse": {
+            "type": "object",
+            "required": [
+                "catalog_categories",
+                "current"
+            ],
+            "properties": {
+                "catalog_categories": {
+                    "$ref": "#/definitions/model.CatalogCategoryRelation"
+                },
+                "current": {
+                    "$ref": "#/definitions/model.CategoryModel"
+                }
+            }
+        },
         "model.CatalogChild": {
             "type": "object",
             "required": [
@@ -4855,6 +5133,55 @@
                 }
             }
         },
+        "model.CatalogModelBrand": {
+            "type": "object",
+            "required": [
+                "id",
+                "slug",
+                "title"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "example": 2
+                },
+                "slug": {
+                    "type": "string",
+                    "example": "adidas"
+                },
+                "title": {
+                    "type": "string",
+                    "example": "adidas"
+                }
+            }
+        },
+        "model.CatalogModelCategory": {
+            "type": "object",
+            "required": [
+                "category_id",
+                "short_title",
+                "slug",
+                "title"
+            ],
+            "properties": {
+                "category_id": {
+                    "type": "integer",
+                    "example": 3
+                },
+                "short_title": {
+                    "type": "string",
+                    "example": "одежда"
+                },
+                "slug": {
+                    "type": "string",
+                    "example": "verhnia-odezhda"
+                },
+                "title": {
+                    "type": "string",
+                    "example": "Верхняя одежда"
+                }
+            }
+        },
         "model.CatalogOption": {
             "type": "object",
             "required": [
@@ -4902,12 +5229,14 @@
                 "article",
                 "brand",
                 "category",
+                "images",
                 "model_id",
                 "model_main_image_path",
                 "model_price",
                 "product_id",
                 "product_slug",
-                "product_title"
+                "product_title",
+                "sizes"
             ],
             "properties": {
                 "article": {
@@ -4915,10 +5244,10 @@
                     "minLength": 1
                 },
                 "brand": {
-                    "$ref": "#/definitions/model.Brand"
+                    "$ref": "#/definitions/model.CatalogModelBrand"
                 },
                 "category": {
-                    "$ref": "#/definitions/model.CategoryModel"
+                    "$ref": "#/definitions/model.CatalogModelCategory"
                 },
                 "images": {
                     "type": "array",
@@ -5302,6 +5631,47 @@
                 }
             }
         },
+        "model.CreateOrderDto": {
+            "type": "object",
+            "required": [
+                "delivery_point_id",
+                "model_size_ids",
+                "order_conditions",
+                "payment_method",
+                "recipient_firstname",
+                "recipient_lastname",
+                "recipient_phone"
+            ],
+            "properties": {
+                "delivery_point_id": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "model_size_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "order_conditions": {
+                    "$ref": "#/definitions/model.OrderConditions"
+                },
+                "payment_method": {
+                    "$ref": "#/definitions/model.PaymentMethodEnum"
+                },
+                "recipient_firstname": {
+                    "type": "string",
+                    "minLength": 2
+                },
+                "recipient_lastname": {
+                    "type": "string",
+                    "minLength": 2
+                },
+                "recipient_phone": {
+                    "type": "string"
+                }
+            }
+        },
         "model.CreateProducModelImg": {
             "type": "object",
             "required": [
@@ -5542,10 +5912,10 @@
                         "$ref": "#/definitions/model.UserRole"
                     }
                 },
-                "userAgent": {
+                "user_agent": {
                     "type": "string"
                 },
-                "userId": {
+                "user_id": {
                     "type": "integer"
                 }
             }
@@ -5659,6 +6029,313 @@
                 "value": {
                     "type": "string",
                     "example": "Желтый"
+                }
+            }
+        },
+        "model.Order": {
+            "type": "object",
+            "required": [
+                "conditions",
+                "created_at",
+                "delivery_point",
+                "delivery_price",
+                "is_activated",
+                "models",
+                "order_id",
+                "payment_method",
+                "products_price",
+                "status",
+                "total_price",
+                "updated_at",
+                "user"
+            ],
+            "properties": {
+                "conditions": {
+                    "$ref": "#/definitions/model.OrderConditions"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "delivery_date": {
+                    "type": "string"
+                },
+                "delivery_point": {
+                    "$ref": "#/definitions/model.DeliveryPoint"
+                },
+                "delivery_price": {
+                    "type": "integer"
+                },
+                "is_activated": {
+                    "type": "boolean"
+                },
+                "models": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.OrderModel"
+                    }
+                },
+                "order_id": {
+                    "type": "string"
+                },
+                "payment_method": {
+                    "$ref": "#/definitions/model.PaymentMethodEnum"
+                },
+                "products_price": {
+                    "type": "integer"
+                },
+                "promo_discount": {
+                    "type": "integer"
+                },
+                "status": {
+                    "$ref": "#/definitions/model.OrderStatusEnum"
+                },
+                "total_discount": {
+                    "type": "integer"
+                },
+                "total_price": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/model.OrderUser"
+                }
+            }
+        },
+        "model.OrderConditions": {
+            "type": "string",
+            "enum": [
+                "with_fitting",
+                "without_fitting"
+            ],
+            "x-enum-varnames": [
+                "WithFitting",
+                "WithoutFitting"
+            ]
+        },
+        "model.OrderModel": {
+            "type": "object",
+            "required": [
+                "article",
+                "main_image_path",
+                "option",
+                "order_model_id",
+                "price",
+                "product",
+                "quantity",
+                "size",
+                "slug"
+            ],
+            "properties": {
+                "article": {
+                    "type": "string"
+                },
+                "discount": {
+                    "type": "integer"
+                },
+                "main_image_path": {
+                    "type": "string"
+                },
+                "option": {
+                    "$ref": "#/definitions/model.OrderModelOption"
+                },
+                "order_model_id": {
+                    "type": "integer"
+                },
+                "price": {
+                    "type": "integer"
+                },
+                "product": {
+                    "$ref": "#/definitions/model.OrderModelProduct"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "size": {
+                    "$ref": "#/definitions/model.ProductModelSize"
+                },
+                "slug": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.OrderModelOption": {
+            "type": "object",
+            "required": [
+                "option_id",
+                "product_model_option_id",
+                "slug",
+                "title",
+                "value",
+                "value_id"
+            ],
+            "properties": {
+                "option_id": {
+                    "type": "integer"
+                },
+                "product_model_option_id": {
+                    "type": "integer"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                },
+                "value_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.OrderModelProduct": {
+            "type": "object",
+            "required": [
+                "brand",
+                "category",
+                "product_id",
+                "title"
+            ],
+            "properties": {
+                "brand": {
+                    "$ref": "#/definitions/model.Brand"
+                },
+                "category": {
+                    "$ref": "#/definitions/model.CategoryModel"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.OrderStatusEnum": {
+            "type": "string",
+            "enum": [
+                "completed",
+                "canceled",
+                "on_the_way",
+                "waiting_for_payment",
+                "paid",
+                "in_processing",
+                "waiting_for_activation"
+            ],
+            "x-enum-varnames": [
+                "Completed",
+                "Canceled",
+                "OnTheWay",
+                "WaitingForPayment",
+                "Paid",
+                "InProcessing",
+                "WaitingForActivation"
+            ]
+        },
+        "model.OrderUser": {
+            "type": "object",
+            "required": [
+                "id",
+                "recipient_email",
+                "recipient_firstname",
+                "recipient_lastname",
+                "recipient_phone"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "recipient_email": {
+                    "type": "string"
+                },
+                "recipient_firstname": {
+                    "type": "string"
+                },
+                "recipient_lastname": {
+                    "type": "string"
+                },
+                "recipient_phone": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.PaymentMethodEnum": {
+            "type": "string",
+            "enum": [
+                "upon_receipt",
+                "online"
+            ],
+            "x-enum-varnames": [
+                "UponReceipt",
+                "Online"
+            ]
+        },
+        "model.Product": {
+            "type": "object",
+            "required": [
+                "brand",
+                "category",
+                "id",
+                "title"
+            ],
+            "properties": {
+                "brand": {
+                    "$ref": "#/definitions/model.Brand"
+                },
+                "category": {
+                    "$ref": "#/definitions/model.CategoryModel"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "описание товара..."
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "title": {
+                    "type": "string",
+                    "example": "Куртка"
+                }
+            }
+        },
+        "model.ProductModel": {
+            "type": "object",
+            "required": [
+                "article",
+                "id",
+                "image_path",
+                "price",
+                "product_id",
+                "slug"
+            ],
+            "properties": {
+                "article": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "discount": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "image_path": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "integer",
+                    "example": 15000
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "slug": {
+                    "type": "string"
                 }
             }
         },
@@ -5852,6 +6529,7 @@
                 "brand",
                 "category",
                 "id",
+                "model",
                 "title"
             ],
             "properties": {
@@ -6153,6 +6831,29 @@
                 }
             }
         },
+        "model.UpdateUserDto": {
+            "type": "object",
+            "properties": {
+                "avatar_path": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "gender": {
+                    "$ref": "#/definitions/model.UserGender"
+                },
+                "last_name": {
+                    "type": "string",
+                    "minLength": 3
+                },
+                "patronymic": {
+                    "type": "string",
+                    "minLength": 3
+                }
+            }
+        },
         "model.UploadResponse": {
             "type": "object",
             "properties": {
@@ -6160,6 +6861,64 @@
                     "type": "string"
                 }
             }
+        },
+        "model.User": {
+            "type": "object",
+            "required": [
+                "email",
+                "id",
+                "is_activated",
+                "roles"
+            ],
+            "properties": {
+                "avatar_path": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "makc-dgek@mail.ru"
+                },
+                "first_name": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "gender": {
+                    "$ref": "#/definitions/model.UserGender"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "is_activated": {
+                    "type": "boolean",
+                    "example": false
+                },
+                "last_name": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "patronymic": {
+                    "type": "string",
+                    "minLength": 3
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.UserRole"
+                    }
+                }
+            }
+        },
+        "model.UserGender": {
+            "type": "string",
+            "enum": [
+                "men",
+                "women"
+            ],
+            "x-enum-varnames": [
+                "Men",
+                "Women"
+            ]
         },
         "model.UserRole": {
             "type": "object",

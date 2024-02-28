@@ -1,15 +1,10 @@
-import {
-	ModelCategoryModel,
-	ModelCategoryRelation,
-} from '@/shared/api/generated';
+import { ModelCategoryRelation, ModelChild } from '@/shared/api/generated';
+import { CATALOG_ROUTE } from '@/shared/constants/routes/public';
 import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
-import { Sheet, SheetContent, SheetTrigger } from '@/shared/ui/sheet';
-import { cn } from '@/shared/utils/cn';
-import { useState } from 'react';
-import { GenderMenu } from './gender-menu';
-import { TypographySmall } from '@/shared/ui/typography';
 import { Link } from '@/shared/ui/link';
+import { TypographySmall } from '@/shared/ui/typography';
+import { useState } from 'react';
 
 const CategoriesMenuItem = ({ item }: { item: ModelCategoryRelation }) => {
 	const [open, setOpen] = useState(false);
@@ -32,7 +27,7 @@ const CategoriesMenuItem = ({ item }: { item: ModelCategoryRelation }) => {
 					{open && (
 						<ul className='pl-2'>
 							<li className='mb-2'>
-								<Link variant='menu' href='/'>
+								<Link variant='menu' href={`${CATALOG_ROUTE}/${item.slug}`}>
 									{item.short_title}
 								</Link>
 							</li>
@@ -43,7 +38,7 @@ const CategoriesMenuItem = ({ item }: { item: ModelCategoryRelation }) => {
 					)}
 				</>
 			) : (
-				<Link variant='menu' href='/'>
+				<Link variant='menu' href={`${CATALOG_ROUTE}/${item.slug}`}>
 					{item.short_title}
 				</Link>
 			)}
@@ -52,33 +47,15 @@ const CategoriesMenuItem = ({ item }: { item: ModelCategoryRelation }) => {
 };
 
 export const CategoriesMenu = ({
-	menu,
-	topLevels,
-	className,
+	category,
 }: {
-	menu: ModelCategoryRelation;
-	topLevels: ModelCategoryModel[];
-	className?: string;
+	category: ModelChild[];
 }): JSX.Element => {
-	const secondLevel = menu.subcategories;
-
 	return (
-		<div className={cn(className, 'md:hidden block')}>
-			<Sheet>
-				<SheetTrigger asChild>
-					<Button variant='ghost' size='icon'>
-						<Icon icon='menu_outline_24' className='w-6 h-6' />
-					</Button>
-				</SheetTrigger>
-				<SheetContent side='left' className='px-1 sm:px-3 py-3'>
-					<GenderMenu topLevels={topLevels} className='mb-4' />
-					<ul className='pl-2'>
-						{secondLevel.map(item => (
-							<CategoriesMenuItem key={item.category_id} item={item} />
-						))}
-					</ul>
-				</SheetContent>
-			</Sheet>
-		</div>
+		<ul className='pl-2'>
+			{category.map(item => (
+				<CategoriesMenuItem key={item.category_id} item={item} />
+			))}
+		</ul>
 	);
 };

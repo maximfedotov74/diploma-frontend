@@ -6,31 +6,49 @@ type PriceProps = {
 	price: number;
 	discount?: number;
 	className?: string;
+	large?: boolean;
 };
 
 export const Price = ({
 	discount,
 	price,
 	className,
+	large = false,
 }: PriceProps): JSX.Element => {
 	let currentPrice = discount
 		? Math.round(price - (price / 100) * discount)
 		: price;
 
 	return (
-		<div className={cn('flex items-center', className)}>
+		<div
+			className={cn('flex h-5', className, {
+				'items-center': discount,
+			})}
+		>
 			{discount ? (
 				<>
-					<TypographySmall className='line-through text-[13px]'>
+					<TypographySmall
+						className={cn('line-through text-[13px]', {
+							'text-base': large,
+						})}
+					>
 						{parsePrice(price)}
 					</TypographySmall>
-					<TypographySmall className='text-action font-bold ml-2'>
+					<TypographySmall
+						className={cn('text-action font-bold ml-2', {
+							'text-base': large,
+						})}
+					>
 						{parsePriceRUB(currentPrice)}
 					</TypographySmall>
 				</>
 			) : (
 				<>
-					<TypographySmall className='font-bold'>
+					<TypographySmall
+						className={cn('font-bold', {
+							'text-base': large,
+						})}
+					>
 						{parsePriceRUB(currentPrice)}
 					</TypographySmall>
 				</>

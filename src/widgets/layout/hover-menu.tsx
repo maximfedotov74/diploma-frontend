@@ -1,4 +1,5 @@
 import { ModelCategoryRelation } from '@/shared/api/generated';
+import { CATALOG_ROUTE } from '@/shared/constants/routes/public';
 import { Link } from '@/shared/ui/link';
 import {
 	NavigationMenu,
@@ -64,13 +65,13 @@ export const HoverMenu = ({
 							<NavigationMenuContent>
 								<ul className='p-3 w-full lg:w-[500px]'>
 									<li className='mb-2'>
-										<Link href='/' variant='menu'>
+										<Link href={`${CATALOG_ROUTE}/${pc.slug}`} variant='menu'>
 											{pc.short_title}
 										</Link>
 									</li>
 									{pc.subcategories.map(cc => (
 										<li key={cc.category_id} className='mb-2 last:mb-0'>
-											<Link href='/' variant='menu'>
+											<Link href={`${CATALOG_ROUTE}/${cc.slug}`} variant='menu'>
 												{cc.short_title}
 											</Link>
 										</li>

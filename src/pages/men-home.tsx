@@ -7,9 +7,13 @@ import { HomePageProps } from '@/shared/types/home-page';
 import { Layout } from '@/widgets/layout/layout';
 import { GetServerSideProps } from 'next';
 
-const MenHome = ({ menu, topLevels }: HomePageProps): JSX.Element => {
+const MenHome = ({
+	menu,
+	topLevels,
+	genderMenu,
+}: HomePageProps): JSX.Element => {
 	return (
-		<Layout menu={menu} topLevels={topLevels}>
+		<Layout menu={menu} topLevels={topLevels} genderMenu={genderMenu}>
 			<div>men home</div>
 		</Layout>
 	);
@@ -25,7 +29,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res, req }) => {
 
 	try {
 		return {
-			props: { topLevels, menu },
+			props: { topLevels, menu, genderMenu: MEN },
 		};
 	} catch (e) {
 		return {

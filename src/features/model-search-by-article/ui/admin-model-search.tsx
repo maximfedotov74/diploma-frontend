@@ -2,7 +2,7 @@ import { Input } from '@/shared/ui/input';
 import { useSearchByArticle } from '../api/search-by-article';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import Image from 'next/image';
-import { EditModelProduct } from '@/features/admin-edit-product/ui/edit-model-product';
+import { EditModelProduct } from '@/features/admin/product/admin-edit-product/ui/edit-model-product';
 import { cn } from '@/shared/utils/cn';
 import { Separator } from '@/shared/ui/separator';
 import { TypographySmall } from '@/shared/ui/typography';

@@ -1,7 +1,7 @@
 import { AdminLayout } from '@/widgets/layout/admin-layout';
 
 import { Meta } from '@/shared/meta/meta';
-import { AdminProductHome } from '@/features/admin-product-list/ui/admin-product-home';
+import { AdminProductHome } from '@/features/admin/product/admin-product-list/ui/admin-product-home';
 
 const AdminProducts = (): JSX.Element => {
 	return (

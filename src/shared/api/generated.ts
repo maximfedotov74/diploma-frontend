@@ -84,8 +84,37 @@ export interface ModelUserRole {
   title: string;
 }
 
+export type ModelUserGender = typeof ModelUserGender[keyof typeof ModelUserGender];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ModelUserGender = {
+  men: 'men',
+  women: 'women',
+} as const;
+
+export interface ModelUser {
+  avatar_path?: string;
+  email: string;
+  first_name?: string;
+  gender?: ModelUserGender;
+  id: number;
+  is_activated: boolean;
+  last_name?: string;
+  patronymic?: string;
+  roles: ModelUserRole[];
+}
+
 export interface ModelUploadResponse {
   path?: string;
+}
+
+export interface ModelUpdateUserDto {
+  avatar_path?: string;
+  first_name?: string;
+  gender?: ModelUserGender;
+  last_name?: string;
+  patronymic?: string;
 }
 
 export interface ModelUpdateProductModelDto {
@@ -178,7 +207,7 @@ export interface ModelProductRelation {
   category: ModelCategoryModel;
   description?: string;
   id: number;
-  model?: ModelProductModelRelation;
+  model: ModelProductModelRelation;
   title: string;
 }
 
@@ -230,6 +259,112 @@ export interface ModelProductModelColors {
   slug: string;
 }
 
+export interface ModelProductModel {
+  article: string;
+  discount?: number;
+  id: number;
+  image_path: string;
+  price: number;
+  product_id: number;
+  slug: string;
+}
+
+export interface ModelProduct {
+  brand: ModelBrand;
+  category: ModelCategoryModel;
+  description?: string;
+  id: number;
+  title: string;
+}
+
+export type ModelPaymentMethodEnum = typeof ModelPaymentMethodEnum[keyof typeof ModelPaymentMethodEnum];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ModelPaymentMethodEnum = {
+  upon_receipt: 'upon_receipt',
+  online: 'online',
+} as const;
+
+export interface ModelOrderUser {
+  id: number;
+  recipient_email: string;
+  recipient_firstname: string;
+  recipient_lastname: string;
+  recipient_phone: string;
+}
+
+export type ModelOrderStatusEnum = typeof ModelOrderStatusEnum[keyof typeof ModelOrderStatusEnum];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ModelOrderStatusEnum = {
+  completed: 'completed',
+  canceled: 'canceled',
+  on_the_way: 'on_the_way',
+  waiting_for_payment: 'waiting_for_payment',
+  paid: 'paid',
+  in_processing: 'in_processing',
+  waiting_for_activation: 'waiting_for_activation',
+} as const;
+
+export interface ModelOrderModelProduct {
+  brand: ModelBrand;
+  category: ModelCategoryModel;
+  product_id: number;
+  title: string;
+}
+
+export interface ModelOrderModelOption {
+  option_id: number;
+  product_model_option_id: number;
+  slug: string;
+  title: string;
+  value: string;
+  value_id: number;
+}
+
+export interface ModelOrderModel {
+  article: string;
+  discount?: number;
+  main_image_path: string;
+  option: ModelOrderModelOption;
+  order_model_id: number;
+  price: number;
+  product: ModelOrderModelProduct;
+  quantity: number;
+  size: ModelProductModelSize;
+  slug: string;
+}
+
+export type ModelOrderConditions = typeof ModelOrderConditions[keyof typeof ModelOrderConditions];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ModelOrderConditions = {
+  with_fitting: 'with_fitting',
+  without_fitting: 'without_fitting',
+} as const;
+
+export interface ModelOrder {
+  conditions: ModelOrderConditions;
+  created_at: string;
+  delivery_date?: string;
+  delivery_point: ModelDeliveryPoint;
+  delivery_price: number;
+  is_activated: boolean;
+  models: ModelOrderModel[];
+  order_id: string;
+  payment_method: ModelPaymentMethodEnum;
+  products_price: number;
+  promo_discount?: number;
+  status: ModelOrderStatusEnum;
+  total_discount?: number;
+  total_price: number;
+  updated_at: string;
+  user: ModelOrderUser;
+}
+
 export interface ModelOptionValue {
   id: number;
   info?: string;
@@ -264,8 +399,8 @@ export interface ModelLoginDto {
 export interface ModelLocalSession {
   email?: string;
   roles?: ModelUserRole[];
-  userAgent?: string;
-  userId?: number;
+  user_agent?: string;
+  user_id?: number;
 }
 
 export interface ModelFeedbackUser {
@@ -328,6 +463,16 @@ export interface ModelCreateProductDto {
 export interface ModelCreateProducModelImg {
   img_path: string;
   product_model_id: number;
+}
+
+export interface ModelCreateOrderDto {
+  delivery_point_id: number;
+  model_size_ids: number[];
+  order_conditions: ModelOrderConditions;
+  payment_method: ModelPaymentMethodEnum;
+  recipient_firstname: string;
+  recipient_lastname: string;
+  recipient_phone: string;
 }
 
 export interface ModelCreateOptionValueDto {
@@ -417,26 +562,6 @@ export interface ModelCatalogSize {
   value: string;
 }
 
-export interface ModelCatalogProductModel {
-  article: string;
-  brand: ModelBrand;
-  category: ModelCategoryModel;
-  images?: ModelProductModelImg[];
-  model_discount?: number;
-  model_id: number;
-  model_main_image_path: string;
-  model_price: number;
-  product_id: number;
-  product_slug: string;
-  product_title: string;
-  sizes?: ModelProductModelSize[];
-}
-
-export interface ModelCatalogResponse {
-  models?: ModelCatalogProductModel[];
-  total_count: number;
-}
-
 export interface ModelCatalogPrice {
   max_price: number;
   min_price: number;
@@ -449,11 +574,37 @@ export interface ModelCatalogOption {
   values: ModelCatalogValue[];
 }
 
-export interface ModelCatalogFilters {
-  brands: ModelCatalogBrand[];
-  options: ModelCatalogOption[];
-  price: ModelCatalogPrice;
-  sizes: ModelCatalogSize[];
+export interface ModelCatalogModelCategory {
+  category_id: number;
+  short_title: string;
+  slug: string;
+  title: string;
+}
+
+export interface ModelCatalogModelBrand {
+  id: number;
+  slug: string;
+  title: string;
+}
+
+export interface ModelCatalogProductModel {
+  article: string;
+  brand: ModelCatalogModelBrand;
+  category: ModelCatalogModelCategory;
+  images: ModelProductModelImg[];
+  model_discount?: number;
+  model_id: number;
+  model_main_image_path: string;
+  model_price: number;
+  product_id: number;
+  product_slug: string;
+  product_title: string;
+  sizes: ModelProductModelSize[];
+}
+
+export interface ModelCatalogResponse {
+  models?: ModelCatalogProductModel[];
+  total_count: number;
 }
 
 export interface ModelCatalogCategoryRelation {
@@ -480,9 +631,21 @@ export interface ModelCatalogChild {
   title: string;
 }
 
+export interface ModelCatalogCategoryRelationResponse {
+  catalog_categories: ModelCatalogCategoryRelation;
+  current: ModelCategoryModel;
+}
+
 export interface ModelCatalogBrand {
   brand_id: number;
   brand_title: string;
+}
+
+export interface ModelCatalogFilters {
+  brands: ModelCatalogBrand[];
+  options: ModelCatalogOption[];
+  price: ModelCatalogPrice;
+  sizes: ModelCatalogSize[];
 }
 
 export interface ModelCartItemProductModel {
@@ -565,7 +728,7 @@ export interface ModelAddToCartDto {
 }
 
 export interface ModelAddSizeToProductModelDto {
-  in_stock: number;
+  in_stock?: number;
   literal: string;
   product_model_id: number;
   size_id: number;
@@ -864,7 +1027,7 @@ export const postApiCategory = (
 export const getApiCategoryCatalogSlug = (
     slug: string,
  ) => {
-      return api<ModelCatalogCategoryRelation[]>(
+      return api<ModelCatalogCategoryRelationResponse>(
       {url: `/api/category/catalog/${slug}`, method: 'GET'
     },
       );
@@ -955,11 +1118,11 @@ export const deleteApiCategorySlug = (
  * Get catalog filters
  * @summary Get catalog filters
  */
-export const getApiCharacteristicsCatalogSlug = (
-    slug: string,
+export const getApiCharacteristicsCatalogCategorySlug = (
+    categorySlug: string,
  ) => {
       return api<ModelCatalogFilters>(
-      {url: `/api/characteristics/catalog/${slug}`, method: 'GET'
+      {url: `/api/characteristics/catalog/${categorySlug}`, method: 'GET'
     },
       );
     }
@@ -1169,7 +1332,7 @@ export const patchApiCharacteristicsValueId = (
 export const postApiDelivery = (
     modelCreateDeliveryPointDto: BodyType<ModelCreateDeliveryPointDto>,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/delivery/`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: modelCreateDeliveryPointDto
@@ -1211,7 +1374,7 @@ export const getApiDeliveryId = (
 export const deleteApiDeliveryId = (
     id: number,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/delivery/${id}`, method: 'DELETE'
     },
       );
@@ -1225,7 +1388,7 @@ export const patchApiDeliveryId = (
     id: number,
     modelUpdateDeliveryPointDto: BodyType<ModelUpdateDeliveryPointDto>,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/delivery/${id}`, method: 'PATCH',
       headers: {'Content-Type': 'application/json', },
       data: modelUpdateDeliveryPointDto
@@ -1314,6 +1477,21 @@ formData.append('file', postApiFileBody.file)
       {url: `/api/file/`, method: 'POST',
       headers: {'Content-Type': 'multipart/form-data', },
        data: formData
+    },
+      );
+    }
+  
+/**
+ * Create order
+ * @summary Create order
+ */
+export const postApiOrder = (
+    modelCreateOrderDto: BodyType<ModelCreateOrderDto>,
+ ) => {
+      return api<ModelOrder>(
+      {url: `/api/order/`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: modelCreateOrderDto
     },
       );
     }
@@ -1527,6 +1705,32 @@ export const deleteApiProductModelModelId = (
     }
   
 /**
+ * Get model by slug
+ * @summary Get model by slug
+ */
+export const getApiProductModelSlug = (
+    slug: string,
+ ) => {
+      return api<ModelProductModel>(
+      {url: `/api/product/model/${slug}`, method: 'GET'
+    },
+      );
+    }
+  
+/**
+ * Get product by id
+ * @summary Get product by id
+ */
+export const getApiProductId = (
+    id: number,
+ ) => {
+      return api<ModelProduct>(
+      {url: `/api/product/${id}`, method: 'GET'
+    },
+      );
+    }
+  
+/**
  * Delete product
  * @summary Delete product
  */
@@ -1640,14 +1844,42 @@ export const getApiRoleTitle = (
     }
   
 /**
+ * Get base profile info
+ * @summary Get base profile info
+ */
+export const getApiUserProfile = (
+    
+ ) => {
+      return api<ModelUser>(
+      {url: `/api/user/profile`, method: 'GET'
+    },
+      );
+    }
+  
+/**
+ * Update user profile info
+ * @summary Update user profile info
+ */
+export const patchApiUserProfile = (
+    modelUpdateUserDto: BodyType<ModelUpdateUserDto>,
+ ) => {
+      return api<FallAppErr>(
+      {url: `/api/user/profile`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: modelUpdateUserDto
+    },
+      );
+    }
+  
+/**
  * Get local session
  * @summary Get local session
  */
-export const getApiUser = (
+export const getApiUserSession = (
     
  ) => {
       return api<ModelLocalSession>(
-      {url: `/api/user/`, method: 'GET'
+      {url: `/api/user/session`, method: 'GET'
     },
       );
     }
@@ -1672,7 +1904,7 @@ export const getApiWish = (
 export const postApiWish = (
     modelAddToWishDto: BodyType<ModelAddToWishDto>,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/wish/`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: modelAddToWishDto
@@ -1700,7 +1932,7 @@ export const getApiWishCart = (
 export const postApiWishCart = (
     modelAddToCartDto: BodyType<ModelAddToCartDto>,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/wish/cart`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: modelAddToCartDto
@@ -1782,7 +2014,7 @@ export type GetApiCategoryWithoutChildrenResult = NonNullable<Awaited<ReturnType
 export type PatchApiCategoryIdResult = NonNullable<Awaited<ReturnType<typeof patchApiCategoryId>>>
 export type GetApiCategorySlugResult = NonNullable<Awaited<ReturnType<typeof getApiCategorySlug>>>
 export type DeleteApiCategorySlugResult = NonNullable<Awaited<ReturnType<typeof deleteApiCategorySlug>>>
-export type GetApiCharacteristicsCatalogSlugResult = NonNullable<Awaited<ReturnType<typeof getApiCharacteristicsCatalogSlug>>>
+export type GetApiCharacteristicsCatalogCategorySlugResult = NonNullable<Awaited<ReturnType<typeof getApiCharacteristicsCatalogCategorySlug>>>
 export type GetApiCharacteristicsOptionResult = NonNullable<Awaited<ReturnType<typeof getApiCharacteristicsOption>>>
 export type PostApiCharacteristicsOptionResult = NonNullable<Awaited<ReturnType<typeof postApiCharacteristicsOption>>>
 export type PostApiCharacteristicsOptionModelResult = NonNullable<Awaited<ReturnType<typeof postApiCharacteristicsOptionModel>>>
@@ -1808,6 +2040,7 @@ export type GetApiFeedbackModelModelIdResult = NonNullable<Awaited<ReturnType<ty
 export type DeleteApiFeedbackIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiFeedbackId>>>
 export type PatchApiFeedbackIdResult = NonNullable<Awaited<ReturnType<typeof patchApiFeedbackId>>>
 export type PostApiFileResult = NonNullable<Awaited<ReturnType<typeof postApiFile>>>
+export type PostApiOrderResult = NonNullable<Awaited<ReturnType<typeof postApiOrder>>>
 export type PostApiProductResult = NonNullable<Awaited<ReturnType<typeof postApiProduct>>>
 export type GetApiProductAdminResult = NonNullable<Awaited<ReturnType<typeof getApiProductAdmin>>>
 export type GetApiProductAdminModelsProductIdResult = NonNullable<Awaited<ReturnType<typeof getApiProductAdminModelsProductId>>>
@@ -1823,6 +2056,8 @@ export type GetApiProductModelSearchByArticleResult = NonNullable<Awaited<Return
 export type GetApiProductModelSizesIdResult = NonNullable<Awaited<ReturnType<typeof getApiProductModelSizesId>>>
 export type PatchApiProductModelIdResult = NonNullable<Awaited<ReturnType<typeof patchApiProductModelId>>>
 export type DeleteApiProductModelModelIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiProductModelModelId>>>
+export type GetApiProductModelSlugResult = NonNullable<Awaited<ReturnType<typeof getApiProductModelSlug>>>
+export type GetApiProductIdResult = NonNullable<Awaited<ReturnType<typeof getApiProductId>>>
 export type DeleteApiProductIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiProductId>>>
 export type PatchApiProductIdResult = NonNullable<Awaited<ReturnType<typeof patchApiProductId>>>
 export type GetApiRoleResult = NonNullable<Awaited<ReturnType<typeof getApiRole>>>
@@ -1831,7 +2066,9 @@ export type PostApiRoleAddToUserResult = NonNullable<Awaited<ReturnType<typeof p
 export type DeleteApiRoleRemoveFromUserResult = NonNullable<Awaited<ReturnType<typeof deleteApiRoleRemoveFromUser>>>
 export type DeleteApiRoleIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiRoleId>>>
 export type GetApiRoleTitleResult = NonNullable<Awaited<ReturnType<typeof getApiRoleTitle>>>
-export type GetApiUserResult = NonNullable<Awaited<ReturnType<typeof getApiUser>>>
+export type GetApiUserProfileResult = NonNullable<Awaited<ReturnType<typeof getApiUserProfile>>>
+export type PatchApiUserProfileResult = NonNullable<Awaited<ReturnType<typeof patchApiUserProfile>>>
+export type GetApiUserSessionResult = NonNullable<Awaited<ReturnType<typeof getApiUserSession>>>
 export type GetApiWishResult = NonNullable<Awaited<ReturnType<typeof getApiWish>>>
 export type PostApiWishResult = NonNullable<Awaited<ReturnType<typeof postApiWish>>>
 export type GetApiWishCartResult = NonNullable<Awaited<ReturnType<typeof getApiWishCart>>>

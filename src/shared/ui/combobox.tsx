@@ -74,6 +74,7 @@ export const Combobox = ({
 				<PopoverContent
 					className='w-[200px] max-h-[200px] p-0 overflow-y-scroll'
 					side='bottom'
+					align='start'
 					avoidCollisions={false}
 				>
 					<Command shouldFilter={false}>

@@ -1,3 +1,15 @@
+import {
+	ADMIN_ACTIONS_ROUTE,
+	ADMIN_BRAND_ROUTE,
+	ADMIN_CATEGORY_ROUTE,
+	ADMIN_CHARACTERISTICS_ROUTE,
+	ADMIN_DELIVERY_ROUTE,
+	ADMIN_FEEDBACK_ROUTE,
+	ADMIN_ORDERS_ROUTE,
+	ADMIN_PRODUCTS_ROUTE,
+	ADMIN_STATISTICS_ROUTE,
+	ADMIN_USERS_ROUTE,
+} from '@/shared/constants/routes/admin';
 import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
 import { Link } from '@/shared/ui/link';
@@ -8,35 +20,43 @@ import { useRouter } from 'next/router';
 const adminMenu = [
 	{
 		title: 'Статистика',
-		href: '/admin',
+		href: ADMIN_STATISTICS_ROUTE,
 	},
 	{
 		title: 'Заказы',
-		href: '/admin/orders',
+		href: ADMIN_ORDERS_ROUTE,
 	},
 	{
 		title: 'Товары',
-		href: '/admin/products',
+		href: ADMIN_PRODUCTS_ROUTE,
 	},
 	{
 		title: 'Характеристики',
-		href: '/admin/characteristics',
+		href: ADMIN_CHARACTERISTICS_ROUTE,
 	},
 	{
 		title: 'Клиенты',
-		href: '/admin/users',
+		href: ADMIN_USERS_ROUTE,
 	},
 	{
 		title: 'Категории',
-		href: '/admin/categories',
+		href: ADMIN_CATEGORY_ROUTE,
 	},
 	{
 		title: 'Бренды',
-		href: '/admin/brands',
+		href: ADMIN_BRAND_ROUTE,
 	},
 	{
 		title: 'Акции',
-		href: '/admin/actions',
+		href: ADMIN_ACTIONS_ROUTE,
+	},
+	{
+		title: 'Пункты выдачи',
+		href: ADMIN_DELIVERY_ROUTE,
+	},
+	{
+		title: 'Отзывы',
+		href: ADMIN_FEEDBACK_ROUTE,
 	},
 ];
 
@@ -58,7 +78,7 @@ export const AdminMenu = (): JSX.Element => {
 							<Link
 								variant='secondary'
 								className={cn('text-base', {
-									'text-foreground underline': item.href === asPath,
+									'text-foreground underline': asPath.startsWith(item.href),
 								})}
 								href={item.href}
 							>

@@ -8,32 +8,35 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/shared/ui/avatar';
 import { TypographySmall } from '@/shared/ui/typography';
 import { Separator } from '@/shared/ui/separator';
-import { useState } from 'react';
 import { Skeleton } from '@/shared/ui/skeleton';
 import { Link } from '@/shared/ui/link';
-import { AuthDialogTrigger } from '@/features/layout-profile/ui/auth-dialog-trigger';
 import { ProfileWish } from './profile-wish';
+import { useGetProfileApi } from '@/shared/api/queries/get-profile-api';
+import { Icon } from '@/shared/ui/icon';
 
 export const ProfilePropdown = () => {
-	const [loading, setLoading] = useState(false);
-	const [user, setUser] = useState(true);
+	const { isLoading, data: user } = useGetProfileApi();
 
-	if (loading) {
+	if (isLoading) {
 		return <Skeleton className='h-10 w-10 rounded-full' />;
 	}
 
-	if (!loading && user) {
+	if (user) {
 		return (
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
 					<button>
 						<Avatar className='h-10 w-10'>
-							<AvatarImage asChild src='/img/jason-eyes.jpg' alt='avatar'>
+							<AvatarImage
+								asChild
+								src={user.avatar_path || '/img/default-avatar.jpg'}
+								alt='avatar'
+							>
 								<Image
-									src='/img/jason-eyes.jpg'
+									src={user.avatar_path || '/img/default-avatar.jpg'}
 									alt='avatar'
-									width={40}
-									height={40}
+									width={100}
+									height={100}
 								/>
 							</AvatarImage>
 							<AvatarFallback>CN</AvatarFallback>
@@ -42,12 +45,16 @@ export const ProfilePropdown = () => {
 				</DropdownMenuTrigger>
 				<DropdownMenuContent className=''>
 					<DropdownMenuItem className='px-2 py-1.5'>
-						<Link variant='menu' className='flex flex-col items-start' href='/'>
+						<Link
+							variant='menu'
+							className='flex flex-col items-start'
+							href='/lk'
+						>
 							<TypographySmall className='mb-1 font-semibold'>
-								Максим Федотов
+								{user.first_name} {user.last_name}
 							</TypographySmall>
 							<TypographySmall className='text-foreground/60'>
-								tixii22874@gmail.com
+								{user.email}
 							</TypographySmall>
 						</Link>
 					</DropdownMenuItem>
@@ -89,7 +96,14 @@ export const ProfilePropdown = () => {
 		);
 	}
 
-	if (!loading && !user) {
-		return <AuthDialogTrigger />;
+	if (!isLoading && !user) {
+		return (
+			<Link href='/auth' prefetch={false} variant='menu'>
+				<TypographySmall className='sm:block hidden'>
+					Вход или регистрация
+				</TypographySmall>
+				<Icon icon='user_circle_outline_24' className='sm:hidden w-6 h-6' />
+			</Link>
+		);
 	}
 };

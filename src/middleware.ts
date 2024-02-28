@@ -1,20 +1,23 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { api } from './shared/api/api';
+import { NextRequest } from 'next/server';
+import {
+	nextMiddlewareCheckAuth,
+	nextMiddlewareCheckAuthPage,
+} from './shared/api/next-middleware';
 
 export async function middleware(request: NextRequest) {
-	const user = request.headers.get('User-Agent');
-	// const cats = api({
-	// 	method: 'GET',
-	// 	url: `/api/category/`,
-	// 	headers: {
-	// 		Authorization: 'Beared middleware-token',
-	// 		'User-Agent': user || 'Next.js Middleware',
-	// 	},
-	// });
+	const currentPath = request.nextUrl.clone();
 
-	return NextResponse.next();
+	if (currentPath.pathname.startsWith('/auth')) {
+		return nextMiddlewareCheckAuthPage(request);
+	}
+
+	if (currentPath.pathname.startsWith('/lk')) {
+		return nextMiddlewareCheckAuth(request);
+	}
 }
 
 export const config = {
-	matcher: ['/admin/:path*'],
+	matcher: ['/admin/:path*', '/auth/:path*', '/lk/:path'],
 };
+
+//TODO - wishlist and cart pages

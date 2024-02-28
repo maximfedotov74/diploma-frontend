@@ -1,4 +1,4 @@
-import { AdminCharacteristicsHome } from '@/features/admin-characteristics-home/admin-characteristics-home';
+import { AdminCharacteristicsHome } from '@/features/admin/characteristic/admin-characteristics-home/admin-characteristics-home';
 import { Meta } from '@/shared/meta/meta';
 import { AdminLayout } from '@/widgets/layout/admin-layout';
 

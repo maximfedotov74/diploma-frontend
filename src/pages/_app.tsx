@@ -19,7 +19,9 @@ export default function App({ Component, pageProps }: AppProps) {
 			})
 	);
 	return (
-		<div className={cn(geist.variable, 'font-geist')}>
+		<div
+			className={cn(geist.variable, 'font-geist flex flex-col min-h-screen')}
+		>
 			<QueryClientProvider client={queryClient}>
 				<Component {...pageProps} />
 				<Toaster />

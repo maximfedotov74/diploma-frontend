@@ -19,7 +19,7 @@ export const AdminLayout = ({
 			<main>
 				<WidthContainer>{children}</WidthContainer>
 			</main>
-			<footer></footer>
+			<footer className='mt-auto'></footer>
 		</>
 	);
 };

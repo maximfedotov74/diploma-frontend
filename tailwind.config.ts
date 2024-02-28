@@ -16,6 +16,9 @@ const config = {
 			fontFamily: {
 				geist: ['var(--geist-font)'],
 			},
+			transitionProperty: {
+				visibility: 'visibility',
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
