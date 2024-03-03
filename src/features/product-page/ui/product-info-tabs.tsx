@@ -6,6 +6,7 @@ import { TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 import { Tabs } from '@radix-ui/react-tabs';
 import { ProductInfoOptions } from './product-info-options';
 import { ProductInfoBrand } from './product-info-brand';
+import { ProductInfoFeedback } from './product-info-feedback';
 
 export type InfoOptions = {
 	title: string;
@@ -15,9 +16,11 @@ export type InfoOptions = {
 export const ProductInfoTabs = ({
 	options,
 	brand,
+	modelId,
 }: {
 	options: InfoOptions[];
 	brand: ModelBrand;
+	modelId: number;
 }): JSX.Element => {
 	return (
 		<Tabs defaultValue='options'>
@@ -36,7 +39,9 @@ export const ProductInfoTabs = ({
 			<TabsContent value='brand'>
 				<ProductInfoBrand brand={brand} />
 			</TabsContent>
-			<TabsContent value='feedback'>feedback</TabsContent>
+			<TabsContent value='feedback'>
+				<ProductInfoFeedback modelId={modelId} />
+			</TabsContent>
 		</Tabs>
 	);
 };

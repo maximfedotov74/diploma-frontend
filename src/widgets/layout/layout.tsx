@@ -1,4 +1,5 @@
 import {
+	ModelActionGender,
 	ModelCategoryModel,
 	ModelCategoryRelation,
 } from '@/shared/api/generated';
@@ -12,13 +13,12 @@ import { GenderMenu } from './gender-menu';
 import { HoverMenu } from './hover-menu';
 import { Footer } from './footer';
 import { MobileMenu } from './mobile-menu';
-import { GenderCategoryMenu } from '@/shared/constants/genders';
 
 type LayoutProps = {
 	children: ReactNode;
 	topLevels: ModelCategoryModel[];
 	menu: ModelCategoryRelation;
-	genderMenu: GenderCategoryMenu;
+	genderMenu: ModelActionGender;
 };
 
 export const Layout = ({
@@ -40,7 +40,11 @@ export const Layout = ({
 								className='md:block hidden'
 								currentMenu={genderMenu}
 							/>
-							<MobileMenu menu={menu} topLevels={topLevels} />
+							<MobileMenu
+								menu={menu}
+								topLevels={topLevels}
+								currentMenu={genderMenu}
+							/>
 							<ModelSearch className='ml-auto' />
 						</div>
 					</div>

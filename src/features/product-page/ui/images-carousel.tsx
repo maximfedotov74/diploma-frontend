@@ -1,7 +1,7 @@
 import { CarouselApi } from '@/shared/ui/carousel';
 import { Dialog, DialogContent, DialogTrigger } from '@/shared/ui/dialog';
 import Image from 'next/image';
-import { useCallback, useEffect, useState } from 'react';
+import { KeyboardEvent, useCallback, useEffect, useState } from 'react';
 import {
 	Carousel,
 	CarouselContent,
@@ -55,6 +55,23 @@ export const ImagesCarousel = ({
 		mainApi.on('reInit', onSelect);
 	}, [mainApi, onSelect]);
 
+	const onKeyDown = (e: KeyboardEvent) => {
+		switch (e.key) {
+			case 'ArrowUp':
+				mainApi?.scrollPrev();
+				return;
+			case 'ArrowDown':
+				mainApi?.scrollNext();
+				return;
+			case 'ArrowLeft':
+				mainApi?.scrollPrev();
+				return;
+			case 'ArrowRight':
+				mainApi?.scrollNext();
+				return;
+		}
+	};
+
 	return (
 		<>
 			<div className='grid grid-cols-2 gap-x-6 gap-y-3'>
@@ -74,7 +91,7 @@ export const ImagesCarousel = ({
 				<DialogTrigger className='hidden'>
 					Открыть модальное окно изображений
 				</DialogTrigger>
-				<DialogContent className='max-w-[100vw] h-screen'>
+				<DialogContent className='max-w-[100vw] h-screen' onKeyDown={onKeyDown}>
 					<div className='flex relative justify-center'>
 						<Carousel
 							className='flex flex-col absolute top-2 left-0'

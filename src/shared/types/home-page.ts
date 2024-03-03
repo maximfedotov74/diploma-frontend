@@ -1,8 +1,11 @@
-import { ModelCategoryModel, ModelCategoryRelation } from '../api/generated';
-import { GenderCategoryMenu } from '../constants/genders';
+import {
+	ModelActionGender,
+	ModelCategoryModel,
+	ModelCategoryRelation,
+} from '../api/generated';
 
 export type HomePageProps = {
 	topLevels: ModelCategoryModel[];
 	menu: ModelCategoryRelation;
-	genderMenu: GenderCategoryMenu;
+	genderMenu: ModelActionGender;
 };

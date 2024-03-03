@@ -1,5 +1,4 @@
-import { ModelCategoryModel } from '@/shared/api/generated';
-import { GenderCategoryMenu } from '@/shared/constants/genders';
+import { ModelActionGender, ModelCategoryModel } from '@/shared/api/generated';
 import { Link } from '@/shared/ui/link';
 import { cn } from '@/shared/utils/cn';
 
@@ -10,7 +9,7 @@ export const GenderMenu = ({
 }: {
 	topLevels: ModelCategoryModel[];
 	className?: string;
-	currentMenu: GenderCategoryMenu;
+	currentMenu: ModelActionGender;
 }): JSX.Element => {
 	return (
 		<nav className={cn(className)}>

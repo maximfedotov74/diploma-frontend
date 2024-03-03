@@ -42,7 +42,7 @@ export const EditProfileForm = ({ profile }: { profile: ModelUser }) => {
 	};
 
 	return (
-		<form onSubmit={handleSubmit(onSumbit)}>
+		<form onSubmit={handleSubmit(onSumbit)} className='mb-5'>
 			<Controller
 				control={control}
 				name='avatar_path'

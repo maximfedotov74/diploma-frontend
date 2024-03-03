@@ -12,6 +12,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useEditActionApi } from '../api/edit-action-api';
 import { Checkbox } from '@/shared/ui/checkbox';
 import { Label } from '@/shared/ui/label';
+import { useDeleteActionApi } from '../api/delete-action-api';
 
 type FormState = Omit<ModelUpdateActionDto, 'end_date'> & {
 	end_date: Date;
@@ -39,6 +40,7 @@ export const EditActionForm = ({
 	});
 
 	const editAction = useEditActionApi();
+	const deleteAction = useDeleteActionApi();
 
 	const onSubmit: SubmitHandler<FormState> = async data => {
 		editAction({
@@ -140,7 +142,17 @@ export const EditActionForm = ({
 					Активировано
 				</Label>
 			</div>
-			<Button>Редактировать</Button>
+			<div className='flex items-center'>
+				<Button type='submit'>Редактировать</Button>
+				<Button
+					type='button'
+					variant='outline'
+					className='ml-auto'
+					onClick={() => deleteAction(action.id)}
+				>
+					Удалить
+				</Button>
+			</div>
 		</form>
 	);
 };

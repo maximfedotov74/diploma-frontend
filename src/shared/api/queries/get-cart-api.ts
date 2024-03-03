@@ -8,6 +8,7 @@ export const useGetCartApi = () => {
 		queryKey: [GET_CART],
 		queryFn: () => getApiWishCart(),
 		staleTime: CACHE_FIVE_MIN,
-		retry: 2,
+		retry: 1,
+		retryDelay: 1000,
 	});
 };

@@ -1,4 +1,5 @@
 import {
+	ModelActionGender,
 	ModelProduct,
 	ModelProductModel,
 	ModelProductModelColors,
@@ -14,22 +15,13 @@ import {
 	getApiProductModelSizesId,
 	getApiProductModelSlug,
 } from '@/shared/api/generated';
-import { MEN } from '@/shared/constants/genders';
 import { Meta } from '@/shared/meta/meta';
 import { HomePageProps } from '@/shared/types/home-page';
-import {
-	Carousel,
-	CarouselContent,
-	CarouselItem,
-	CarouselNext,
-	CarouselPrevious,
-} from '@/shared/ui/carousel';
 
 import { Price } from '@/shared/ui/price';
 import { ColoredModelsDropdown } from '@/features/product-page/ui/colored-models-dropdown';
 import { Layout } from '@/widgets/layout/layout';
 import { GetServerSideProps } from 'next';
-import Image from 'next/image';
 import { ImagesCarousel } from '@/features/product-page/ui/images-carousel';
 import { SizeSelectToCart } from '@/features/size-select-to-basket/ui/size-select-to-cart';
 import { ProductInfoTabs } from '@/features/product-page/ui/product-info-tabs';
@@ -73,7 +65,11 @@ const ModelPage = ({ genderMenu, menu, topLevels, page }: ModelPageProps) => {
 						<div className='mb-14'>
 							<ImagesCarousel images={images} />
 						</div>
-						<ProductInfoTabs options={options} brand={page.product.brand} />
+						<ProductInfoTabs
+							options={options}
+							brand={page.product.brand}
+							modelId={page.model.id}
+						/>
 					</div>
 					<div>
 						<div className='text-2xl'>{page.product.brand.title}</div>
@@ -101,27 +97,6 @@ const ModelPage = ({ genderMenu, menu, topLevels, page }: ModelPageProps) => {
 	);
 };
 
-{
-	/* <Carousel className='w-full max-w-xs'>
-						<CarouselContent>
-							{images.map(img => (
-								<CarouselItem key={img}>
-									<div className='p-1'>
-										<Image
-											alt='Изображение модели'
-											src={img}
-											width={700}
-											height={700}
-										/>
-									</div>
-								</CarouselItem>
-							))}
-						</CarouselContent>
-						<CarouselPrevious />
-						<CarouselNext />
-					</Carousel> */
-}
-
 export default ModelPage;
 
 export const getServerSideProps: GetServerSideProps = async ({
@@ -131,7 +106,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 	let gender = req.cookies['page-gender'];
 
 	if (!gender) {
-		gender = MEN;
+		gender = ModelActionGender.men;
 	}
 
 	const slug = params?.slug as string;

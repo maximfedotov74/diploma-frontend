@@ -1,9 +1,9 @@
 import { CartView } from '@/features/cart-items/ui/cart-view';
 import {
+	ModelActionGender,
 	getApiCategoryRelationSlug,
 	getApiCategoryTop,
 } from '@/shared/api/generated';
-import { MEN } from '@/shared/constants/genders';
 import { Meta } from '@/shared/meta/meta';
 import { HomePageProps } from '@/shared/types/home-page';
 import { Layout } from '@/widgets/layout/layout';
@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 	let gender = req.cookies['page-gender'];
 
 	if (!gender) {
-		gender = MEN;
+		gender = ModelActionGender.men;
 	}
 
 	try {

@@ -1,6 +1,7 @@
 import { CatalogCategoriesMenu } from '@/features/catalog/ui/catalog-categories-menu';
 import { CatalogFilters } from '@/features/catalog/ui/catalog-filters';
 import {
+	ModelActionGender,
 	ModelCatalogCategoryRelationResponse,
 	ModelCatalogFilters,
 	ModelCatalogResponse,
@@ -10,13 +11,15 @@ import {
 	getApiCharacteristicsCatalogCategorySlug,
 	getApiProductCatalogCategorySlug,
 } from '@/shared/api/generated';
-import { MEN } from '@/shared/constants/genders';
 import { Meta } from '@/shared/meta/meta';
 import { HomePageProps } from '@/shared/types/home-page';
 import { ProductCard } from '@/features/product-card/product-card';
 import { TypographyH1 } from '@/shared/ui/typography';
 import { Layout } from '@/widgets/layout/layout';
 import { GetServerSideProps } from 'next';
+import { Link } from '@/shared/ui/link';
+import { CATALOG_ROUTE } from '@/shared/constants/routes/public';
+import { CatalogModels } from '@/features/catalog/ui/catalog-models';
 
 type CatalogPageProps = HomePageProps & {
 	catalogCategoriesResponse: ModelCatalogCategoryRelationResponse;
@@ -38,24 +41,37 @@ const CatalogPage = ({
 				<TypographyH1 className='mb-5 text-2xl font-normal'>
 					{catalogCategoriesResponse.current.title}
 				</TypographyH1>
-				<div className='grid grid-cols-[1fr_3.5fr] gap-5'>
-					<div>
-						<CatalogCategoriesMenu
-							categories={
-								catalogCategoriesResponse.catalog_categories.subcategories
-							}
-							currentSlug={catalogCategoriesResponse.current.slug}
-						/>
-					</div>
-					<div>
-						<CatalogFilters catalogFilters={catalogFilters} className='mb-5' />
-						<div className='grid grid-cols-3 gap-y-3 gap-x-3'>
-							{modelResponse.models?.map(m => (
-								<ProductCard key={m.model_id} card={m} />
-							))}
+				{modelResponse.models && modelResponse.models.length > 0 ? (
+					<div className='grid grid-cols-[1fr_3.5fr] gap-5'>
+						<div>
+							<CatalogCategoriesMenu
+								categories={
+									catalogCategoriesResponse.catalog_categories.subcategories
+								}
+								currentSlug={catalogCategoriesResponse.current.slug}
+							/>
+						</div>
+						<div>
+							<CatalogFilters
+								catalogFilters={catalogFilters}
+								className='mb-5'
+							/>
+							<CatalogModels models={modelResponse.models || []} />
 						</div>
 					</div>
-				</div>
+				) : (
+					<div>
+						<div className='text-2xl font-bold'>
+							По вашему запросу ничего не найдено!
+						</div>
+						<Link
+							className='text-lg'
+							href={`${CATALOG_ROUTE}/${catalogCategoriesResponse.current.slug}`}
+						>
+							Очистить фильтры
+						</Link>
+					</div>
+				)}
 			</Layout>
 		</Meta>
 	);
@@ -67,11 +83,12 @@ export const getServerSideProps: GetServerSideProps = async ({
 	req,
 	res,
 	params,
+	query,
 }) => {
 	let gender = req.cookies['page-gender'];
 
 	if (!gender) {
-		gender = MEN;
+		gender = ModelActionGender.men;
 	}
 
 	const categorySlug = params?.categorySlug as string;
@@ -91,7 +108,11 @@ export const getServerSideProps: GetServerSideProps = async ({
 		const catalogFilters = await getApiCharacteristicsCatalogCategorySlug(
 			categorySlug
 		);
-		const modelResponse = await getApiProductCatalogCategorySlug(categorySlug);
+
+		const modelResponse = await getApiProductCatalogCategorySlug(
+			categorySlug,
+			query
+		);
 
 		return {
 			props: {

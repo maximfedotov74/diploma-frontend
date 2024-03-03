@@ -41,7 +41,7 @@ export const RegistrationForm = (): JSX.Element => {
 						value: 6,
 						message: 'Длина пароля должна быть не менее 6 символов!',
 					},
-					required: 'Email - обязательное поле!',
+					required: 'Пароль - обязательное поле!',
 				})}
 			/>
 			{/* <PasswordInput placeholder='Повторите пароль' className='mb-3' /> */}

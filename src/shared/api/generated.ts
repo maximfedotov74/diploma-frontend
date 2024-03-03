@@ -512,12 +512,22 @@ export interface ModelCreateBrandDto {
 export interface ModelCreateActionDto {
   description?: string;
   end_date: string;
+  gender: ModelActionGender;
   img_path?: string;
   title: string;
 }
 
+export interface ModelConfirmChangePasswordDto {
+  code: string;
+}
+
 export interface ModelColor {
   value: string;
+}
+
+export interface ModelChangePasswordDto {
+  new_password: string;
+  old_password: string;
 }
 
 export interface ModelCategoryRelation {
@@ -757,6 +767,7 @@ export interface ModelAddFeedbackDto {
 }
 
 export interface ModelActionModel {
+  action_model_id: number;
   article: string;
   brand: ModelBrand;
   category: ModelCategoryModel;
@@ -769,10 +780,22 @@ export interface ModelActionModel {
   product_title: string;
 }
 
+export type ModelActionGender = typeof ModelActionGender[keyof typeof ModelActionGender];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ModelActionGender = {
+  men: 'men',
+  women: 'women',
+  children: 'children',
+  everyone: 'everyone',
+} as const;
+
 export interface ModelAction {
   created_at: string;
   description?: string;
   end_date: string;
+  gender: ModelActionGender;
   id: string;
   img_path?: string;
   is_activated: boolean;
@@ -851,6 +874,19 @@ export const postApiActionModel = (
     }
   
 /**
+ * Delete action model
+ * @summary Delete action model
+ */
+export const deleteApiActionModelActionModelId = (
+    actionModelId: number,
+ ) => {
+      return api<FallAppErr>(
+      {url: `/api/action/model/${actionModelId}`, method: 'DELETE'
+    },
+      );
+    }
+  
+/**
  * Get action models
  * @summary Get action models
  */
@@ -859,6 +895,32 @@ export const getApiActionModelId = (
  ) => {
       return api<ModelActionModel[]>(
       {url: `/api/action/model/${id}`, method: 'GET'
+    },
+      );
+    }
+  
+/**
+ * Get actions by gender
+ * @summary Get actions by gender
+ */
+export const getApiActionGender = (
+    gender: string,
+ ) => {
+      return api<ModelAction[]>(
+      {url: `/api/action/${gender}`, method: 'GET'
+    },
+      );
+    }
+  
+/**
+ * Delete action
+ * @summary Delete action
+ */
+export const deleteApiActionId = (
+    id: string,
+ ) => {
+      return api<FallAppErr>(
+      {url: `/api/action/${id}`, method: 'DELETE'
     },
       );
     }
@@ -1417,7 +1479,7 @@ export const getApiFeedback = (
 export const postApiFeedback = (
     modelAddFeedbackDto: BodyType<ModelAddFeedbackDto>,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/feedback/`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: modelAddFeedbackDto
@@ -1445,7 +1507,7 @@ export const getApiFeedbackModelModelId = (
 export const deleteApiFeedbackId = (
     id: number,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/feedback/${id}`, method: 'DELETE'
     },
       );
@@ -1458,7 +1520,7 @@ export const deleteApiFeedbackId = (
 export const patchApiFeedbackId = (
     id: number,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/feedback/${id}`, method: 'PATCH'
     },
       );
@@ -1844,6 +1906,49 @@ export const getApiRoleTitle = (
     }
   
 /**
+ * Create change password code
+ * @summary Create change password code
+ */
+export const postApiUserPasswordCode = (
+    
+ ) => {
+      return api<FallAppErr>(
+      {url: `/api/user/password-code`, method: 'POST'
+    },
+      );
+    }
+  
+/**
+ * Change password
+ * @summary Change password
+ */
+export const patchApiUserPasswordCodeChange = (
+    modelChangePasswordDto: BodyType<ModelChangePasswordDto>,
+ ) => {
+      return api<FallAppErr>(
+      {url: `/api/user/password-code/change`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: modelChangePasswordDto
+    },
+      );
+    }
+  
+/**
+ * Confirm change password code
+ * @summary Confirm change password code
+ */
+export const postApiUserPasswordCodeConfirm = (
+    modelConfirmChangePasswordDto: BodyType<ModelConfirmChangePasswordDto>,
+ ) => {
+      return api<FallAppErr>(
+      {url: `/api/user/password-code/confirm`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: modelConfirmChangePasswordDto
+    },
+      );
+    }
+  
+/**
  * Get base profile info
  * @summary Get base profile info
  */
@@ -1947,7 +2052,7 @@ export const postApiWishCart = (
 export const patchApiWishCartIncreaseModelSizeId = (
     modelSizeId: number,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/wish/cart/increase/${modelSizeId}`, method: 'PATCH'
     },
       );
@@ -1960,7 +2065,7 @@ export const patchApiWishCartIncreaseModelSizeId = (
 export const patchApiWishCartReduceModelSizeId = (
     modelSizeId: number,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/wish/cart/reduce/${modelSizeId}`, method: 'PATCH'
     },
       );
@@ -1973,7 +2078,7 @@ export const patchApiWishCartReduceModelSizeId = (
 export const deleteApiWishCartSeveralIds = (
     ids: string,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/wish/cart/several/${ids}`, method: 'DELETE'
     },
       );
@@ -1986,7 +2091,7 @@ export const deleteApiWishCartSeveralIds = (
 export const deleteApiWishCartModelSizeId = (
     modelSizeId: number,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/wish/cart/${modelSizeId}`, method: 'DELETE'
     },
       );
@@ -1995,7 +2100,10 @@ export const deleteApiWishCartModelSizeId = (
 export type GetApiActionResult = NonNullable<Awaited<ReturnType<typeof getApiAction>>>
 export type PostApiActionResult = NonNullable<Awaited<ReturnType<typeof postApiAction>>>
 export type PostApiActionModelResult = NonNullable<Awaited<ReturnType<typeof postApiActionModel>>>
+export type DeleteApiActionModelActionModelIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiActionModelActionModelId>>>
 export type GetApiActionModelIdResult = NonNullable<Awaited<ReturnType<typeof getApiActionModelId>>>
+export type GetApiActionGenderResult = NonNullable<Awaited<ReturnType<typeof getApiActionGender>>>
+export type DeleteApiActionIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiActionId>>>
 export type PatchApiActionIdResult = NonNullable<Awaited<ReturnType<typeof patchApiActionId>>>
 export type PostApiAuthLoginResult = NonNullable<Awaited<ReturnType<typeof postApiAuthLogin>>>
 export type GetApiAuthRefreshTokenResult = NonNullable<Awaited<ReturnType<typeof getApiAuthRefreshToken>>>
@@ -2066,6 +2174,9 @@ export type PostApiRoleAddToUserResult = NonNullable<Awaited<ReturnType<typeof p
 export type DeleteApiRoleRemoveFromUserResult = NonNullable<Awaited<ReturnType<typeof deleteApiRoleRemoveFromUser>>>
 export type DeleteApiRoleIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiRoleId>>>
 export type GetApiRoleTitleResult = NonNullable<Awaited<ReturnType<typeof getApiRoleTitle>>>
+export type PostApiUserPasswordCodeResult = NonNullable<Awaited<ReturnType<typeof postApiUserPasswordCode>>>
+export type PatchApiUserPasswordCodeChangeResult = NonNullable<Awaited<ReturnType<typeof patchApiUserPasswordCodeChange>>>
+export type PostApiUserPasswordCodeConfirmResult = NonNullable<Awaited<ReturnType<typeof postApiUserPasswordCodeConfirm>>>
 export type GetApiUserProfileResult = NonNullable<Awaited<ReturnType<typeof getApiUserProfile>>>
 export type PatchApiUserProfileResult = NonNullable<Awaited<ReturnType<typeof patchApiUserProfile>>>
 export type GetApiUserSessionResult = NonNullable<Awaited<ReturnType<typeof getApiUserSession>>>

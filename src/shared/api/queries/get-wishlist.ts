@@ -8,6 +8,7 @@ export const useGetWishlistApi = () => {
 		queryKey: [GET_WISHLIST],
 		queryFn: () => getApiWish(),
 		staleTime: CACHE_FIVE_MIN,
-		retry: 2,
+		retry: 1,
+		retryDelay: 1000,
 	});
 };

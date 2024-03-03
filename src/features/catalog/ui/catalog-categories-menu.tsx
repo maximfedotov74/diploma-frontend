@@ -3,6 +3,7 @@ import { CATALOG_ROUTE } from '@/shared/constants/routes/public';
 import { Icon } from '@/shared/ui/icon';
 import { Link } from '@/shared/ui/link';
 import { cn } from '@/shared/utils/cn';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 const CatalogCategoriesMenuItem = ({

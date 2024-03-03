@@ -1,4 +1,5 @@
 import {
+	ModelActionGender,
 	ModelCategoryModel,
 	ModelCategoryRelation,
 } from '@/shared/api/generated';
@@ -6,21 +7,21 @@ import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
 import { Sheet, SheetContent, SheetTrigger } from '@/shared/ui/sheet';
 import { cn } from '@/shared/utils/cn';
-import { useState } from 'react';
+
 import { GenderMenu } from './gender-menu';
-import { TypographySmall } from '@/shared/ui/typography';
-import { Link } from '@/shared/ui/link';
-import { CATALOG_ROUTE } from '@/shared/constants/routes/public';
+
 import { CategoriesMenu } from './categories-menu';
 
 export const MobileMenu = ({
 	menu,
 	topLevels,
 	className,
+	currentMenu,
 }: {
 	menu: ModelCategoryRelation;
 	topLevels: ModelCategoryModel[];
 	className?: string;
+	currentMenu: ModelActionGender;
 }): JSX.Element => {
 	const secondLevel = menu.subcategories;
 
@@ -33,7 +34,11 @@ export const MobileMenu = ({
 					</Button>
 				</SheetTrigger>
 				<SheetContent side='left' className='px-1 sm:px-3 py-3'>
-					<GenderMenu topLevels={topLevels} className='mb-4' />
+					<GenderMenu
+						topLevels={topLevels}
+						className='mb-4'
+						currentMenu={currentMenu}
+					/>
 					<CategoriesMenu category={secondLevel} />
 				</SheetContent>
 			</Sheet>

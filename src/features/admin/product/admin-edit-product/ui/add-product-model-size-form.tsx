@@ -36,10 +36,8 @@ export const AddModelProductSize = ({
 	const { data: sizes } = useGetAllSizes();
 
 	const onSubmit: SubmitHandler<ModelAddSizeToProductModelDto> = async data => {
-		console.log(+data.in_stock);
-
 		await addSize({
-			in_stock: +data.in_stock,
+			in_stock: data.in_stock ? +data.in_stock : 0,
 			literal: data.literal,
 			size_id: +data.size_id,
 			product_model_id: model.id,

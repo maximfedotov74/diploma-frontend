@@ -1,4 +1,7 @@
-import { ModelCreateActionDto } from '@/shared/api/generated';
+import {
+	ModelActionGender,
+	ModelCreateActionDto,
+} from '@/shared/api/generated';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useAddActionApi } from '../api/add-action-api';
 import { Input } from '@/shared/ui/input';
@@ -10,6 +13,14 @@ import { Calendar } from '@/shared/ui/calendar';
 import { TypographySmall } from '@/shared/ui/typography';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import { ErrorText } from '@/shared/ui/error-text';
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@/shared/ui/select';
+import { genderTranslate } from '@/shared/translation';
 
 type FormState = Omit<ModelCreateActionDto, 'end_date'> & {
 	end_date: Date;
@@ -31,6 +42,7 @@ export const AdminAddActionForm = (): JSX.Element => {
 			title: data.title,
 			description: data.description ? data.description : undefined,
 			img_path: data.img_path ? data.img_path : undefined,
+			gender: data.gender,
 		});
 		reset();
 	};
@@ -106,6 +118,33 @@ export const AdminAddActionForm = (): JSX.Element => {
 				/>
 				<ErrorText error={errors.end_date?.message} className='block' />
 			</div>
+			<Controller
+				control={control}
+				name='gender'
+				rules={{
+					required: 'Категория акции - обязательное поле!',
+				}}
+				render={({ field }) => (
+					<div className='mb-3'>
+						<Select
+							defaultValue={field.value?.toString()}
+							onValueChange={field.onChange}
+						>
+							<SelectTrigger className='w-[180px]'>
+								<SelectValue placeholder='Категория акции' />
+							</SelectTrigger>
+							<SelectContent>
+								{Object.values(ModelActionGender).map(gender => (
+									<SelectItem key={gender} value={gender}>
+										{genderTranslate[gender]}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
+						<ErrorText error={errors.gender?.message} />
+					</div>
+				)}
+			/>
 			<Button>Создать</Button>
 		</form>
 	);

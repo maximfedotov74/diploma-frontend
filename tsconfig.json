@@ -22,9 +22,7 @@
 		"icons.d.ts",
 		"**/*.ts",
 		"**/*.tsx",
-		"kubb.config.ts",
-		"next.config.js",
-		"src/shared/api/queries/get-all-categoriests"
+		"next.config.js"
 	],
 	"exclude": ["node_modules"]
 }

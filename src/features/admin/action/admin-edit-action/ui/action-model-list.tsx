@@ -3,6 +3,7 @@ import { useGetAllActionModels } from '@/shared/api/queries/get-action-models';
 import { AdminModelCard } from '@/shared/ui/admin-model-card';
 import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
+import { useDeleteActionModelApi } from '../api/delete-action-model-api';
 
 export const ActionModelList = ({
 	action,
@@ -10,6 +11,8 @@ export const ActionModelList = ({
 	action: ModelAction;
 }): JSX.Element => {
 	const { data: models } = useGetAllActionModels(action.id);
+
+	const deleteActionModel = useDeleteActionModelApi(action.id);
 
 	return (
 		<>
@@ -28,7 +31,11 @@ export const ActionModelList = ({
 							discount: m.model_discount,
 						}}
 						actions={
-							<Button variant='ghost' size='icon'>
+							<Button
+								variant='ghost'
+								size='icon'
+								onClick={() => deleteActionModel(m.action_model_id)}
+							>
 								<Icon icon='delete_outline_24' className='w-5 h-5' />
 							</Button>
 						}

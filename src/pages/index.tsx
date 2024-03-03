@@ -1,4 +1,5 @@
 import {
+	ModelActionGender,
 	getApiCategoryRelationSlug,
 	getApiCategoryTop,
 } from '@/shared/api/generated';
@@ -7,13 +8,9 @@ import { Layout } from '@/widgets/layout/layout';
 import { GetServerSideProps } from 'next';
 import { Meta } from '@/shared/meta/meta';
 import { HomePageProps } from '@/shared/types/home-page';
-import { CHILDREN, GENDERS, MEN, WOMEN } from '@/shared/constants/genders';
 import Image from 'next/image';
 import { Link } from '@/shared/ui/link';
 import { Icon } from '@/shared/ui/icon';
-import { ProductCard } from '@/features/product-card/product-card';
-
-//https://github.com/shadcn-ui/ui/tree/main/apps/www/app/examples
 
 function Home({ topLevels, menu, genderMenu }: HomePageProps) {
 	return (
@@ -24,7 +21,7 @@ function Home({ topLevels, menu, genderMenu }: HomePageProps) {
 				</TypographyH2>
 				<div className='sm:grid grid-cols-3 gap-2 mb-10'>
 					<Link
-						href={`/${WOMEN}-home`}
+						href={`/${ModelActionGender.women}-home`}
 						className='relative group transition-colors'
 					>
 						<Image
@@ -39,7 +36,7 @@ function Home({ topLevels, menu, genderMenu }: HomePageProps) {
 						</div>
 					</Link>
 					<Link
-						href={`/${MEN}-home`}
+						href={`/${ModelActionGender.men}-home`}
 						className='relative group transition-colors'
 					>
 						<Image
@@ -54,7 +51,7 @@ function Home({ topLevels, menu, genderMenu }: HomePageProps) {
 						</div>
 					</Link>
 					<Link
-						href={`/${CHILDREN}-home`}
+						href={`/${ModelActionGender.children}-home`}
 						className='relative group transition-colors'
 					>
 						<Image
@@ -105,7 +102,7 @@ export default Home;
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 	const gender = req.cookies['page-gender'];
 
-	if (gender && GENDERS.includes(gender)) {
+	if (gender && Object.keys(ModelActionGender).includes(gender)) {
 		return {
 			redirect: {
 				destination: `/${gender}-home`,
@@ -116,12 +113,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
 	try {
 		const topLevels = await getApiCategoryTop();
-		const menu = await getApiCategoryRelationSlug(MEN);
+		const menu = await getApiCategoryRelationSlug(ModelActionGender.men);
 		return {
 			props: {
 				topLevels,
 				menu: menu,
-				genderMenu: MEN,
+				genderMenu: ModelActionGender.men,
 			},
 		};
 	} catch (e) {
