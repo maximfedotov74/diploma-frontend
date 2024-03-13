@@ -1,5 +1,5 @@
 import { ModelCatalogBrand } from '@/shared/api/generated';
-import { useFilters } from '@/shared/hooks/use-filters';
+import { useFilters } from '@/features/catalog/hooks/use-filters';
 import { Button } from '@/shared/ui/button';
 import { Checkbox } from '@/shared/ui/checkbox';
 import { Icon } from '@/shared/ui/icon';

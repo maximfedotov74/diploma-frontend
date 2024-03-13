@@ -1,6 +1,5 @@
-import { useGetCartApi } from '@/shared/api/queries/get-cart-api';
 import { TypographyH1, TypographySmall } from '@/shared/ui/typography';
-import { useMemo, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { CartItem } from './cart-item';
 import { formatWord } from '@/shared/utils/format-product-word';
 import { Label } from '@/shared/ui/label';
@@ -9,15 +8,26 @@ import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
 import { useDeleteSeveralCartItemApi } from '../api/delete-several-cart-items-api';
 import { ModelCartItem } from '@/shared/api/generated';
-import { calculatePrice } from '@/shared/utils/calculate-price';
 import { parsePriceRUB } from '@/shared/utils/parse-price';
 import { Separator } from '@/shared/ui/separator';
 
-export const CartView = (): JSX.Element => {
-	const { data: cart } = useGetCartApi();
-
-	const [selected, setSelected] = useState<ModelCartItem[]>([]);
-
+export const CartView = ({
+	selected,
+	setSelected,
+	setCheckoutVisible,
+	cart,
+	discountPrice,
+	productPrice,
+	quantity,
+}: {
+	selected: ModelCartItem[];
+	setSelected: Dispatch<SetStateAction<ModelCartItem[]>>;
+	setCheckoutVisible: () => void;
+	cart?: ModelCartItem[];
+	quantity: number;
+	discountPrice: number;
+	productPrice: number;
+}): JSX.Element => {
 	const deleteSeveralCartItems = useDeleteSeveralCartItemApi();
 
 	const selectAll = (checked: boolean) => {
@@ -36,28 +46,6 @@ export const CartView = (): JSX.Element => {
 	};
 
 	const selectedAllChecked = cart?.length === selected.length;
-
-	const quantity = useMemo(() => {
-		const currentSelected = cart?.filter(item =>
-			selected.some(
-				s =>
-					s.cart_item_model_size.model_size_id ===
-					item.cart_item_model_size.model_size_id
-			)
-		);
-		return currentSelected?.reduce((acc, item) => acc + item.quantity, 0) ?? 0;
-	}, [selected, cart]);
-
-	const { discountPrice, productPrice } = useMemo(() => {
-		const currentSelected = cart?.filter(item =>
-			selected.some(
-				s =>
-					s.cart_item_model_size.model_size_id ===
-					item.cart_item_model_size.model_size_id
-			)
-		);
-		return calculatePrice(currentSelected ?? []);
-	}, [selected, cart]);
 
 	return (
 		<>
@@ -125,7 +113,11 @@ export const CartView = (): JSX.Element => {
 					<div className='text-xs text-foreground/60 my-3'>
 						Без учета возможной стоимости доставки
 					</div>
-					<Button className='flex-col' disabled={selected.length === 0}>
+					<Button
+						className='flex-col'
+						disabled={selected.length === 0}
+						onClick={setCheckoutVisible}
+					>
 						{selected.length === 0 ? (
 							'Выберите товары, чтобы продолжить'
 						) : (

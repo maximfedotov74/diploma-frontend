@@ -4,3 +4,7 @@ export const LOGIN = 'login';
 export const SEND_CHANGE_PASSWORD_CODE = 'send-change-password-code';
 export const CONFIRM_CHANGE_PASSWORD_CODE = 'confirm-change-password-code';
 export const CHANGE_PASSWORD = 'change-password';
+export const USER_SESSIONS = 'user-sessions';
+export const EXCEPT_CURRENT_SESSION = 'except-current-session';
+export const REMOVE_ONE_SESSION = 'remove-one-session';
+export const REMOVE_ALL_SESSIONS = 'remove-all-session';

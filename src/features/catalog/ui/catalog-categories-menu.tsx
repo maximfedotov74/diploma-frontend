@@ -77,7 +77,7 @@ export const CatalogCategoriesMenu = ({
 	currentSlug: string;
 }): JSX.Element => {
 	return (
-		<ul className='pl-2'>
+		<ul>
 			{categories.map(item => (
 				<CatalogCategoriesMenuItem
 					currentSlug={currentSlug}

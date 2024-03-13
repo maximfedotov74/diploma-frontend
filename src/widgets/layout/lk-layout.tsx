@@ -1,5 +1,6 @@
 import {
 	ModelActionGender,
+	ModelBrand,
 	ModelCategoryModel,
 	ModelCategoryRelation,
 } from '@/shared/api/generated';
@@ -20,6 +21,7 @@ type LayoutProps = {
 	topLevels: ModelCategoryModel[];
 	menu: ModelCategoryRelation;
 	genderMenu: ModelActionGender;
+	brands: ModelBrand[];
 };
 
 export const LKLayout = ({
@@ -27,6 +29,7 @@ export const LKLayout = ({
 	topLevels,
 	menu,
 	genderMenu,
+	brands,
 }: LayoutProps): JSX.Element => {
 	return (
 		<>
@@ -49,14 +52,14 @@ export const LKLayout = ({
 							<ModelSearch className='ml-auto' />
 						</div>
 					</div>
-					<HoverMenu menu={menu} />
+					<HoverMenu menu={menu} brands={brands} />
 				</WidthContainer>
 			</header>
 			<main className='mt-5'>
 				<WidthContainer>
-					<div className='flex'>
-						<LayoutLkSidebar className='mr-20' />
-						<div>{children}</div>
+					<div className='sm:flex'>
+						<LayoutLkSidebar className='mb-6 sm:mr-20 sm:mb-0' />
+						<div className='grow'>{children}</div>
 					</div>
 				</WidthContainer>
 			</main>

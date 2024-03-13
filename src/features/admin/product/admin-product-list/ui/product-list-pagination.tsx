@@ -6,7 +6,7 @@ import {
 } from '@/shared/ui/pagination';
 import { cn } from '@/shared/utils/cn';
 import { useRouter } from 'next/router';
-
+//TODO: IMPLEMENT AVAILABLE PAGES LINE IN CATALOG
 export const ProductListPagination = ({
 	page,
 	pages,

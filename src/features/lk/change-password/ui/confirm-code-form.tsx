@@ -25,8 +25,7 @@ export const ConfirmCodeForm = ({
 		setCode(e.target.value);
 	};
 
-	const { confirmChangePasswordCode, error } =
-		useConfirmChangePasswordCode(setMode);
+	const { confirmChangePasswordCode } = useConfirmChangePasswordCode(setMode);
 
 	const onSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -43,7 +42,6 @@ export const ConfirmCodeForm = ({
 						value={code}
 						onChange={onCodeChange}
 						placeholder='Код'
-						error={error?.message}
 					/>
 					<Button disabled={code.length !== 6} className='w-32 mt-5'>
 						Отправить

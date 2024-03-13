@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ModelLoginResponse } from './generated';
+import { AUTH_ROUTE, HOME_ROUTE } from '../constants/routes/public';
 
 export const nextMiddlewareCheckAuthPage = async (request: NextRequest) => {
 	const API_URl = process.env.API_URL as string;
@@ -9,7 +10,7 @@ export const nextMiddlewareCheckAuthPage = async (request: NextRequest) => {
 	const userAgent = request.headers.get('User-Agent') ?? 'Next.js server';
 
 	const home = request.nextUrl.clone();
-	home.pathname = '/';
+	home.pathname = HOME_ROUTE;
 	const newNextResponse = NextResponse.redirect(home);
 	try {
 		const sessionResponse = await fetch(`${API_URl}/api/user/session`, {
@@ -69,9 +70,9 @@ export const nextMiddlewareCheckAuthPage = async (request: NextRequest) => {
 					}
 					return NextResponse.next();
 				}
-
 				return NextResponse.next();
 			}
+			return NextResponse.next();
 		}
 		return newNextResponse;
 	} catch (err) {
@@ -87,7 +88,7 @@ export const nextMiddlewareCheckAuth = async (request: NextRequest) => {
 	const userAgent = request.headers.get('User-Agent') ?? 'Next.js server';
 
 	const auth = request.nextUrl.clone();
-	auth.pathname = '/auth';
+	auth.pathname = AUTH_ROUTE;
 	const newNextResponse = NextResponse.next();
 	try {
 		const sessionResponse = await fetch(`${API_URl}/api/user/session`, {
@@ -148,9 +149,10 @@ export const nextMiddlewareCheckAuth = async (request: NextRequest) => {
 					}
 					return NextResponse.redirect(auth);
 				}
-
 				return NextResponse.redirect(auth);
 			}
+
+			return NextResponse.redirect(auth);
 		}
 
 		return newNextResponse;

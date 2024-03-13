@@ -9,6 +9,8 @@ import { ToggleToWishlist } from '@/features/toggle-to-wishlist/toggle-to-wishli
 import { Checkbox } from '@/shared/ui/checkbox';
 import { Dispatch, SetStateAction } from 'react';
 import { useDeleteCartItemApi } from '../api/delete-cart-item-api';
+import { Link } from '@/shared/ui/link';
+import { PRODUCT_ROUTE } from '@/shared/constants/routes/public';
 
 export const CartItem = ({
 	item,
@@ -51,13 +53,15 @@ export const CartItem = ({
 				/>
 			</div>
 			<div className='flex w-full'>
-				<Image
-					src={item.cart_item_model_size.model.image_path}
-					alt='Изображение товара'
-					width={200}
-					height={200}
-					className='w-[115px] h-[170px]'
-				/>
+				<Link href={`${PRODUCT_ROUTE}/${item.cart_item_model_size.model.slug}`}>
+					<Image
+						src={item.cart_item_model_size.model.image_path}
+						alt='Изображение товара'
+						width={200}
+						height={200}
+						className='w-[115px] h-[170px]'
+					/>
+				</Link>
 				<div className='ml-4'>
 					<div className='flex flex-col'>
 						<TypographySmall className='mb-2'>

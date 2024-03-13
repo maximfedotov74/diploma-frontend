@@ -59,6 +59,7 @@ export const useFilters = (
 			newQuery[key] = queryValue;
 		}
 		delete newQuery.categorySlug;
+		delete newQuery.page;
 
 		router.push(
 			{

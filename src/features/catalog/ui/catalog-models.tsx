@@ -1,13 +1,17 @@
 import { ProductCard } from '@/features/product-card/product-card';
 import { ModelCatalogProductModel } from '@/shared/api/generated';
 import { Skeleton } from '@/shared/ui/skeleton';
+import { cn } from '@/shared/utils/cn';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { CATALOG_LIMIT } from '../constants';
 
 export const CatalogModels = ({
 	models,
+	className,
 }: {
 	models: ModelCatalogProductModel[];
+	className?: string;
 }): JSX.Element => {
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);
@@ -30,11 +34,16 @@ export const CatalogModels = ({
 	}, [router]);
 
 	return (
-		<div className='grid grid-cols-3 gap-y-3 gap-x-3'>
+		<div
+			className={cn(
+				'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-y-3 gap-x-3',
+				className
+			)}
+		>
 			{loading ? (
 				<>
-					{Array.from({ length: 9 }).map((_, idx) => (
-						<Skeleton key={idx} className='h-[380px]' />
+					{Array.from({ length: CATALOG_LIMIT }).map((_, idx) => (
+						<Skeleton key={idx} className='h-[400px]' />
 					))}
 				</>
 			) : (

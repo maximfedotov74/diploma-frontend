@@ -2,9 +2,11 @@ import { CatalogCategoriesMenu } from '@/features/catalog/ui/catalog-categories-
 import { CatalogFilters } from '@/features/catalog/ui/catalog-filters';
 import {
 	ModelActionGender,
+	ModelBrand,
 	ModelCatalogCategoryRelationResponse,
 	ModelCatalogFilters,
 	ModelCatalogResponse,
+	getApiBrandByGenderCategorySlug,
 	getApiCategoryCatalogSlug,
 	getApiCategoryRelationSlug,
 	getApiCategoryTop,
@@ -13,18 +15,19 @@ import {
 } from '@/shared/api/generated';
 import { Meta } from '@/shared/meta/meta';
 import { HomePageProps } from '@/shared/types/home-page';
-import { ProductCard } from '@/features/product-card/product-card';
 import { TypographyH1 } from '@/shared/ui/typography';
 import { Layout } from '@/widgets/layout/layout';
 import { GetServerSideProps } from 'next';
 import { Link } from '@/shared/ui/link';
 import { CATALOG_ROUTE } from '@/shared/constants/routes/public';
 import { CatalogModels } from '@/features/catalog/ui/catalog-models';
+import { CatalogPagination } from '@/features/catalog/ui/catalog-pagination';
 
 type CatalogPageProps = HomePageProps & {
 	catalogCategoriesResponse: ModelCatalogCategoryRelationResponse;
 	catalogFilters: ModelCatalogFilters;
 	modelResponse: ModelCatalogResponse;
+	brands: ModelBrand[];
 };
 
 const CatalogPage = ({
@@ -34,16 +37,22 @@ const CatalogPage = ({
 	catalogFilters,
 	genderMenu,
 	modelResponse,
+	brands,
 }: CatalogPageProps): JSX.Element => {
 	return (
 		<Meta title='Каталог'>
-			<Layout menu={menu} topLevels={topLevels} genderMenu={genderMenu}>
+			<Layout
+				menu={menu}
+				topLevels={topLevels}
+				genderMenu={genderMenu}
+				brands={brands}
+			>
 				<TypographyH1 className='mb-5 text-2xl font-normal'>
 					{catalogCategoriesResponse.current.title}
 				</TypographyH1>
 				{modelResponse.models && modelResponse.models.length > 0 ? (
-					<div className='grid grid-cols-[1fr_3.5fr] gap-5'>
-						<div>
+					<div className='lg:grid grid-cols-[1fr_3.5fr] gap-5'>
+						<div className='lg:mb-0 mb-5'>
 							<CatalogCategoriesMenu
 								categories={
 									catalogCategoriesResponse.catalog_categories.subcategories
@@ -56,7 +65,11 @@ const CatalogPage = ({
 								catalogFilters={catalogFilters}
 								className='mb-5'
 							/>
-							<CatalogModels models={modelResponse.models || []} />
+							<CatalogModels
+								models={modelResponse.models || []}
+								className='mb-5'
+							/>
+							<CatalogPagination total={modelResponse.total_count} />
 						</div>
 					</div>
 				) : (
@@ -102,6 +115,8 @@ export const getServerSideProps: GetServerSideProps = async ({
 	try {
 		const topLevels = await getApiCategoryTop();
 		const menu = await getApiCategoryRelationSlug(gender);
+		const brands = await getApiBrandByGenderCategorySlug(gender);
+
 		const catalogCategoriesResponse = await getApiCategoryCatalogSlug(
 			categorySlug
 		);
@@ -118,6 +133,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 			props: {
 				topLevels,
 				menu: menu,
+				brands,
 				catalogCategoriesResponse,
 				catalogFilters,
 				genderMenu: gender,

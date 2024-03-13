@@ -2,6 +2,8 @@ import { ChangePasswordDialog } from '@/features/lk/change-password/ui/change-pa
 import { EditProfileForm } from '@/features/lk/edit-profile/ui/edit-profile-form';
 import {
 	ModelActionGender,
+	ModelBrand,
+	getApiBrandByGenderCategorySlug,
 	getApiCategoryRelationSlug,
 	getApiCategoryTop,
 } from '@/shared/api/generated';
@@ -16,12 +18,18 @@ const LkPage = ({
 	genderMenu,
 	menu,
 	topLevels,
+	brands,
 }: HomePageProps): JSX.Element => {
 	const { data: profile } = useGetProfileApi();
 
 	return (
 		<Meta title='Личный кабинет | Мои данные'>
-			<LKLayout genderMenu={genderMenu} menu={menu} topLevels={topLevels}>
+			<LKLayout
+				genderMenu={genderMenu}
+				menu={menu}
+				topLevels={topLevels}
+				brands={brands}
+			>
 				{profile && (
 					<div>
 						<TypographyH1 className='text-2xl font-normal mb-5'>
@@ -42,25 +50,23 @@ const LkPage = ({
 export default LkPage;
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-	const gender = req.cookies['page-gender'];
+	let gender = req.cookies['page-gender'];
 
-	if (gender && Object.keys(ModelActionGender).includes(gender)) {
-		return {
-			redirect: {
-				destination: `/${gender}-home`,
-				permanent: true,
-			},
-		};
+	if (!gender) {
+		gender = ModelActionGender.men;
 	}
 
 	try {
 		const topLevels = await getApiCategoryTop();
-		const menu = await getApiCategoryRelationSlug(ModelActionGender.men);
+		const menu = await getApiCategoryRelationSlug(gender);
+		const brands = await getApiBrandByGenderCategorySlug(gender);
+
 		return {
 			props: {
 				topLevels,
 				menu: menu,
-				genderMenu: ModelActionGender.men,
+				genderMenu: gender,
+				brands,
 			},
 		};
 	} catch (e) {

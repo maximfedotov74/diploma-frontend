@@ -1,5 +1,6 @@
 import {
 	ModelActionGender,
+	getApiBrandByGenderCategorySlug,
 	getApiCategoryRelationSlug,
 	getApiCategoryTop,
 } from '@/shared/api/generated';
@@ -12,10 +13,15 @@ import Image from 'next/image';
 import { Link } from '@/shared/ui/link';
 import { Icon } from '@/shared/ui/icon';
 
-function Home({ topLevels, menu, genderMenu }: HomePageProps) {
+function Home({ topLevels, menu, genderMenu, brands }: HomePageProps) {
 	return (
 		<Meta title='Главная'>
-			<Layout topLevels={topLevels} menu={menu} genderMenu={genderMenu}>
+			<Layout
+				topLevels={topLevels}
+				menu={menu}
+				genderMenu={genderMenu}
+				brands={brands}
+			>
 				<TypographyH2 className='text-center mb-4 xs:'>
 					Выберите интересующий вас раздел
 				</TypographyH2>
@@ -114,11 +120,14 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 	try {
 		const topLevels = await getApiCategoryTop();
 		const menu = await getApiCategoryRelationSlug(ModelActionGender.men);
+		const brands = await getApiBrandByGenderCategorySlug(ModelActionGender.men);
+
 		return {
 			props: {
 				topLevels,
 				menu: menu,
 				genderMenu: ModelActionGender.men,
+				brands,
 			},
 		};
 	} catch (e) {

@@ -61,11 +61,13 @@ const executer = async (options: ExecuterOptions) => {
 				...options.headers,
 			},
 		});
+
 		return response;
 	};
 
 	try {
 		const response = await initialRequest();
+
 		if (!response.ok) {
 			if (response.status === 401) {
 				let refreshUrl = `${host}/api/auth/refresh-token`;
@@ -76,6 +78,7 @@ const executer = async (options: ExecuterOptions) => {
 				});
 				if (refreshResponse.ok) {
 					const newResponse = await initialRequest();
+
 					const data = await newResponse.json();
 					if (newResponse.ok) {
 						return data;
