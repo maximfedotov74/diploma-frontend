@@ -1,5 +1,5 @@
 import {
-	ModelAdminProductModelRelation,
+	ModelProductModel,
 	ModelUpdateProductModelDto,
 } from '@/shared/api/generated';
 import { useEditModelProductApi } from '../api/edit-model-product-api';
@@ -12,7 +12,7 @@ import { Button } from '@/shared/ui/button';
 export const EditModelProductForm = ({
 	model,
 }: {
-	model: ModelAdminProductModelRelation;
+	model: ModelProductModel;
 }): JSX.Element => {
 	const {
 		register,

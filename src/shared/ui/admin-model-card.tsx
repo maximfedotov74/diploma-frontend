@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
-import { ModelAdminProductModelRelation } from '../api/generated';
+import { ModelProductModel } from '../api/generated';
 import Image from 'next/image';
 import { TypographySmall } from './typography';
 import { parsePriceRUB } from '../utils/parse-price';
@@ -9,7 +9,7 @@ export const AdminModelCard = ({
 	m,
 	actions,
 }: {
-	m: ModelAdminProductModelRelation;
+	m: ModelProductModel;
 	actions?: ReactNode;
 }): JSX.Element => {
 	return (

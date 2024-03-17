@@ -1,5 +1,5 @@
 import { useGetModelSizesApi } from '@/features/admin/product/admin-edit-product/api/get-model-sizes-api';
-import { ModelAdminProductModelRelation } from '@/shared/api/generated';
+import { ModelProductModel } from '@/shared/api/generated';
 import { useDeleteModelSizeApi } from '../api/delete-model-size-api';
 import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
@@ -7,7 +7,7 @@ import { Icon } from '@/shared/ui/icon';
 export const ModelSizeList = ({
 	model,
 }: {
-	model: ModelAdminProductModelRelation;
+	model: ModelProductModel;
 }): JSX.Element => {
 	const { data: sizes } = useGetModelSizesApi(model.id);
 

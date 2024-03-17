@@ -5,6 +5,7 @@ import { BrandFilters } from './brand-filters';
 import { SizeFilters } from './size-filters';
 import { OptionFilter } from './option-filter';
 import { DiscountFilter } from './discount-filter';
+import { SortFilter } from './sort-filter';
 export const CatalogFilters = ({
 	catalogFilters,
 	className,
@@ -14,6 +15,7 @@ export const CatalogFilters = ({
 }): JSX.Element => {
 	return (
 		<div className={cn('flex flex-wrap', className)}>
+			<SortFilter />
 			<BrandFilters brands={catalogFilters.brands} />
 			<SizeFilters sizes={catalogFilters.sizes} />
 			{catalogFilters.options.map(opt => (

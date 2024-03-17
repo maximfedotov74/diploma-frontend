@@ -14,7 +14,7 @@ import {
 	getApiProductModelImgId,
 	getApiProductModelOptionsId,
 	getApiProductModelSizesId,
-	getApiProductModelSlug,
+	getApiProductModelBySlugSlug,
 } from '@/shared/api/generated';
 import { Meta } from '@/shared/meta/meta';
 import { HomePageProps } from '@/shared/types/home-page';
@@ -156,7 +156,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 		const menu = await getApiCategoryRelationSlug(gender);
 		const brands = await getApiBrandByGenderCategorySlug(gender);
 
-		const model = await getApiProductModelSlug(slug);
+		const model = await getApiProductModelBySlugSlug(slug);
 		const product = await getApiProductId(model.product_id);
 		const sizes = await getApiProductModelSizesId(model.id);
 		const images = await getApiProductModelImgId(model.id);

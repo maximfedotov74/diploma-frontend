@@ -9,6 +9,7 @@ import {
 } from '@/shared/ui/dialog';
 import { Icon } from '@/shared/ui/icon';
 import { EditCategoryForm } from './edit-category-form';
+import { cn } from '@/shared/utils/cn';
 
 export const EditCategory = ({
 	category,
@@ -20,7 +21,13 @@ export const EditCategory = ({
 	return (
 		<Dialog defaultOpen={opened}>
 			<DialogTrigger asChild>
-				<Button className='mr-2' variant='ghost' size='icon'>
+				<Button
+					className={cn('mr-2', {
+						hidden: opened,
+					})}
+					variant='ghost'
+					size='icon'
+				>
 					<Icon icon='more' className='h-4 w-4 md:w-6 md:h-6 ' />
 				</Button>
 			</DialogTrigger>

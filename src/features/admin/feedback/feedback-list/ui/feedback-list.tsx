@@ -1,129 +1,67 @@
-import { useRouter } from 'next/router';
-import { useGetAllFeedback } from '../api/get-all-feedback';
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from '@/shared/ui/dropdown-menu';
+import { ModelFeedback } from '@/shared/api/generated';
+import { ADMIN_PRODUCTS_ROUTE } from '@/shared/constants/routes/admin';
+import { Link } from '@/shared/ui/link';
+import { TypographyP, TypographySmall } from '@/shared/ui/typography';
+import { useToggleFeedbackHidden } from '../api/toggle-feedback-hidden';
 import { Button } from '@/shared/ui/button';
-import { TypographySmall } from '@/shared/ui/typography';
-import { FeedbackFilter, FeedbackOrder } from '@/shared/types/feedback';
 import { Icon } from '@/shared/ui/icon';
-import { FeedbackPagination } from './feedback-pagination';
+import { useDeleteFeedback } from '../api/delete-feedback';
 
-export const FeedbackList = (): JSX.Element => {
-	const router = useRouter();
-
-	let page = 1;
-
-	if (!isNaN(Number(router.query.page))) {
-		page = Number(router.query.page);
-	}
-
-	let filter = 'all';
-
-	if (router.query.filter) {
-		if (Object.hasOwn(FeedbackFilter, router.query.filter as string)) {
-			filter = router.query.filter.toString();
-		}
-	}
-
-	let order = 'asc';
-
-	if (router.query.order) {
-		if (Object.hasOwn(FeedbackOrder, router.query.order as string)) {
-			order = router.query.order.toString();
-		}
-	}
-
-	const changeFilter = (v: string) => {
-		router.push(
-			{
-				pathname: router.pathname,
-				query: { ...router.query, filter: v, page: '1' },
-			},
-			undefined,
-			{ shallow: true }
-		);
-	};
-
-	const changeOrder = (v: string) => {
-		router.push(
-			{
-				pathname: router.pathname,
-				query: { ...router.query, order: v },
-			},
-			undefined,
-			{ shallow: true }
-		);
-	};
-
-	const { data } = useGetAllFeedback(page, filter, order);
-
-	const pages = data?.total
-		? data.total > 0
-			? Math.ceil(data?.total / 8)
-			: 1
-		: 0;
+const FeedbackListItem = ({ item }: { item: ModelFeedback }) => {
+	const toggleHidden = useToggleFeedbackHidden();
+	const deleteFeedback = useDeleteFeedback();
 
 	return (
-		<div>
-			<TypographySmall className='block my-2'>Фильтр</TypographySmall>
-			<DropdownMenu>
-				<DropdownMenuTrigger asChild>
-					<Button variant='outline' size='sm'>
-						{FeedbackFilter[filter]}
-					</Button>
-				</DropdownMenuTrigger>
-				<DropdownMenuContent
-					className='max-h-[200px] overflow-y-scroll'
-					align='start'
-				>
-					{Object.keys(FeedbackFilter).map(v => (
-						<DropdownMenuItem
-							key={v}
-							className='flex items-center'
-							onClick={() => changeFilter(v)}
-						>
-							{filter === v && (
-								<Icon icon='done_outline_24' className='w-4 h-4 mr-2' />
-							)}
-							<div>{FeedbackFilter[v]}</div>
-						</DropdownMenuItem>
-					))}
-				</DropdownMenuContent>
-			</DropdownMenu>
-			<TypographySmall className='block my-2'>Сортировка</TypographySmall>
-			<DropdownMenu>
-				<DropdownMenuTrigger asChild>
-					<Button variant='outline' size='sm'>
-						{FeedbackOrder[order]}
-					</Button>
-				</DropdownMenuTrigger>
-				<DropdownMenuContent
-					className='max-h-[200px] overflow-y-scroll'
-					align='start'
-				>
-					{Object.keys(FeedbackOrder).map(v => (
-						<DropdownMenuItem
-							key={v}
-							className='flex items-center'
-							onClick={() => changeOrder(v)}
-						>
-							{order === v && (
-								<Icon icon='done_outline_24' className='w-4 h-4 mr-2' />
-							)}
-							<div>{FeedbackOrder[v]}</div>
-						</DropdownMenuItem>
-					))}
-				</DropdownMenuContent>
-			</DropdownMenu>
-
+		<div className='mb-3 last:mb-0'>
 			<div>
-				<div>{JSON.stringify(data)}</div>
-				<FeedbackPagination page={page} pages={pages} />
+				Дата:{' '}
+				{new Date(item.created_at).toLocaleString('RU-ru', {
+					year: 'numeric',
+					day: 'numeric',
+					month: 'long',
+				})}
 			</div>
+			<div>Клиент: {item.user.email}</div>
+			<div>Оценка: {item.rate}</div>
+			<Link
+				variant='secondary'
+				href={`${ADMIN_PRODUCTS_ROUTE}?opened=${item.model_id}`}
+			>
+				Модель товара
+			</Link>
+			<TypographyP>{item.text}</TypographyP>
+			<div className='flex items-center justify-between'>
+				<Button variant='outline' onClick={() => toggleHidden(item.id)}>
+					<TypographySmall>
+						{item.is_hidden ? 'Показать' : 'Скрыть'}
+					</TypographySmall>
+					<Icon
+						icon={item.is_hidden ? 'view_outline_20' : 'hide_outline_20'}
+						className='ml-2 h-5 w-5'
+					/>
+				</Button>
+				<Button
+					variant='outline'
+					size='icon'
+					onClick={() => deleteFeedback(item.id)}
+				>
+					<Icon icon='delete_outline_24' className='h-5 w-5' />
+				</Button>
+			</div>
+		</div>
+	);
+};
+
+export const FeedbackList = ({
+	feedback,
+}: {
+	feedback: ModelFeedback[];
+}): JSX.Element => {
+	return (
+		<div className='mb-10'>
+			{feedback.map(f => (
+				<FeedbackListItem key={f.id} item={f} />
+			))}
 		</div>
 	);
 };

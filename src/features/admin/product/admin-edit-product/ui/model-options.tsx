@@ -1,4 +1,4 @@
-import { ModelAdminProductModelRelation } from '@/shared/api/generated';
+import { ModelProductModel } from '@/shared/api/generated';
 import { useGetModelOptionsApi } from '../api/get-model-options-api';
 import { useDeleteModelOptionApi } from '../api/delete-model-option-api';
 import { Icon } from '@/shared/ui/icon';
@@ -7,7 +7,7 @@ import { Button } from '@/shared/ui/button';
 export const ModelOptions = ({
 	model,
 }: {
-	model: ModelAdminProductModelRelation;
+	model: ModelProductModel;
 }): JSX.Element => {
 	const { data: options } = useGetModelOptionsApi(model.id);
 	const deleteModelOption = useDeleteModelOptionApi(model.id);

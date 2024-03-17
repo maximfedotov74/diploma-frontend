@@ -1,4 +1,3 @@
-import { countAvailablePages } from '@/shared/utils/count-available-pages';
 import { Button } from '@/shared/ui/button';
 import {
 	Pagination,
@@ -6,11 +5,12 @@ import {
 	PaginationItem,
 } from '@/shared/ui/pagination';
 import { cn } from '@/shared/utils/cn';
+import { countAvailablePages } from '@/shared/utils/count-available-pages';
 import { useRouter } from 'next/router';
 
-export const FeedbackPagination = ({
-	page,
+export const BasePagination = ({
 	pages,
+	page,
 	className,
 }: {
 	pages: number;
@@ -27,7 +27,6 @@ export const FeedbackPagination = ({
 			shallow: true,
 		});
 	};
-
 	return (
 		<Pagination className={cn(className)}>
 			<PaginationContent>

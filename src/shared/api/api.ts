@@ -1,8 +1,6 @@
 import { IS_SERVER } from '../constants/env';
 import { getCookie } from '../utils/cookie';
 
-const REMOVE_SLASH = /([^:]\/)\/+/g;
-
 type QueryParams = Record<string, unknown>;
 
 type ExecuterOptions = {
@@ -22,7 +20,7 @@ const executer = async (options: ExecuterOptions) => {
 	let host = '';
 
 	if (IS_SERVER) {
-		host = process.env.API_URL as string;
+		host = (process.env.API_URL as string).replace(/\/$/, '');
 	}
 
 	const searchParams = new URLSearchParams('');
@@ -35,11 +33,11 @@ const executer = async (options: ExecuterOptions) => {
 
 	let url = `${host}${options.url}`;
 
-	if (searchParams.size > 0) {
-		url = `${url}/?${searchParams.toString()}`;
-	}
+	let cleanUrl = url.replace(/\/$/, '');
 
-	const cleanUrl = url.replace(REMOVE_SLASH, '/');
+	if (options.params) {
+		cleanUrl = `${cleanUrl}/?${searchParams.toString()}`;
+	}
 
 	if (options.headers?.['Content-Type']) {
 		if (options.headers['Content-Type'] === 'multipart/form-data') {
@@ -71,7 +69,6 @@ const executer = async (options: ExecuterOptions) => {
 		if (!response.ok) {
 			if (response.status === 401) {
 				let refreshUrl = `${host}/api/auth/refresh-token`;
-				refreshUrl = refreshUrl.replace(REMOVE_SLASH, '/');
 				const refreshResponse = await fetch(refreshUrl, {
 					credentials: 'include',
 					method: 'GET',

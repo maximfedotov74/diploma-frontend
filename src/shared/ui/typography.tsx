@@ -56,11 +56,7 @@ export function TypographyH4({ className, children }: TypographyProps) {
 }
 
 export function TypographyP({ className, children }: TypographyProps) {
-	return (
-		<p className={cn('eading-7 [&:not(:first-child)]:mt-6', className)}>
-			{children}
-		</p>
-	);
+	return <p className={cn('leading-7', className)}>{children}</p>;
 }
 
 export function TypographySmall({ className, children }: TypographyProps) {

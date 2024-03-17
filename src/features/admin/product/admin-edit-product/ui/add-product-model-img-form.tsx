@@ -3,7 +3,7 @@ import { Button } from '@/shared/ui/button';
 import { ALL_IMAGES } from '@/shared/constants/file-types';
 import { FileUpload } from '@/features/file-upload/file-upload';
 import {
-	ModelAdminProductModelRelation,
+	ModelProductModel,
 	ModelCreateProducModelImg,
 } from '@/shared/api/generated';
 import { useAddModelProductImgApi } from '../api/add-model-product-img-api';
@@ -11,7 +11,7 @@ import { useAddModelProductImgApi } from '../api/add-model-product-img-api';
 export const AddModelProductImg = ({
 	model,
 }: {
-	model: ModelAdminProductModelRelation;
+	model: ModelProductModel;
 }): JSX.Element => {
 	const { handleSubmit, control, resetField } =
 		useForm<ModelCreateProducModelImg>({

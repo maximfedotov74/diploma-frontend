@@ -47,38 +47,42 @@ export const CartItem = ({
 		<div className='flex mb-3 last:mb-0'>
 			<div className='mr-2'>
 				<Checkbox
-					className='w-6 h-6'
+					className='w-5 h-5 sm:w-6 sm:h-6'
 					checked={checked ? true : false}
 					onCheckedChange={onChecked}
 				/>
 			</div>
-			<div className='flex w-full'>
-				<Link href={`${PRODUCT_ROUTE}/${item.cart_item_model_size.model.slug}`}>
-					<Image
-						src={item.cart_item_model_size.model.image_path}
-						alt='Изображение товара'
-						width={200}
-						height={200}
-						className='w-[115px] h-[170px]'
-					/>
-				</Link>
-				<div className='ml-4'>
-					<div className='flex flex-col'>
-						<TypographySmall className='mb-2'>
-							{item.cart_item_model_size.model.title}{' '}
-							{item.cart_item_model_size.model.brand.title}
-						</TypographySmall>
-						<TypographySmall className='mb-2'>
-							{item.cart_item_model_size.size_value} (
-							{item.cart_item_model_size.literal_size})
-						</TypographySmall>
+			<div className='block sm:flex w-full'>
+				<div className='flex'>
+					<Link
+						href={`${PRODUCT_ROUTE}/${item.cart_item_model_size.model.slug}`}
+					>
+						<Image
+							src={item.cart_item_model_size.model.image_path}
+							alt='Изображение товара'
+							width={200}
+							height={200}
+							className='w-[115px] h-[170px]'
+						/>
+					</Link>
+					<div className='ml-2 sm:ml-4'>
+						<div className='flex flex-col'>
+							<TypographySmall className='text-[13px] sm:text-sm mb-2'>
+								{item.cart_item_model_size.model.title}{' '}
+								{item.cart_item_model_size.model.brand.title}
+							</TypographySmall>
+							<TypographySmall className='text-[13px] sm:text-sm mb-2'>
+								{item.cart_item_model_size.size_value} (
+								{item.cart_item_model_size.literal_size})
+							</TypographySmall>
+						</div>
+						<QuantityManager
+							modelSizeId={item.cart_item_model_size.model_size_id}
+							quantity={item.quantity}
+						/>
 					</div>
-					<QuantityManager
-						modelSizeId={item.cart_item_model_size.model_size_id}
-						quantity={item.quantity}
-					/>
 				</div>
-				<div className='ml-auto flex flex-col'>
+				<div className='sm:ml-auto flex items-center sm:items-stretch justify-between sm:justify-normal sm:flex-col'>
 					{item.cart_item_model_size.in_stock > 0 ? (
 						<Price
 							price={item.cart_item_model_size.model.price}
@@ -96,12 +100,12 @@ export const CartItem = ({
 						<div>
 							<Button
 								variant='outline'
+								size='icon'
 								onClick={() =>
 									deleteCartItem(item.cart_item_model_size.model_size_id)
 								}
 							>
-								<Icon icon='delete_outline_24' className='mr-2' />
-								<TypographySmall>Удалить</TypographySmall>
+								<Icon icon='delete_outline_24' />
 							</Button>
 						</div>
 					</div>

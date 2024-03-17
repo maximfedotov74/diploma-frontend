@@ -1,21 +1,16 @@
 import { useGetOrder } from '@/shared/api/queries/get-order';
-import {
-	LK_ORDERS_ROUTE,
-	PRODUCT_ROUTE,
-} from '@/shared/constants/routes/public';
+import { LK_ORDERS_ROUTE } from '@/shared/constants/routes/public';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
-import { Link } from '@/shared/ui/link';
-import { Price } from '@/shared/ui/price';
 import { Separator } from '@/shared/ui/separator';
 import { TypographySmall } from '@/shared/ui/typography';
 import { cn } from '@/shared/utils/cn';
 import { parsePriceRUB } from '@/shared/utils/parse-price';
-import Image from 'next/image';
 import { orderStatusTranslate } from '@/shared/translation';
 import { useCancelOrderApi } from '../api/cancel-order-api';
+import { OrderModelItem } from '@/shared/ui/model-order-item';
 
 export const OrderPage = (): JSX.Element => {
 	const router = useRouter();
@@ -55,31 +50,23 @@ export const OrderPage = (): JSX.Element => {
 						{orderStatusTranslate[order.status].title}
 					</div>
 
+					<div className='mb-5'>
+						{new Date(order.created_at).toLocaleString('RU-ru', {
+							year: 'numeric',
+							month: 'long',
+							day: 'numeric',
+							minute: 'numeric',
+							hour: 'numeric',
+						})}
+					</div>
+
 					<div className='flex items-center'>
 						{order.models.map(m => (
-							<div key={m.slug} className='mr-3 last:mr-0'>
-								<Link
-									href={`${PRODUCT_ROUTE}/${m.slug}`}
-									className='block w-[160px] mb-2'
-								>
-									<Image
-										className='w-full h-[230px]'
-										src={m.main_image_path}
-										alt={m.article}
-										width={75}
-										height={105}
-									/>
-								</Link>
-								<Price price={m.price} discount={m.discount} className='mb-1' />
-								<div className='flex flex-col'>
-									<TypographySmall className='mb-1 whitespace-nowrap overflow-hidden text-ellipsis w-[160px]'>
-										{m.product.title}
-									</TypographySmall>
-									<TypographySmall className='mb-1'>
-										Размер: {m.size.size_value}
-									</TypographySmall>
-								</div>
-							</div>
+							<OrderModelItem
+								key={m.order_model_id}
+								m={m}
+								className='mr-3 last:mr-0'
+							/>
 						))}
 					</div>
 					<Separator className='my-5 w-full' />

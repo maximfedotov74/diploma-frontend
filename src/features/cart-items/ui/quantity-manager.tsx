@@ -21,15 +21,15 @@ export const QuantityManager = ({
 				variant='ghost'
 				size='icon'
 			>
-				<Icon icon='minus_outline_24' className='w-5 h-5' />
+				<Icon icon='minus_outline_24' className='w-4 h-4 sm:w-5 sm:h-5' />
 			</Button>
-			<div className='mx-3'>{quantity}</div>
+			<div className='mx-3 text-sm sm:text-base'>{quantity}</div>
 			<Button
 				onClick={() => increaseQuantity(modelSizeId)}
 				variant='ghost'
 				size='icon'
 			>
-				<Icon icon='add_outline_24' className='w-5 h-5' />
+				<Icon icon='add_outline_24' className='w-4 h-4 sm:w-5 sm:h-5' />
 			</Button>
 		</div>
 	);

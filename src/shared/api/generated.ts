@@ -67,6 +67,21 @@ categoryId?: number;
 brandId?: number;
 };
 
+export type GetApiOrderAllParams = {
+/**
+ * from date
+ */
+fromDate?: string;
+/**
+ * to date
+ */
+toDate?: string;
+/**
+ * pagination page
+ */
+page?: number;
+};
+
 export type PostApiFileBody = {
   /** File */
   file: Blob;
@@ -120,6 +135,17 @@ export const ModelUserGender = {
   men: 'men',
   women: 'women',
 } as const;
+
+export interface ModelUserFeedback {
+  created_at: string;
+  id: number;
+  is_hidden: boolean;
+  model: ModelProductModel;
+  product: ModelProduct;
+  rate: number;
+  text: string;
+  updated_at: string;
+}
 
 export interface ModelUser {
   avatar_path?: string;
@@ -355,6 +381,7 @@ export interface ModelOrderModel {
   article: string;
   discount?: number;
   main_image_path: string;
+  model_id: number;
   order_model_id: number;
   price: number;
   product: ModelOrderModelProduct;
@@ -450,6 +477,7 @@ export interface ModelFeedback {
   id: number;
   is_hidden: boolean;
   model_id: number;
+  model_slug: string;
   rate: number;
   text: string;
   updated_at: string;
@@ -562,6 +590,10 @@ export interface ModelColor {
 export interface ModelChangePasswordDto {
   new_password: string;
   old_password: string;
+}
+
+export interface ModelChangeOrderStatusDto {
+  status: ModelOrderStatusEnum;
 }
 
 export interface ModelCategoryRelation {
@@ -692,18 +724,6 @@ export interface ModelCatalogFilters {
   sizes: ModelCatalogSize[];
 }
 
-export interface ModelCartItemProductModel {
-  brand: ModelCartItemBrand;
-  category: ModelCartItemCategory;
-  discount?: number;
-  image_path: string;
-  model_id: number;
-  price: number;
-  product_id: number;
-  slug: string;
-  title: string;
-}
-
 export interface ModelCartItemModelSize {
   in_stock: number;
   literal_size: string;
@@ -726,6 +746,18 @@ export interface ModelCartItemBrand {
   title: string;
 }
 
+export interface ModelCartItemProductModel {
+  brand: ModelCartItemBrand;
+  category: ModelCartItemCategory;
+  discount?: number;
+  image_path: string;
+  model_id: number;
+  price: number;
+  product_id: number;
+  slug: string;
+  title: string;
+}
+
 export interface ModelCartItem {
   cart_item_id: number;
   cart_item_model_size: ModelCartItemModelSize;
@@ -740,19 +772,9 @@ export interface ModelBrand {
   title: string;
 }
 
-export interface ModelAdminProductResponse {
-  products?: ModelAdminProduct[];
-  total: number;
-}
-
-export interface ModelAdminProductModelRelation {
-  article: string;
-  discount?: number;
-  id: number;
-  image_path: string;
-  price: number;
-  product_id: number;
-  slug: string;
+export interface ModelAllOrdersResponse {
+  orders?: ModelOrder[];
+  total?: number;
 }
 
 export interface ModelAdminProduct {
@@ -761,6 +783,11 @@ export interface ModelAdminProduct {
   description?: string;
   id: number;
   title: string;
+}
+
+export interface ModelAdminProductResponse {
+  products?: ModelAdminProduct[];
+  total: number;
 }
 
 export interface ModelAdminAllFeedbackResponse {
@@ -1581,6 +1608,19 @@ export const getApiFeedbackModelModelId = (
     }
   
 /**
+ * Get my feedback
+ * @summary Get my feedback
+ */
+export const getApiFeedbackMy = (
+    
+ ) => {
+      return api<ModelUserFeedback[]>(
+      {url: `/api/feedback/my`, method: 'GET'
+    },
+      );
+    }
+  
+/**
  * Delete feedback by id
  * @summary Delete feedback by id
  */
@@ -1639,6 +1679,20 @@ export const postApiOrder = (
     }
   
 /**
+ * Get all orders
+ * @summary Get all orders
+ */
+export const getApiOrderAll = (
+    params?: GetApiOrderAllParams,
+ ) => {
+      return api<ModelAllOrdersResponse>(
+      {url: `/api/order/all`, method: 'GET',
+        params
+    },
+      );
+    }
+  
+/**
  * Cancel order
  * @summary Cancel order
  */
@@ -1647,6 +1701,22 @@ export const patchApiOrderCancelOrderId = (
  ) => {
       return api<FallAppErr>(
       {url: `/api/order/cancel/${orderId}`, method: 'PATCH'
+    },
+      );
+    }
+  
+/**
+ * Change order status
+ * @summary Change order status
+ */
+export const patchApiOrderChangeStatusOrderId = (
+    orderId: string,
+    modelChangeOrderStatusDto: BodyType<ModelChangeOrderStatusDto>,
+ ) => {
+      return api<FallAppErr>(
+      {url: `/api/order/change-status/${orderId}`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: modelChangeOrderStatusDto
     },
       );
     }
@@ -1713,7 +1783,7 @@ export const getApiProductAdmin = (
 export const getApiProductAdminModelsProductId = (
     productId: number,
  ) => {
-      return api<ModelAdminProductModelRelation[]>(
+      return api<ModelProductModel[]>(
       {url: `/api/product/admin/models/${productId}`, method: 'GET'
     },
       );
@@ -1745,6 +1815,32 @@ export const postApiProductModel = (
       {url: `/api/product/model/`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: modelCreateProductModelDto
+    },
+      );
+    }
+  
+/**
+ * Get model by id
+ * @summary Get model by id
+ */
+export const getApiProductModelByIdId = (
+    id: number,
+ ) => {
+      return api<ModelProductModel>(
+      {url: `/api/product/model/by-id/${id}`, method: 'GET'
+    },
+      );
+    }
+  
+/**
+ * Get model by slug
+ * @summary Get model by slug
+ */
+export const getApiProductModelBySlugSlug = (
+    slug: string,
+ ) => {
+      return api<ModelProductModel>(
+      {url: `/api/product/model/by-slug/${slug}`, method: 'GET'
     },
       );
     }
@@ -1961,19 +2057,6 @@ export const deleteApiProductModelModelId = (
  ) => {
       return api<FallAppErr>(
       {url: `/api/product/model/${modelId}`, method: 'DELETE'
-    },
-      );
-    }
-  
-/**
- * Get model by slug
- * @summary Get model by slug
- */
-export const getApiProductModelSlug = (
-    slug: string,
- ) => {
-      return api<ModelProductModel>(
-      {url: `/api/product/model/${slug}`, method: 'GET'
     },
       );
     }
@@ -2248,7 +2331,7 @@ export const getApiWish = (
     
  ) => {
       return api<ModelCatalogProductModel[]>(
-      {url: `/api/wish/`, method: 'GET'
+      {url: `/api/wish`, method: 'GET'
     },
       );
     }
@@ -2399,11 +2482,14 @@ export type PatchApiDeliveryIdResult = NonNullable<Awaited<ReturnType<typeof pat
 export type GetApiFeedbackResult = NonNullable<Awaited<ReturnType<typeof getApiFeedback>>>
 export type PostApiFeedbackResult = NonNullable<Awaited<ReturnType<typeof postApiFeedback>>>
 export type GetApiFeedbackModelModelIdResult = NonNullable<Awaited<ReturnType<typeof getApiFeedbackModelModelId>>>
+export type GetApiFeedbackMyResult = NonNullable<Awaited<ReturnType<typeof getApiFeedbackMy>>>
 export type DeleteApiFeedbackIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiFeedbackId>>>
 export type PatchApiFeedbackIdResult = NonNullable<Awaited<ReturnType<typeof patchApiFeedbackId>>>
 export type PostApiFileResult = NonNullable<Awaited<ReturnType<typeof postApiFile>>>
 export type PostApiOrderResult = NonNullable<Awaited<ReturnType<typeof postApiOrder>>>
+export type GetApiOrderAllResult = NonNullable<Awaited<ReturnType<typeof getApiOrderAll>>>
 export type PatchApiOrderCancelOrderIdResult = NonNullable<Awaited<ReturnType<typeof patchApiOrderCancelOrderId>>>
+export type PatchApiOrderChangeStatusOrderIdResult = NonNullable<Awaited<ReturnType<typeof patchApiOrderChangeStatusOrderId>>>
 export type GetApiOrderMyResult = NonNullable<Awaited<ReturnType<typeof getApiOrderMy>>>
 export type GetApiOrderOrderIdResult = NonNullable<Awaited<ReturnType<typeof getApiOrderOrderId>>>
 export type PostApiProductResult = NonNullable<Awaited<ReturnType<typeof postApiProduct>>>
@@ -2411,6 +2497,8 @@ export type GetApiProductAdminResult = NonNullable<Awaited<ReturnType<typeof get
 export type GetApiProductAdminModelsProductIdResult = NonNullable<Awaited<ReturnType<typeof getApiProductAdminModelsProductId>>>
 export type GetApiProductCatalogCategorySlugResult = NonNullable<Awaited<ReturnType<typeof getApiProductCatalogCategorySlug>>>
 export type PostApiProductModelResult = NonNullable<Awaited<ReturnType<typeof postApiProductModel>>>
+export type GetApiProductModelByIdIdResult = NonNullable<Awaited<ReturnType<typeof getApiProductModelByIdId>>>
+export type GetApiProductModelBySlugSlugResult = NonNullable<Awaited<ReturnType<typeof getApiProductModelBySlugSlug>>>
 export type GetApiProductModelColorsIdResult = NonNullable<Awaited<ReturnType<typeof getApiProductModelColorsId>>>
 export type PostApiProductModelImgResult = NonNullable<Awaited<ReturnType<typeof postApiProductModelImg>>>
 export type GetApiProductModelImgIdResult = NonNullable<Awaited<ReturnType<typeof getApiProductModelImgId>>>
@@ -2427,7 +2515,6 @@ export type GetApiProductModelViewsIdResult = NonNullable<Awaited<ReturnType<typ
 export type PostApiProductModelViewsIdResult = NonNullable<Awaited<ReturnType<typeof postApiProductModelViewsId>>>
 export type PatchApiProductModelIdResult = NonNullable<Awaited<ReturnType<typeof patchApiProductModelId>>>
 export type DeleteApiProductModelModelIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiProductModelModelId>>>
-export type GetApiProductModelSlugResult = NonNullable<Awaited<ReturnType<typeof getApiProductModelSlug>>>
 export type GetApiProductIdResult = NonNullable<Awaited<ReturnType<typeof getApiProductId>>>
 export type DeleteApiProductIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiProductId>>>
 export type PatchApiProductIdResult = NonNullable<Awaited<ReturnType<typeof patchApiProductId>>>

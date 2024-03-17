@@ -1,4 +1,4 @@
-import { ModelAdminProductModelRelation } from '@/shared/api/generated';
+import { ModelProductModel } from '@/shared/api/generated';
 import { useGetModelImagesApi } from '../api/get-model-img-api';
 import Image from 'next/image';
 import { Button } from '@/shared/ui/button';
@@ -8,7 +8,7 @@ import { useDeleteProductModelImgApi } from '../api/delete-model-product-img-api
 export const ModelImgList = ({
 	model,
 }: {
-	model: ModelAdminProductModelRelation;
+	model: ModelProductModel;
 }): JSX.Element => {
 	const { data: images } = useGetModelImagesApi(model.id);
 	const deleteImage = useDeleteProductModelImgApi(model.id);

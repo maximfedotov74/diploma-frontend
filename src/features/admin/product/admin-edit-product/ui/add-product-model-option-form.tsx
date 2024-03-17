@@ -1,4 +1,4 @@
-import { ModelAdminProductModelRelation } from '@/shared/api/generated';
+import { ModelProductModel } from '@/shared/api/generated';
 import { useGetAllCharacteristics } from '@/shared/api/queries/get-characteristics-list-api';
 import { Combobox } from '@/shared/ui/combobox';
 import { FormEvent, useEffect, useState } from 'react';
@@ -8,7 +8,7 @@ import { Button } from '@/shared/ui/button';
 export const AddProductModelOptionForm = ({
 	model,
 }: {
-	model: ModelAdminProductModelRelation;
+	model: ModelProductModel;
 }): JSX.Element => {
 	const { data: options } = useGetAllCharacteristics();
 

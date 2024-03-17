@@ -73,7 +73,7 @@ export const SizeSelectToCart = ({
 			<Button
 				disabled={modelSizeId === undefined || disableBtn(modelSizeId)}
 				onClick={onClick}
-				className='w-full'
+				className='w-full text-xs sm:text-sm'
 			>
 				Добавить в корзину
 			</Button>

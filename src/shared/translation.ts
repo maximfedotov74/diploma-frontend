@@ -1,4 +1,9 @@
-import { ModelOrderStatusEnum } from './api/generated';
+import {
+	ModelOrderConditions,
+	ModelOrderStatusEnum,
+	ModelPaymentMethodEnum,
+} from './api/generated';
+import { CatalogSort } from './types/catalog';
 
 export const genderTranslate = {
 	men: 'Мужчинам',
@@ -21,4 +26,25 @@ export const orderStatusTranslate: Record<
 		style: 'text-orange-600',
 	},
 	waiting_for_payment: { title: 'Ожидает оплаты', style: 'text-orange-600' },
+};
+
+export const orderConditionsTranslate: Record<ModelOrderConditions, string> = {
+	with_fitting: 'С примеркой',
+	without_fitting: 'Без примерки',
+};
+
+export const orderPaymentMethodTranslate: Record<
+	ModelPaymentMethodEnum,
+	string
+> = {
+	online: 'Онлайн оплата',
+	upon_receipt: 'Оплата при получении',
+};
+
+export const catalogSortTranslate: Record<CatalogSort, string> = {
+	price_asc: 'По возрастанию цены',
+	price_desc: 'По убыванию цены',
+	discount: 'По скидкам',
+	popular: 'По популярности',
+	new: 'По новизне',
 };

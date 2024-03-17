@@ -18,9 +18,12 @@ export const ToggleToWishlist = ({
 		<button onClick={() => toggle(modelId)}>
 			<Icon
 				icon='like_24'
-				className={cn('w-6 h-6 fill-white stroke-black hover:stroke-action', {
-					'fill-action': inWish,
-				})}
+				className={cn(
+					'w-5 h-5 sm:w-6 sm:h-6 fill-white stroke-black hover:stroke-action',
+					{
+						'fill-action': inWish,
+					}
+				)}
 			/>
 		</button>
 	);

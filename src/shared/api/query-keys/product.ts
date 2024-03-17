@@ -21,3 +21,4 @@ export const GET_VIEWS = 'get-model-views';
 export const ADD_VIEW = 'add-view';
 export const ADD_TO_HISTORY = 'add-to-history';
 export const GET_POPULAR_MODELS = 'get-popular-models';
+export const GET_INITIAL_MODEL = 'get-initial-model';

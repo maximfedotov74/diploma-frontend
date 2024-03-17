@@ -21,7 +21,7 @@ export const ColoredModelsDropdownItem = ({
 }): JSX.Element => {
 	if (isCurrent) {
 		return (
-			<div className='flex items-center p-3 border border-primary rounded-sm relative h-12'>
+			<div className='flex items-center bg-white dark:bg-black p-3 border border-primary rounded-sm relative h-12'>
 				<Image
 					className='w-6 h-8'
 					src={item.image_path}
@@ -82,7 +82,7 @@ export const ColoredModelsDropdown = ({
 				<div
 					tabIndex={0}
 					onKeyDown={onKeyDown}
-					className={cn('w-[200px]', className)}
+					className={cn('w-[200px] bg-white dark:bg-black', className)}
 				>
 					<ColoredModelsDropdownItem isCurrent={true} item={current} />
 				</div>

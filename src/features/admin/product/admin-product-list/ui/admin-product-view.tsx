@@ -1,7 +1,6 @@
 import { useGetAdminProductApi } from '@/features/admin/product/admin-product-list/api/get-admin-product-api';
 import { useRouter } from 'next/router';
 import { ProductList } from './product-list';
-import { ProductListPagination } from './product-list-pagination';
 
 import { useGetAllBrands } from '@/shared/api/queries/get-all-brands';
 import { useGetCategoriesWithoutChildren } from '@/shared/api/queries/get-categories-without-children-api';
@@ -14,6 +13,7 @@ import {
 } from '@/shared/ui/dropdown-menu';
 import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
+import { BasePagination } from '@/shared/ui/base-pagination';
 
 export const AdminProductView = (): JSX.Element => {
 	const router = useRouter();
@@ -160,7 +160,8 @@ export const AdminProductView = (): JSX.Element => {
 				</DropdownMenuContent>
 			</DropdownMenu>
 			<ProductList products={data?.products || []} />
-			<ProductListPagination page={page} pages={pages} className='mt-4' />
+
+			<BasePagination page={page} pages={pages} className='mt-4' />
 		</div>
 	);
 };

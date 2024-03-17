@@ -2635,6 +2635,50 @@
                 }
             }
         },
+        "/api/feedback/my": {
+            "get": {
+                "description": "Get my feedback",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "feedback"
+                ],
+                "summary": "Get my feedback",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.UserFeedback"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
         "/api/feedback/{id}": {
             "delete": {
                 "description": "Delete feedback by id",
@@ -2841,6 +2885,72 @@
                 }
             }
         },
+        "/api/order/all": {
+            "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "description": "Get all orders",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "order"
+                ],
+                "summary": "Get all orders",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "from date",
+                        "name": "fromDate",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "to date",
+                        "name": "toDate",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "pagination page",
+                        "name": "page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.AllOrdersResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
         "/api/order/cancel/{orderId}": {
             "patch": {
                 "description": "Cancel order",
@@ -2861,6 +2971,71 @@
                         "name": "orderId",
                         "in": "path",
                         "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/order/change-status/{orderId}": {
+            "patch": {
+                "description": "Change order status",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "order"
+                ],
+                "summary": "Change order status",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Order id",
+                        "name": "orderId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Change order status with body dto",
+                        "name": "dto",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.ChangeOrderStatusDto"
+                        }
                     }
                 ],
                 "responses": {
@@ -3148,7 +3323,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.AdminProductModelRelation"
+                                "$ref": "#/definitions/model.ProductModel"
                             }
                         }
                     },
@@ -3288,6 +3463,106 @@
                         "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/product/model/by-id/{id}": {
+            "get": {
+                "description": "Get model by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "product"
+                ],
+                "summary": "Get model by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Model id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.ProductModel"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/product/model/by-slug/{slug}": {
+            "get": {
+                "description": "Get model by slug",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "product"
+                ],
+                "summary": "Get model by slug",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Model slug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.ProductModel"
                         }
                     },
                     "400": {
@@ -4148,56 +4423,6 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/fall.AppErr"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/fall.ValidationError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/fall.AppErr"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/fall.AppErr"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/product/model/{slug}": {
-            "get": {
-                "description": "Get model by slug",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "product"
-                ],
-                "summary": "Get model by slug",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Model slug",
-                        "name": "slug",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/model.ProductModel"
                         }
                     },
                     "400": {
@@ -5165,7 +5390,7 @@
                 }
             }
         },
-        "/api/wish/": {
+        "/api/wish": {
             "get": {
                 "security": [
                     {
@@ -5212,7 +5437,9 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/api/wish/": {
             "post": {
                 "security": [
                     {
@@ -5966,43 +6193,6 @@
                 }
             }
         },
-        "model.AdminProductModelRelation": {
-            "type": "object",
-            "required": [
-                "article",
-                "id",
-                "image_path",
-                "price",
-                "product_id",
-                "slug"
-            ],
-            "properties": {
-                "article": {
-                    "type": "string",
-                    "minLength": 1
-                },
-                "discount": {
-                    "type": "integer"
-                },
-                "id": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "image_path": {
-                    "type": "string"
-                },
-                "price": {
-                    "type": "integer",
-                    "example": 15000
-                },
-                "product_id": {
-                    "type": "integer"
-                },
-                "slug": {
-                    "type": "string"
-                }
-            }
-        },
         "model.AdminProductResponse": {
             "type": "object",
             "required": [
@@ -6013,6 +6203,20 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/model.AdminProduct"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.AllOrdersResponse": {
+            "type": "object",
+            "properties": {
+                "orders": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Order"
                     }
                 },
                 "total": {
@@ -6634,6 +6838,17 @@
                 }
             }
         },
+        "model.ChangeOrderStatusDto": {
+            "type": "object",
+            "required": [
+                "status"
+            ],
+            "properties": {
+                "status": {
+                    "$ref": "#/definitions/model.OrderStatusEnum"
+                }
+            }
+        },
         "model.ChangePasswordDto": {
             "type": "object",
             "required": [
@@ -7087,6 +7302,7 @@
                 "id",
                 "is_hidden",
                 "model_id",
+                "model_slug",
                 "rate",
                 "text",
                 "updated_at",
@@ -7107,6 +7323,9 @@
                     "type": "integer",
                     "minimum": 1,
                     "example": 4
+                },
+                "model_slug": {
+                    "type": "string"
                 },
                 "rate": {
                     "type": "integer",
@@ -7389,6 +7608,7 @@
             "required": [
                 "article",
                 "main_image_path",
+                "model_id",
                 "order_model_id",
                 "price",
                 "product",
@@ -7405,6 +7625,9 @@
                 },
                 "main_image_path": {
                     "type": "string"
+                },
+                "model_id": {
+                    "type": "integer"
                 },
                 "order_model_id": {
                     "type": "integer"
@@ -8168,6 +8391,51 @@
                     "items": {
                         "$ref": "#/definitions/model.UserRole"
                     }
+                }
+            }
+        },
+        "model.UserFeedback": {
+            "type": "object",
+            "required": [
+                "created_at",
+                "id",
+                "is_hidden",
+                "model",
+                "product",
+                "rate",
+                "text",
+                "updated_at"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 2
+                },
+                "is_hidden": {
+                    "type": "boolean"
+                },
+                "model": {
+                    "$ref": "#/definitions/model.ProductModel"
+                },
+                "product": {
+                    "$ref": "#/definitions/model.Product"
+                },
+                "rate": {
+                    "type": "integer",
+                    "maximum": 5,
+                    "minimum": 1,
+                    "example": 3
+                },
+                "text": {
+                    "type": "string",
+                    "minLength": 3,
+                    "example": "Хороший товар"
+                },
+                "updated_at": {
+                    "type": "string"
                 }
             }
         },

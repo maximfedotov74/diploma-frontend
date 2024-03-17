@@ -45,7 +45,8 @@ export const CartView = ({
 		deleteSeveralCartItems(ids);
 	};
 
-	const selectedAllChecked = cart?.length === selected.length;
+	const selectedAllChecked =
+		cart && cart.length > 0 && cart.length === selected.length;
 
 	return (
 		<>
@@ -60,7 +61,7 @@ export const CartView = ({
 			<div className='mb-10 flex items-center'>
 				<div className='flex items-center'>
 					<Checkbox
-						className='w-6 h-6'
+						className='w-5 h-5 sm:w-6 sm:h-6'
 						id='cart-select-all'
 						checked={selectedAllChecked}
 						onCheckedChange={selectAll}
@@ -78,8 +79,8 @@ export const CartView = ({
 					</div>
 				)}
 			</div>
-			<div className='grid grid-cols-[4fr_2fr] gap-x-6'>
-				<div>
+			<div className='lg:grid grid-cols-[4fr_2fr] gap-x-6'>
+				<div className='mb-8 lg:mb-0'>
 					{cart?.map(item => (
 						<CartItem
 							item={item}
@@ -90,15 +91,15 @@ export const CartView = ({
 					))}
 				</div>
 				<div className='shadow-2xl p-3 rounded-lg flex flex-col'>
-					<div className='text-2xl'>Сумма заказа</div>
+					<div className='text-xl sm:text-2xl'>Сумма заказа</div>
 					<Separator className='my-3' />
 					{selected.length > 0 && (
 						<>
-							<div className='flex justify-between'>
+							<div className='flex justify-between text-sm sm:text-base'>
 								<div>{formatWord(quantity)} на сумму</div>
 								<div>{parsePriceRUB(productPrice)}</div>
 							</div>
-							<div className='flex justify-between'>
+							<div className='flex justify-between text-sm sm:text-base'>
 								<div>Скидка</div>
 								<div className='text-action'>
 									{parsePriceRUB(discountPrice)}
@@ -106,7 +107,7 @@ export const CartView = ({
 							</div>
 						</>
 					)}
-					<div className='flex justify-between text-2xl mt-5'>
+					<div className='flex justify-between text-xl sm:text-2xl mt-5'>
 						<div>Итого</div>
 						<div>{parsePriceRUB(productPrice - discountPrice)}</div>
 					</div>

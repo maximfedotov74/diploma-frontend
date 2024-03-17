@@ -1,4 +1,3 @@
-import { ModelAdminProductModelRelation } from '@/shared/api/generated';
 import { Button } from '@/shared/ui/button';
 import {
 	Dialog,
@@ -17,18 +16,27 @@ import { AddModelProductSize } from './add-product-model-size-form';
 import { AddProductModelOptionForm } from './add-product-model-option-form';
 import { ModelOptions } from './model-options';
 import { cn } from '@/shared/utils/cn';
+import { ModelProductModel } from '@/shared/api/generated';
 
 export const EditModelProduct = ({
 	model,
 	className,
+	opened,
 }: {
-	model: ModelAdminProductModelRelation;
+	model: ModelProductModel;
+	opened?: boolean;
 	className?: string;
 }): JSX.Element => {
 	return (
-		<Dialog>
+		<Dialog defaultOpen={opened}>
 			<DialogTrigger asChild>
-				<Button variant='ghost' size='icon' className={cn(className)}>
+				<Button
+					variant='ghost'
+					size='icon'
+					className={cn(className, {
+						hidden: opened,
+					})}
+				>
 					<Icon icon='more' className='w-5 h-5' />
 				</Button>
 			</DialogTrigger>

@@ -3,7 +3,7 @@ import { Button } from '@/shared/ui/button';
 
 import {
 	ModelAddSizeToProductModelDto,
-	ModelAdminProductModelRelation,
+	ModelProductModel,
 } from '@/shared/api/generated';
 import { useAddModelSize } from '../api/add-model-product-size-api';
 import { Input } from '@/shared/ui/input';
@@ -20,7 +20,7 @@ import { ErrorText } from '@/shared/ui/error-text';
 export const AddModelProductSize = ({
 	model,
 }: {
-	model: ModelAdminProductModelRelation;
+	model: ModelProductModel;
 }): JSX.Element => {
 	const {
 		handleSubmit,
