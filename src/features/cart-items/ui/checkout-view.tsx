@@ -1,6 +1,7 @@
 import {
 	ModelCartItem,
 	ModelCreateOrderDto,
+	ModelDeliveryPoint,
 	ModelOrderConditions,
 	ModelPaymentMethodEnum,
 } from '@/shared/api/generated';
@@ -24,6 +25,8 @@ import { PRODUCT_ROUTE } from '@/shared/constants/routes/public';
 import { formatWord } from '@/shared/utils/format-product-word';
 import { parsePriceRUB } from '@/shared/utils/parse-price';
 import { Separator } from '@/shared/ui/separator';
+import { SelectDelivery } from './select-delivery';
+import { useToast } from '@/shared/ui/use-toast';
 
 type FormState = Pick<
 	ModelCreateOrderDto,
@@ -51,24 +54,32 @@ export const CheckoutView = ({
 		handleSubmit,
 	} = useForm<FormState>({ mode: 'onChange' });
 
+	const { toast } = useToast();
+
 	const [paymentMethod, setPaymentMethod] =
 		useState<ModelPaymentMethodEnum>('online');
 
 	const [conditions, setConditions] =
 		useState<ModelOrderConditions>('with_fitting');
 
+	const [delivery, setDelivery] = useState<ModelDeliveryPoint | undefined>();
+
 	const onSubmit: SubmitHandler<FormState> = async data => {
-		await createOrder({
-			delivery_point_id: 1,
-			model_size_ids: selected.map(
-				item => item.cart_item_model_size.model_size_id
-			),
-			order_conditions: conditions,
-			payment_method: paymentMethod,
-			recipient_firstname: data.recipient_firstname,
-			recipient_lastname: data.recipient_lastname,
-			recipient_phone: data.recipient_phone,
-		});
+		if (delivery) {
+			await createOrder({
+				delivery_point_id: delivery.delivery_point_id,
+				model_size_ids: selected.map(
+					item => item.cart_item_model_size.model_size_id
+				),
+				order_conditions: conditions,
+				payment_method: paymentMethod,
+				recipient_firstname: data.recipient_firstname,
+				recipient_lastname: data.recipient_lastname,
+				recipient_phone: data.recipient_phone,
+			});
+		} else {
+			toast({ title: 'Выберите пункт выдачи!' });
+		}
 	};
 
 	return (
@@ -85,6 +96,9 @@ export const CheckoutView = ({
 
 			<div className='lg:grid grid-cols-[4fr_2fr] gap-x-6'>
 				<div className='mb-8 lg:mb-0'>
+					<div className='mb-5'>
+						<SelectDelivery setDelivery={setDelivery} point={delivery} />
+					</div>
 					<div className='mb-5'>
 						<div className='text-xl mb-4'>Способ оплаты</div>
 						<RadioGroup

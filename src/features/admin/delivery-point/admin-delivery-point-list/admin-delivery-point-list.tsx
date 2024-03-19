@@ -6,8 +6,7 @@ import {
 	AccordionItem,
 	AccordionTrigger,
 } from '@/shared/ui/accordion';
-import { Button } from '@/shared/ui/button';
-import { Icon } from '@/shared/ui/icon';
+
 import { useRouter } from 'next/router';
 import { EditDeliveryPoint } from '../admin-edit-delivery-point/ui/edit-delivery-point';
 

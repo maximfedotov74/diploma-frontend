@@ -5,9 +5,11 @@ import { calculatePrice } from '@/shared/utils/calculate-price';
 import { useGetCartApi } from '@/shared/api/queries/get-cart-api';
 import { useMemo, useState } from 'react';
 
-export const CartPageWrapper = (): JSX.Element => {
-	const { data: cart } = useGetCartApi();
-
+export const CartWrapper = ({
+	cart,
+}: {
+	cart: ModelCartItem[] | undefined;
+}): JSX.Element => {
 	const [selected, setSelected] = useState<ModelCartItem[]>([]);
 
 	const [checkoutVisible, setCheckoutVisible] = useState(false);

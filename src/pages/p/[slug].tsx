@@ -27,7 +27,7 @@ import { ImagesCarousel } from '@/features/product-page/ui/images-carousel';
 import { SizeSelectToCart } from '@/features/size-select-to-basket/ui/size-select-to-cart';
 import { ProductInfoTabs } from '@/features/product-page/ui/product-info-tabs';
 import { ImagesCarouselMobile } from '@/features/product-page/ui/images-carousel-mobile';
-import { SimilarProducts } from '@/features/product-page/ui/similar-products';
+import { SimilarProducts } from '@/features/similar-models/similar-products';
 import { ModelViews } from '@/features/product-page/ui/model-views';
 import { ViewHistory } from '@/features/product-page/ui/view-history';
 

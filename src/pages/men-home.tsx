@@ -1,4 +1,4 @@
-import { PopularSlider } from '@/features/home/ui/popular-slider';
+import { PopularSlider } from '@/features/popular-models/ui/popular-slider';
 import {
 	ModelAction,
 	ModelActionGender,
@@ -12,12 +12,15 @@ import {
 import { Meta } from '@/shared/meta/meta';
 import { HomePageProps } from '@/shared/types/home-page';
 import { ActionSlider } from '@/shared/ui/action-slider';
+import { Button } from '@/shared/ui/button';
 import { CategorySlider } from '@/shared/ui/category-slider';
 import { Link } from '@/shared/ui/link';
 import { TypographyH1 } from '@/shared/ui/typography';
 import { Layout } from '@/widgets/layout/layout';
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 type MenHomeProps = HomePageProps & {
 	actions: ModelAction[];

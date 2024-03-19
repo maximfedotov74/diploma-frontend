@@ -5,7 +5,7 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from '@/shared/ui/carousel';
-import { useGetSimilarProducts } from '../api/get-similar-products';
+import { useGetSimilarProducts } from './get-similar-products';
 import { ProductCard } from '@/features/product-card/product-card';
 import { TypographyH3 } from '@/shared/ui/typography';
 
@@ -36,7 +36,6 @@ export const SimilarProducts = ({
 						</CarouselItem>
 					))}
 				</CarouselContent>
-
 				<CarouselPrevious className='-left-0' />
 				<CarouselNext className='-right-0' />
 			</Carousel>

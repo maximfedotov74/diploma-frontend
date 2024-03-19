@@ -2,20 +2,9 @@ import { Button } from '@/shared/ui/button';
 import { Calendar } from '@/shared/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import { cn } from '@/shared/utils/cn';
+import { parseDate } from '@/shared/utils/parse-date';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-
-const parseDate = (d?: string) => {
-	if (d) {
-		try {
-			let date = new Date(d);
-			return date;
-		} catch (error) {
-			return undefined;
-		}
-	}
-	return undefined;
-};
 
 export const DateFilters = ({
 	from,

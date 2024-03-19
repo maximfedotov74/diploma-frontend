@@ -1,4 +1,4 @@
-import { PopularSlider } from '@/features/home/ui/popular-slider';
+import { PopularSlider } from '@/features/popular-models/ui/popular-slider';
 import {
 	ModelAction,
 	ModelActionGender,

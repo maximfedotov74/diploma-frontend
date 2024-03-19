@@ -14,7 +14,7 @@ export const useSearchDeliveryPoints = (
 		queryKey: [SEARCH_DELIVERY_POINTS, withFittingKey, searchTextKey],
 		queryFn: () =>
 			getApiDeliverySearch({
-				search_text: searchText,
+				search_text: searchText ? searchText : '',
 				with_fitting: withFitting,
 			}),
 		staleTime: CACHE_FIVE_MIN,

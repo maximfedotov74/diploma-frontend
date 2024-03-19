@@ -15,7 +15,6 @@ export const PopularSlider = ({
 	genderSlug: string;
 }): JSX.Element => {
 	const { data } = useGetPopularModels(genderSlug);
-
 	return (
 		<div className='mb-8'>
 			<TypographyH3 className='mb-5'>Популярное</TypographyH3>

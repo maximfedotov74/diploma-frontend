@@ -1,5 +1,4 @@
-import { CartPageWrapper } from '@/features/cart-items/ui/cart-page-wrapper';
-import { CartView } from '@/features/cart-items/ui/cart-view';
+import { CartPage } from '@/features/cart-items/ui/cart-page';
 import {
 	ModelActionGender,
 	getApiBrandByGenderCategorySlug,
@@ -20,7 +19,7 @@ const Cart = ({ genderMenu, menu, topLevels, brands }: HomePageProps) => {
 				topLevels={topLevels}
 				brands={brands}
 			>
-				<CartPageWrapper />
+				<CartPage genderMenu={genderMenu} />
 			</Layout>
 		</Meta>
 	);

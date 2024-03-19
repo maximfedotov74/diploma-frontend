@@ -7,6 +7,7 @@ import { parsePriceRUB } from '../utils/parse-price';
 import { Link } from './link';
 import { ADMIN_PRODUCTS_ROUTE } from '../constants/routes/admin';
 import { ChangeStatus } from '@/features/admin/orders/orders-list/ui/change-status';
+import { ChangeDeliveryDate } from '@/features/admin/orders/orders-list/ui/change-delivery-date';
 
 export const OrderItem = ({
 	order,
@@ -32,12 +33,32 @@ export const OrderItem = ({
 				})}
 			</div>
 
+			{!forAdmin && order.delivery_date && (
+				<div className='mb-1'>
+					{`Дата доставки: ${new Date(order.delivery_date).toLocaleString(
+						'RU-ru',
+						{
+							year: 'numeric',
+							month: 'long',
+							day: 'numeric',
+						}
+					)}`}
+				</div>
+			)}
+
 			{forAdmin ? (
 				<ChangeStatus currentStatus={order.status} orderId={order.order_id} />
 			) : (
 				<div className={cn('mb-1', orderStatusTranslate[order.status].style)}>
 					{orderStatusTranslate[order.status].title}
 				</div>
+			)}
+
+			{forAdmin && (
+				<ChangeDeliveryDate
+					deliveryDate={order.delivery_date}
+					orderId={order.order_id}
+				/>
 			)}
 
 			{forAdmin && (

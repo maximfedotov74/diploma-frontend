@@ -587,6 +587,17 @@ export interface ModelColor {
   value: string;
 }
 
+export interface ModelChild {
+  category_id: number;
+  img_path?: string;
+  level: number;
+  parent_category_id?: number;
+  short_title: string;
+  slug: string;
+  subcategories: ModelCategoryRelation[];
+  title: string;
+}
+
 export interface ModelChangePasswordDto {
   new_password: string;
   old_password: string;
@@ -594,6 +605,10 @@ export interface ModelChangePasswordDto {
 
 export interface ModelChangeOrderStatusDto {
   status: ModelOrderStatusEnum;
+}
+
+export interface ModelChangeOrderDeliveryDate {
+  date: string;
 }
 
 export interface ModelCategoryRelation {
@@ -604,17 +619,6 @@ export interface ModelCategoryRelation {
   short_title: string;
   slug: string;
   subcategories: ModelChild[];
-  title: string;
-}
-
-export interface ModelChild {
-  category_id: number;
-  img_path?: string;
-  level: number;
-  parent_category_id?: number;
-  short_title: string;
-  slug: string;
-  subcategories: ModelCategoryRelation[];
   title: string;
 }
 
@@ -1706,6 +1710,22 @@ export const patchApiOrderCancelOrderId = (
     }
   
 /**
+ * Change order delivery date
+ * @summary Change order delivery date
+ */
+export const patchApiOrderChangeDeliveryDateOrderId = (
+    orderId: string,
+    modelChangeOrderDeliveryDate: BodyType<ModelChangeOrderDeliveryDate>,
+ ) => {
+      return api<FallAppErr>(
+      {url: `/api/order/change-delivery-date/${orderId}`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: modelChangeOrderDeliveryDate
+    },
+      );
+    }
+  
+/**
  * Change order status
  * @summary Change order status
  */
@@ -2489,6 +2509,7 @@ export type PostApiFileResult = NonNullable<Awaited<ReturnType<typeof postApiFil
 export type PostApiOrderResult = NonNullable<Awaited<ReturnType<typeof postApiOrder>>>
 export type GetApiOrderAllResult = NonNullable<Awaited<ReturnType<typeof getApiOrderAll>>>
 export type PatchApiOrderCancelOrderIdResult = NonNullable<Awaited<ReturnType<typeof patchApiOrderCancelOrderId>>>
+export type PatchApiOrderChangeDeliveryDateOrderIdResult = NonNullable<Awaited<ReturnType<typeof patchApiOrderChangeDeliveryDateOrderId>>>
 export type PatchApiOrderChangeStatusOrderIdResult = NonNullable<Awaited<ReturnType<typeof patchApiOrderChangeStatusOrderId>>>
 export type GetApiOrderMyResult = NonNullable<Awaited<ReturnType<typeof getApiOrderMy>>>
 export type GetApiOrderOrderIdResult = NonNullable<Awaited<ReturnType<typeof getApiOrderOrderId>>>
