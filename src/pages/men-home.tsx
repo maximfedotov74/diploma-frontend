@@ -12,15 +12,12 @@ import {
 import { Meta } from '@/shared/meta/meta';
 import { HomePageProps } from '@/shared/types/home-page';
 import { ActionSlider } from '@/shared/ui/action-slider';
-import { Button } from '@/shared/ui/button';
 import { CategorySlider } from '@/shared/ui/category-slider';
 import { Link } from '@/shared/ui/link';
 import { TypographyH1 } from '@/shared/ui/typography';
 import { Layout } from '@/widgets/layout/layout';
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
 
 type MenHomeProps = HomePageProps & {
 	actions: ModelAction[];
@@ -35,9 +32,9 @@ const MenHome = ({
 	lastLevelCategories,
 	brands,
 }: MenHomeProps): JSX.Element => {
-	const lastTwo = actions.slice(-2);
+	const lastTwo = actions ? actions.slice(-2) : [];
 
-	const rest = actions.slice(0, actions.length - 2);
+	const rest = actions ? actions.slice(0, actions.length - 2) : [];
 
 	return (
 		<Meta title={menu.title}>

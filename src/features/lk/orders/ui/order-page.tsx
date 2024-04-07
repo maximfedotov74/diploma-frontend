@@ -60,6 +60,19 @@ export const OrderPage = (): JSX.Element => {
 						})}
 					</div>
 
+					{order.delivery_date && (
+						<div className='mb-5'>
+							{`Дата доставки: ${new Date(order.delivery_date).toLocaleString(
+								'RU-ru',
+								{
+									year: 'numeric',
+									month: 'long',
+									day: 'numeric',
+								}
+							)}`}
+						</div>
+					)}
+
 					<div className='flex items-center'>
 						{order.models.map(m => (
 							<OrderModelItem

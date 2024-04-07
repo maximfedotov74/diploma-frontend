@@ -29,7 +29,7 @@ export const OrdersView = (): JSX.Element => {
 
 	const pages = data?.total
 		? data.total > 0
-			? Math.ceil(data?.total / 8)
+			? Math.ceil(data?.total / 24)
 			: 1
 		: 0;
 

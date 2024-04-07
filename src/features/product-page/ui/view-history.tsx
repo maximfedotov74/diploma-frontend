@@ -20,25 +20,29 @@ export const ViewHistory = ({ modelId }: { modelId: number }): JSX.Element => {
 	}, [modelId, addToHistory]);
 
 	return (
-		<div className='mb-8'>
-			<TypographyH3 className='mb-5'>История просмотров</TypographyH3>
-			<Carousel opts={{ dragFree: true }}>
-				<CarouselContent>
-					{data?.map(item => (
-						<CarouselItem key={item.model_id} className='basis-[180px]'>
-							<ProductCard
-								key={item.model_id}
-								card={item}
-								withHover={false}
-								withWish={false}
-							/>
-						</CarouselItem>
-					))}
-				</CarouselContent>
+		<>
+			{data?.length && (
+				<div className='mb-8'>
+					<TypographyH3 className='mb-5'>История просмотров</TypographyH3>
+					<Carousel opts={{ dragFree: true }}>
+						<CarouselContent>
+							{data?.map(item => (
+								<CarouselItem key={item.model_id} className='basis-[180px]'>
+									<ProductCard
+										key={item.model_id}
+										card={item}
+										withHover={false}
+										withWish={false}
+									/>
+								</CarouselItem>
+							))}
+						</CarouselContent>
 
-				<CarouselPrevious className='-left-0' />
-				<CarouselNext className='-right-0' />
-			</Carousel>
-		</div>
+						<CarouselPrevious className='-left-0' />
+						<CarouselNext className='-right-0' />
+					</Carousel>
+				</div>
+			)}
+		</>
 	);
 };

@@ -1,4 +1,4 @@
-import { getApiFeedback } from '@/shared/api/generated';
+import { getApiFeedbackAdminAll } from '@/shared/api/generated';
 import { GET_ALL_FEEDBACK } from '@/shared/api/query-keys/feedback';
 import { CACHE_FIVE_MIN } from '@/shared/constants/cache-time';
 import { useQuery } from '@tanstack/react-query';
@@ -10,7 +10,7 @@ export const useGetAllFeedback = (
 ) => {
 	return useQuery({
 		queryKey: [GET_ALL_FEEDBACK, page, filter, order],
-		queryFn: () => getApiFeedback({ filter, order, page }),
+		queryFn: () => getApiFeedbackAdminAll({ filter, order, page }),
 		staleTime: CACHE_FIVE_MIN,
 	});
 };

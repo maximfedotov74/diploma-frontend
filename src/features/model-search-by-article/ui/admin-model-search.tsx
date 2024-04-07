@@ -8,6 +8,7 @@ import { Separator } from '@/shared/ui/separator';
 import { TypographySmall } from '@/shared/ui/typography';
 import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
+import { parsePriceRUB } from '@/shared/utils/parse-price';
 
 export const AdminModelSearchByArticle = ({
 	className,
@@ -24,7 +25,7 @@ export const AdminModelSearchByArticle = ({
 	return (
 		<div className='mb-2'>
 			<Input
-				placeholder='Введите артикул или название товара'
+				placeholder='Введите артикул модели'
 				value={searchTerm}
 				onChange={handleSearch}
 				onFocus={() => {
@@ -51,11 +52,11 @@ export const AdminModelSearchByArticle = ({
 					{models && models.length > 0 ? (
 						models.map(m => (
 							<div key={m.model_id} className='relative mb-2 last:mb-0'>
-								<div className='sm:flex items-center'>
+								<div className='sm:flex'>
 									<Image
 										width={90}
-										height={90}
-										className='w-20 h-20 rounded-md mr-2'
+										height={120}
+										className='w-[90px] h-[120px] rounded-md mr-2'
 										alt={m.product_title}
 										src={m.model_main_image_path}
 									/>
@@ -67,7 +68,7 @@ export const AdminModelSearchByArticle = ({
 											Артикул: {m.article}
 										</TypographySmall>
 										<TypographySmall className='mb-1'>
-											Цена: {m.model_price}
+											Цена: {parsePriceRUB(m.model_price)}
 										</TypographySmall>
 										<TypographySmall className='mb-1'>
 											Категория: {m.category.title}

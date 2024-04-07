@@ -4,7 +4,7 @@ import { Meta } from '@/shared/meta/meta';
 
 const AdminStats = (): JSX.Element => {
 	return (
-		<Meta title='Админ-панель' noIndex>
+		<Meta title='Админ-панель | Статистика' noIndex>
 			<AdminLayout>
 				<TypographyH1>AdminStats Page</TypographyH1>
 			</AdminLayout>

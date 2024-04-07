@@ -2467,7 +2467,64 @@
                 }
             }
         },
-        "/api/feedback": {
+        "/api/feedback/": {
+            "post": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "description": "Add feedback to model",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "feedback"
+                ],
+                "summary": "Add feedback to model",
+                "parameters": [
+                    {
+                        "description": "Add feedback with body dto",
+                        "name": "dto",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.AddFeedbackDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/feedback/admin/all": {
             "get": {
                 "description": "Get all feedback",
                 "consumes": [
@@ -2528,14 +2585,9 @@
                 }
             }
         },
-        "/api/feedback/": {
-            "post": {
-                "security": [
-                    {
-                        "BearerToken": []
-                    }
-                ],
-                "description": "Add feedback to model",
+        "/api/feedback/admin/user/{userId}": {
+            "get": {
+                "description": "Get admin user feedback",
                 "consumes": [
                     "application/json"
                 ],
@@ -2545,23 +2597,24 @@
                 "tags": [
                     "feedback"
                 ],
-                "summary": "Add feedback to model",
+                "summary": "Get admin user feedback",
                 "parameters": [
                     {
-                        "description": "Add feedback with body dto",
-                        "name": "dto",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.AddFeedbackDto"
-                        }
+                        "type": "integer",
+                        "description": "User id",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created",
+                    "200": {
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/fall.AppErr"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.UserFeedback"
+                            }
                         }
                     },
                     "400": {
@@ -2885,7 +2938,7 @@
                 }
             }
         },
-        "/api/order/all": {
+        "/api/order/admin/all": {
             "get": {
                 "security": [
                     {
@@ -2928,6 +2981,64 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/model.AllOrdersResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/order/admin/user/{userId}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "description": "Get admin user orders",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "order"
+                ],
+                "summary": "Get admin user orders",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User id",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Order"
+                            }
                         }
                     },
                     "400": {
@@ -4015,14 +4126,14 @@
                 }
             }
         },
-        "/api/product/model/search-by-article": {
+        "/api/product/model/search": {
             "get": {
                 "security": [
                     {
                         "BearerToken": []
                     }
                 ],
-                "description": "Get product models",
+                "description": "Search",
                 "consumes": [
                     "application/json"
                 ],
@@ -4032,7 +4143,65 @@
                 "tags": [
                     "product"
                 ],
-                "summary": "Get product models",
+                "summary": "Search",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "search term",
+                        "name": "searchTerm",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.SearchProductModel"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/product/model/search-by-article": {
+            "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "description": "Search product model by article",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "product"
+                ],
+                "summary": "Search product models by article",
                 "parameters": [
                     {
                         "type": "string",
@@ -4690,7 +4859,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.Role"
+                                "$ref": "#/definitions/model.UserRole"
                             }
                         }
                     },
@@ -4795,7 +4964,10 @@
                 ],
                 "responses": {
                     "201": {
-                        "description": "Created"
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -4848,13 +5020,59 @@
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created"
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/role/with-uesers": {
+            "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "description": "Find all roles with users",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "roles"
+                ],
+                "summary": "Find all roles with users",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Role"
+                            }
                         }
                     },
                     "404": {
@@ -4892,7 +5110,7 @@
                 "summary": "Remove role",
                 "parameters": [
                     {
-                        "type": "string",
+                        "type": "integer",
                         "description": "role id",
                         "name": "id",
                         "in": "path",
@@ -4900,8 +5118,11 @@
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created"
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
                     },
                     "400": {
                         "description": "Bad Request",
@@ -4951,6 +5172,60 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/model.Role"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/all": {
+            "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "description": "Get all users",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get all users",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page",
+                        "name": "page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.GetAllUsersResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
                         }
                     },
                     "404": {
@@ -7443,6 +7718,24 @@
                 },
                 "last_name": {
                     "type": "string"
+                }
+            }
+        },
+        "model.GetAllUsersResponse": {
+            "type": "object",
+            "required": [
+                "total",
+                "users"
+            ],
+            "properties": {
+                "total": {
+                    "type": "integer"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.User"
+                    }
                 }
             }
         },

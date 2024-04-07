@@ -91,11 +91,6 @@ export const ProfilePropdown = () => {
 								Выйти
 							</Link>
 						</DropdownMenuItem>
-						<DropdownMenuItem className='px-2 py-1.5'>
-							<Link variant='menu' href='/' className='w-full'>
-								Выйти со всех устройств
-							</Link>
-						</DropdownMenuItem>
 					</div>
 				</DropdownMenuContent>
 			</DropdownMenu>

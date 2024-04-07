@@ -4,11 +4,13 @@ import { useState } from 'react';
 import { LoginForm } from './login-form';
 import { RegistrationForm } from './registration-form';
 
+export type AuthFormType = 'registration' | 'login';
+
 export const AuthView = (): JSX.Element => {
-	const [form, setForm] = useState<'registration' | 'login'>('login');
+	const [form, setForm] = useState<AuthFormType>('login');
 
 	return (
-		<div className='max-w-[500px] ml-auto mr-auto'>
+		<div className='max-w-[500px] ml-auto mr-auto mb-5'>
 			{form === 'login' ? (
 				<div>
 					<TypographyH1 className='mb-4'>Авторизация</TypographyH1>
@@ -36,7 +38,11 @@ export const AuthView = (): JSX.Element => {
 					</Button>
 				</div>
 			)}
-			{form === 'login' ? <LoginForm /> : <RegistrationForm />}
+			{form === 'login' ? (
+				<LoginForm />
+			) : (
+				<RegistrationForm setForm={setForm} />
+			)}
 		</div>
 	);
 };

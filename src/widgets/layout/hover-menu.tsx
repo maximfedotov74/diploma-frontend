@@ -1,4 +1,8 @@
-import { ModelBrand, ModelCategoryRelation } from '@/shared/api/generated';
+import {
+	ModelActionGender,
+	ModelBrand,
+	ModelCategoryRelation,
+} from '@/shared/api/generated';
 import { CATALOG_ROUTE } from '@/shared/constants/routes/public';
 import { Link } from '@/shared/ui/link';
 import {
@@ -10,11 +14,13 @@ import {
 } from '@/shared/ui/navigation-menu';
 
 export const HoverMenu = ({
+	genderMenu,
 	menu,
 	brands,
 }: {
 	brands: ModelBrand[];
 	menu: ModelCategoryRelation;
+	genderMenu: ModelActionGender;
 }): JSX.Element => {
 	const secondLevel = menu.subcategories;
 
@@ -51,7 +57,15 @@ export const HoverMenu = ({
 								<ul className='p-3 w-full lg:w-[500px]'>
 									{brands.map(b => (
 										<li key={b.id} className='mb-2 last:mb-0'>
-											<Link href={`/`} variant='menu'>
+											<Link
+												href={{
+													pathname: `${CATALOG_ROUTE}/${genderMenu}`,
+													query: {
+														brands: b.id,
+													},
+												}}
+												variant='menu'
+											>
 												{b.title}
 											</Link>
 										</li>

@@ -33,9 +33,9 @@ const WomenHome = ({
 	lastLevelCategories,
 	brands,
 }: WomenHomeProps): JSX.Element => {
-	const lastTwo = actions.slice(-2);
+	const lastTwo = actions ? actions.slice(-2) : [];
 
-	const rest = actions.slice(0, actions.length - 2);
+	const rest = actions ? actions.slice(0, actions.length - 2) : [];
 
 	return (
 		<Meta title={menu.title}>

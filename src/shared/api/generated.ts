@@ -7,6 +7,13 @@
  */
 import { api } from './api';
 import type { BodyType } from './api';
+export type GetApiUserAllParams = {
+/**
+ * Page
+ */
+page?: number;
+};
+
 export type GetApiProductModelSimilarModelsIdParams = {
 /**
  * Brand id
@@ -23,6 +30,13 @@ export type GetApiProductModelSearchByArticleParams = {
  * model article
  */
 article: string;
+};
+
+export type GetApiProductModelSearchParams = {
+/**
+ * search term
+ */
+searchTerm: string;
 };
 
 export type GetApiProductCatalogCategorySlugParams = {
@@ -67,7 +81,7 @@ categoryId?: number;
 brandId?: number;
 };
 
-export type GetApiOrderAllParams = {
+export type GetApiOrderAdminAllParams = {
 /**
  * from date
  */
@@ -87,7 +101,7 @@ export type PostApiFileBody = {
   file: Blob;
 };
 
-export type GetApiFeedbackParams = {
+export type GetApiFeedbackAdminAllParams = {
 /**
  * Order [ASC | DESC]
  */
@@ -462,6 +476,11 @@ export interface ModelLocalSession {
   roles?: ModelUserRole[];
   user_agent?: string;
   user_id?: number;
+}
+
+export interface ModelGetAllUsersResponse {
+  total: number;
+  users: ModelUser[];
 }
 
 export interface ModelFeedbackUser {
@@ -1570,20 +1589,6 @@ export const patchApiDeliveryId = (
     }
   
 /**
- * Get all feedback
- * @summary Get all feedback
- */
-export const getApiFeedback = (
-    params?: GetApiFeedbackParams,
- ) => {
-      return api<ModelAdminAllFeedbackResponse>(
-      {url: `/api/feedback`, method: 'GET',
-        params
-    },
-      );
-    }
-  
-/**
  * Add feedback to model
  * @summary Add feedback to model
  */
@@ -1594,6 +1599,33 @@ export const postApiFeedback = (
       {url: `/api/feedback/`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: modelAddFeedbackDto
+    },
+      );
+    }
+  
+/**
+ * Get all feedback
+ * @summary Get all feedback
+ */
+export const getApiFeedbackAdminAll = (
+    params?: GetApiFeedbackAdminAllParams,
+ ) => {
+      return api<ModelAdminAllFeedbackResponse>(
+      {url: `/api/feedback/admin/all`, method: 'GET',
+        params
+    },
+      );
+    }
+  
+/**
+ * Get admin user feedback
+ * @summary Get admin user feedback
+ */
+export const getApiFeedbackAdminUserUserId = (
+    userId: number,
+ ) => {
+      return api<ModelUserFeedback[]>(
+      {url: `/api/feedback/admin/user/${userId}`, method: 'GET'
     },
       );
     }
@@ -1686,12 +1718,25 @@ export const postApiOrder = (
  * Get all orders
  * @summary Get all orders
  */
-export const getApiOrderAll = (
-    params?: GetApiOrderAllParams,
+export const getApiOrderAdminAll = (
+    params?: GetApiOrderAdminAllParams,
  ) => {
       return api<ModelAllOrdersResponse>(
-      {url: `/api/order/all`, method: 'GET',
+      {url: `/api/order/admin/all`, method: 'GET',
         params
+    },
+      );
+    }
+  
+/**
+ * Get admin user orders
+ * @summary Get admin user orders
+ */
+export const getApiOrderAdminUserUserId = (
+    userId: number,
+ ) => {
+      return api<ModelOrder[]>(
+      {url: `/api/order/admin/user/${userId}`, method: 'GET'
     },
       );
     }
@@ -1959,8 +2004,22 @@ export const getApiProductModelPopularCategorySlug = (
     }
   
 /**
- * Get product models
- * @summary Get product models
+ * Search
+ * @summary Search
+ */
+export const getApiProductModelSearch = (
+    params: GetApiProductModelSearchParams,
+ ) => {
+      return api<ModelSearchProductModel[]>(
+      {url: `/api/product/model/search`, method: 'GET',
+        params
+    },
+      );
+    }
+  
+/**
+ * Search product model by article
+ * @summary Search product models by article
  */
 export const getApiProductModelSearchByArticle = (
     params: GetApiProductModelSearchByArticleParams,
@@ -2130,7 +2189,7 @@ export const patchApiProductId = (
 export const getApiRole = (
     
  ) => {
-      return api<ModelRole[]>(
+      return api<ModelUserRole[]>(
       {url: `/api/role/`, method: 'GET'
     },
       );
@@ -2158,7 +2217,7 @@ export const postApiRole = (
 export const postApiRoleAddToUser = (
     modelAddRoleToUserDto: BodyType<ModelAddRoleToUserDto>,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/role/add-to-user`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: modelAddRoleToUserDto
@@ -2173,10 +2232,23 @@ export const postApiRoleAddToUser = (
 export const deleteApiRoleRemoveFromUser = (
     modelAddRoleToUserDto: BodyType<ModelAddRoleToUserDto>,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/role/remove-from-user`, method: 'DELETE',
       headers: {'Content-Type': 'application/json', },
       data: modelAddRoleToUserDto
+    },
+      );
+    }
+  
+/**
+ * Find all roles with users
+ * @summary Find all roles with users
+ */
+export const getApiRoleWithUesers = (
+    
+ ) => {
+      return api<ModelRole[]>(
+      {url: `/api/role/with-uesers`, method: 'GET'
     },
       );
     }
@@ -2186,9 +2258,9 @@ export const deleteApiRoleRemoveFromUser = (
  * @summary Remove role
  */
 export const deleteApiRoleId = (
-    id: string,
+    id: number,
  ) => {
-      return api<void>(
+      return api<FallAppErr>(
       {url: `/api/role/${id}`, method: 'DELETE'
     },
       );
@@ -2203,6 +2275,20 @@ export const getApiRoleTitle = (
  ) => {
       return api<ModelRole>(
       {url: `/api/role/${title}`, method: 'GET'
+    },
+      );
+    }
+  
+/**
+ * Get all users
+ * @summary Get all users
+ */
+export const getApiUserAll = (
+    params?: GetApiUserAllParams,
+ ) => {
+      return api<ModelGetAllUsersResponse>(
+      {url: `/api/user/all`, method: 'GET',
+        params
     },
       );
     }
@@ -2499,15 +2585,17 @@ export type GetApiDeliverySearchResult = NonNullable<Awaited<ReturnType<typeof g
 export type GetApiDeliveryIdResult = NonNullable<Awaited<ReturnType<typeof getApiDeliveryId>>>
 export type DeleteApiDeliveryIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiDeliveryId>>>
 export type PatchApiDeliveryIdResult = NonNullable<Awaited<ReturnType<typeof patchApiDeliveryId>>>
-export type GetApiFeedbackResult = NonNullable<Awaited<ReturnType<typeof getApiFeedback>>>
 export type PostApiFeedbackResult = NonNullable<Awaited<ReturnType<typeof postApiFeedback>>>
+export type GetApiFeedbackAdminAllResult = NonNullable<Awaited<ReturnType<typeof getApiFeedbackAdminAll>>>
+export type GetApiFeedbackAdminUserUserIdResult = NonNullable<Awaited<ReturnType<typeof getApiFeedbackAdminUserUserId>>>
 export type GetApiFeedbackModelModelIdResult = NonNullable<Awaited<ReturnType<typeof getApiFeedbackModelModelId>>>
 export type GetApiFeedbackMyResult = NonNullable<Awaited<ReturnType<typeof getApiFeedbackMy>>>
 export type DeleteApiFeedbackIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiFeedbackId>>>
 export type PatchApiFeedbackIdResult = NonNullable<Awaited<ReturnType<typeof patchApiFeedbackId>>>
 export type PostApiFileResult = NonNullable<Awaited<ReturnType<typeof postApiFile>>>
 export type PostApiOrderResult = NonNullable<Awaited<ReturnType<typeof postApiOrder>>>
-export type GetApiOrderAllResult = NonNullable<Awaited<ReturnType<typeof getApiOrderAll>>>
+export type GetApiOrderAdminAllResult = NonNullable<Awaited<ReturnType<typeof getApiOrderAdminAll>>>
+export type GetApiOrderAdminUserUserIdResult = NonNullable<Awaited<ReturnType<typeof getApiOrderAdminUserUserId>>>
 export type PatchApiOrderCancelOrderIdResult = NonNullable<Awaited<ReturnType<typeof patchApiOrderCancelOrderId>>>
 export type PatchApiOrderChangeDeliveryDateOrderIdResult = NonNullable<Awaited<ReturnType<typeof patchApiOrderChangeDeliveryDateOrderId>>>
 export type PatchApiOrderChangeStatusOrderIdResult = NonNullable<Awaited<ReturnType<typeof patchApiOrderChangeStatusOrderId>>>
@@ -2527,6 +2615,7 @@ export type DeleteApiProductModelImgImgIdResult = NonNullable<Awaited<ReturnType
 export type GetApiProductModelOptionsIdResult = NonNullable<Awaited<ReturnType<typeof getApiProductModelOptionsId>>>
 export type GetApiProductModelPageSlugResult = NonNullable<Awaited<ReturnType<typeof getApiProductModelPageSlug>>>
 export type GetApiProductModelPopularCategorySlugResult = NonNullable<Awaited<ReturnType<typeof getApiProductModelPopularCategorySlug>>>
+export type GetApiProductModelSearchResult = NonNullable<Awaited<ReturnType<typeof getApiProductModelSearch>>>
 export type GetApiProductModelSearchByArticleResult = NonNullable<Awaited<ReturnType<typeof getApiProductModelSearchByArticle>>>
 export type GetApiProductModelSimilarModelsIdResult = NonNullable<Awaited<ReturnType<typeof getApiProductModelSimilarModelsId>>>
 export type GetApiProductModelSizesIdResult = NonNullable<Awaited<ReturnType<typeof getApiProductModelSizesId>>>
@@ -2543,8 +2632,10 @@ export type GetApiRoleResult = NonNullable<Awaited<ReturnType<typeof getApiRole>
 export type PostApiRoleResult = NonNullable<Awaited<ReturnType<typeof postApiRole>>>
 export type PostApiRoleAddToUserResult = NonNullable<Awaited<ReturnType<typeof postApiRoleAddToUser>>>
 export type DeleteApiRoleRemoveFromUserResult = NonNullable<Awaited<ReturnType<typeof deleteApiRoleRemoveFromUser>>>
+export type GetApiRoleWithUesersResult = NonNullable<Awaited<ReturnType<typeof getApiRoleWithUesers>>>
 export type DeleteApiRoleIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiRoleId>>>
 export type GetApiRoleTitleResult = NonNullable<Awaited<ReturnType<typeof getApiRoleTitle>>>
+export type GetApiUserAllResult = NonNullable<Awaited<ReturnType<typeof getApiUserAll>>>
 export type PostApiUserPasswordCodeResult = NonNullable<Awaited<ReturnType<typeof postApiUserPasswordCode>>>
 export type PatchApiUserPasswordCodeChangeResult = NonNullable<Awaited<ReturnType<typeof patchApiUserPasswordCodeChange>>>
 export type PostApiUserPasswordCodeConfirmResult = NonNullable<Awaited<ReturnType<typeof postApiUserPasswordCodeConfirm>>>

@@ -8,7 +8,7 @@ import {
 import { WidthContainer } from '@/shared/ui/width-container';
 import { ReactNode } from 'react';
 import { Logo } from '@/shared/ui/logo';
-import { ModelSearch } from '@/features/model-search/model-search';
+import { Search } from '@/features/search/search';
 import { TopHeader } from './top-header';
 import { GenderMenu } from './gender-menu';
 import { HoverMenu } from './hover-menu';
@@ -49,10 +49,13 @@ export const LKLayout = ({
 								topLevels={topLevels}
 								currentMenu={genderMenu}
 							/>
-							<ModelSearch className='ml-auto' />
+							<Search
+								className='ml-3 w-full md:ml-auto md:w-[300px]'
+								genderMenu={genderMenu}
+							/>
 						</div>
 					</div>
-					<HoverMenu menu={menu} brands={brands} />
+					<HoverMenu menu={menu} brands={brands} genderMenu={genderMenu} />
 				</WidthContainer>
 			</header>
 			<main className='mt-5'>

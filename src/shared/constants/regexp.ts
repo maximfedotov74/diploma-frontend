@@ -3,4 +3,4 @@ export const validEmail =
 
 // export const validPhone =
 // 	/((8|\+7)-?)?\(?\d{3}\)?-?\d{1}-?\d{1}-?\d{1}-?\d{1}-?\d{1}-?\d{1}-?\d{1}/;
-export const validPhone = /(\+7|8)9\d{9}/;
+export const validPhone = /^((\+7|7|8)+([0-9]){10})$/;

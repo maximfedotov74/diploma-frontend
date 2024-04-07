@@ -10,7 +10,6 @@ import { useDeleteFeedback } from '../api/delete-feedback';
 const FeedbackListItem = ({ item }: { item: ModelFeedback }) => {
 	const toggleHidden = useToggleFeedbackHidden();
 	const deleteFeedback = useDeleteFeedback();
-
 	return (
 		<div className='mb-3 last:mb-0'>
 			<div>

@@ -1,4 +1,4 @@
-import { getApiOrderAll } from '@/shared/api/generated';
+import { getApiOrderAdminAll } from '@/shared/api/generated';
 import { GET_ALL_ORDERS } from '@/shared/api/query-keys/order';
 import { useQuery } from '@tanstack/react-query';
 
@@ -9,7 +9,7 @@ export const useGetAllOrders = (page: number, from?: string, to?: string) => {
 	return useQuery({
 		queryKey: [GET_ALL_ORDERS, page, fromKey, toKey],
 		queryFn: () =>
-			getApiOrderAll({
+			getApiOrderAdminAll({
 				fromDate: from ? from : '',
 				toDate: to ? to : '',
 				page: page,

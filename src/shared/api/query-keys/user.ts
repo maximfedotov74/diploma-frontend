@@ -8,3 +8,4 @@ export const USER_SESSIONS = 'user-sessions';
 export const EXCEPT_CURRENT_SESSION = 'except-current-session';
 export const REMOVE_ONE_SESSION = 'remove-one-session';
 export const REMOVE_ALL_SESSIONS = 'remove-all-session';
+export const GET_ALL_USERS = 'get-all-users';

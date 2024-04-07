@@ -38,7 +38,7 @@ export const LoginForm = (): JSX.Element => {
 				className='mb-3'
 				error={errors.password?.message}
 				{...register('password', {
-					min: {
+					minLength: {
 						value: 6,
 						message: 'Длина пароля должна быть не менее 6 символов!',
 					},
