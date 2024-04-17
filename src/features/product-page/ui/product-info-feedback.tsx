@@ -23,7 +23,7 @@ export const ProductInfoFeedback = ({
 				<div>
 					{feedback?.feedback.map(f => (
 						<div key={f.id}>
-							<div>{f.user.first_name || f.user.email}</div>
+							<div>{f.user.first_name || `Пользователь ${f.user.id}`}</div>
 							<div className='text-foreground/60'>
 								{new Date(f.created_at).toLocaleDateString('RU-ru', {
 									month: 'long',

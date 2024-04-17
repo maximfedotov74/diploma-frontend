@@ -33,6 +33,7 @@ export const AdminModelSearchByArticle = ({
 						setOpen(true);
 					}
 				}}
+				rightSection={<Icon icon='search_outline_24' className='w-5 h-5' />}
 			/>
 
 			<Popover open={open} onOpenChange={setOpen} modal>

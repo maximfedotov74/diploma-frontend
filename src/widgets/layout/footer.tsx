@@ -1,3 +1,8 @@
+import {
+	ABOUT_PAGE,
+	DELIVERY_POINTS,
+	POLICY_PAGE,
+} from '@/shared/constants/routes/public';
 import { Icon } from '@/shared/ui/icon';
 import { Link } from '@/shared/ui/link';
 import { Logo } from '@/shared/ui/logo';
@@ -16,7 +21,7 @@ export const Footer = ({ className }: { className?: string }): JSX.Element => {
 					</div>
 				</div>
 				<Separator className='my-5' />
-				<div className='flex items-center'>
+				<div className='flex items-center mb-4'>
 					<Link
 						href='https://vk.com/fedotovmax42'
 						target='_blank'
@@ -61,6 +66,27 @@ export const Footer = ({ className }: { className?: string }): JSX.Element => {
 						title='ГитХаб'
 					>
 						<Icon icon='git' className='w-6 h-6' />
+					</Link>
+				</div>
+				<div className='flex flex-col'>
+					<Link
+						className='text-secondary hover:text-muted-foreground mb-2'
+						href={POLICY_PAGE}
+					>
+						Пользовательское соглашение
+					</Link>
+
+					<Link
+						className='text-secondary hover:text-muted-foreground mb-2'
+						href={ABOUT_PAGE}
+					>
+						О нас
+					</Link>
+					<Link
+						className='text-secondary hover:text-muted-foreground mb-2'
+						href={DELIVERY_POINTS}
+					>
+						Пункты выдачи
 					</Link>
 				</div>
 			</WidthContainer>

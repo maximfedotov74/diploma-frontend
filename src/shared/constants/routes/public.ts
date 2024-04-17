@@ -10,4 +10,10 @@ export const PRODUCT_ROUTE = '/p';
 export const HOME_ROUTE = '/';
 export const LOGOUT_ROUTE = '/logout';
 
+export const ACTIONS_ROUTE = '/actions';
+
 export const POLICY_PAGE = '/policy';
+export const ABOUT_PAGE = '/about';
+export const DELIVERY_POINTS = '/points';
+
+export const NOT_FOUND_ROUTE = '/404';

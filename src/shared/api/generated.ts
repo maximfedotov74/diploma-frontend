@@ -948,6 +948,32 @@ export const postApiAction = (
     }
   
 /**
+ * Get actions by gender
+ * @summary Get actions by gender
+ */
+export const getApiActionByGenderGender = (
+    gender: string,
+ ) => {
+      return api<ModelAction[]>(
+      {url: `/api/action/by-gender/${gender}`, method: 'GET'
+    },
+      );
+    }
+  
+/**
+ * Get action by id
+ * @summary Get action by id
+ */
+export const getApiActionByIdId = (
+    id: string,
+ ) => {
+      return api<ModelAction>(
+      {url: `/api/action/by-id/${id}`, method: 'GET'
+    },
+      );
+    }
+  
+/**
  * Add model to action
  * @summary Add model to action
  */
@@ -984,19 +1010,6 @@ export const getApiActionModelId = (
  ) => {
       return api<ModelActionModel[]>(
       {url: `/api/action/model/${id}`, method: 'GET'
-    },
-      );
-    }
-  
-/**
- * Get actions by gender
- * @summary Get actions by gender
- */
-export const getApiActionGender = (
-    gender: string,
- ) => {
-      return api<ModelAction[]>(
-      {url: `/api/action/${gender}`, method: 'GET'
     },
       );
     }
@@ -1787,6 +1800,19 @@ export const patchApiOrderChangeStatusOrderId = (
     }
   
 /**
+ * Confirm online payment
+ * @summary Confirm online payment
+ */
+export const patchApiOrderConfirmOnlinePaymentOrderId = (
+    orderId: string,
+ ) => {
+      return api<FallAppErr>(
+      {url: `/api/order/confirm-online-payment/${orderId}`, method: 'PATCH'
+    },
+      );
+    }
+  
+/**
  * Get user orders
  * @summary Get user orders
  */
@@ -2226,6 +2252,19 @@ export const postApiRoleAddToUser = (
     }
   
 /**
+ * Check for admin
+ * @summary Check for admin
+ */
+export const getApiRoleCheckForAdmin = (
+    
+ ) => {
+      return api<FallAppErr>(
+      {url: `/api/role/check-for-admin`, method: 'GET'
+    },
+      );
+    }
+  
+/**
  * Remove role from user by body arguments
  * @summary Remove role from user
  */
@@ -2539,10 +2578,11 @@ export const deleteApiWishCartModelSizeId = (
   
 export type GetApiActionResult = NonNullable<Awaited<ReturnType<typeof getApiAction>>>
 export type PostApiActionResult = NonNullable<Awaited<ReturnType<typeof postApiAction>>>
+export type GetApiActionByGenderGenderResult = NonNullable<Awaited<ReturnType<typeof getApiActionByGenderGender>>>
+export type GetApiActionByIdIdResult = NonNullable<Awaited<ReturnType<typeof getApiActionByIdId>>>
 export type PostApiActionModelResult = NonNullable<Awaited<ReturnType<typeof postApiActionModel>>>
 export type DeleteApiActionModelActionModelIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiActionModelActionModelId>>>
 export type GetApiActionModelIdResult = NonNullable<Awaited<ReturnType<typeof getApiActionModelId>>>
-export type GetApiActionGenderResult = NonNullable<Awaited<ReturnType<typeof getApiActionGender>>>
 export type DeleteApiActionIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiActionId>>>
 export type PatchApiActionIdResult = NonNullable<Awaited<ReturnType<typeof patchApiActionId>>>
 export type PostApiAuthLoginResult = NonNullable<Awaited<ReturnType<typeof postApiAuthLogin>>>
@@ -2599,6 +2639,7 @@ export type GetApiOrderAdminUserUserIdResult = NonNullable<Awaited<ReturnType<ty
 export type PatchApiOrderCancelOrderIdResult = NonNullable<Awaited<ReturnType<typeof patchApiOrderCancelOrderId>>>
 export type PatchApiOrderChangeDeliveryDateOrderIdResult = NonNullable<Awaited<ReturnType<typeof patchApiOrderChangeDeliveryDateOrderId>>>
 export type PatchApiOrderChangeStatusOrderIdResult = NonNullable<Awaited<ReturnType<typeof patchApiOrderChangeStatusOrderId>>>
+export type PatchApiOrderConfirmOnlinePaymentOrderIdResult = NonNullable<Awaited<ReturnType<typeof patchApiOrderConfirmOnlinePaymentOrderId>>>
 export type GetApiOrderMyResult = NonNullable<Awaited<ReturnType<typeof getApiOrderMy>>>
 export type GetApiOrderOrderIdResult = NonNullable<Awaited<ReturnType<typeof getApiOrderOrderId>>>
 export type PostApiProductResult = NonNullable<Awaited<ReturnType<typeof postApiProduct>>>
@@ -2631,6 +2672,7 @@ export type PatchApiProductIdResult = NonNullable<Awaited<ReturnType<typeof patc
 export type GetApiRoleResult = NonNullable<Awaited<ReturnType<typeof getApiRole>>>
 export type PostApiRoleResult = NonNullable<Awaited<ReturnType<typeof postApiRole>>>
 export type PostApiRoleAddToUserResult = NonNullable<Awaited<ReturnType<typeof postApiRoleAddToUser>>>
+export type GetApiRoleCheckForAdminResult = NonNullable<Awaited<ReturnType<typeof getApiRoleCheckForAdmin>>>
 export type DeleteApiRoleRemoveFromUserResult = NonNullable<Awaited<ReturnType<typeof deleteApiRoleRemoveFromUser>>>
 export type GetApiRoleWithUesersResult = NonNullable<Awaited<ReturnType<typeof getApiRoleWithUesers>>>
 export type DeleteApiRoleIdResult = NonNullable<Awaited<ReturnType<typeof deleteApiRoleId>>>

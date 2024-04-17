@@ -11,6 +11,7 @@ import {
 import Image from 'next/image';
 import { Link } from './link';
 import Autoplay from 'embla-carousel-autoplay';
+import { ACTIONS_ROUTE } from '../constants/routes/public';
 
 export const ActionSlider = ({
 	actions,
@@ -45,7 +46,11 @@ export const ActionSlider = ({
 							key={a.id}
 							className='w-full  xs:h-[362px] sm:h-[462px] lg:h-[562px]'
 						>
-							<Link href='/' variant='menu' className='block h-full w-full'>
+							<Link
+								href={`${ACTIONS_ROUTE}/${a.id}`}
+								variant='menu'
+								className='block h-full w-full'
+							>
 								<Image
 									className='w-full h-full rounded-md'
 									alt={a.title}

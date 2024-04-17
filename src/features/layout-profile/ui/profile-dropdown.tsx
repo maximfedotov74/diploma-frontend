@@ -13,12 +13,9 @@ import { Link } from '@/shared/ui/link';
 import { ProfileWish } from './profile-wish';
 import { useGetProfileApi } from '@/shared/api/queries/get-profile-api';
 import { Icon } from '@/shared/ui/icon';
-import {
-	LK_ORDERS_ROUTE,
-	LK_ROUTE,
-	LOGOUT_ROUTE,
-} from '@/shared/constants/routes/public';
+import { LK_ROUTE, LOGOUT_ROUTE } from '@/shared/constants/routes/public';
 import { ProfileOrders } from './profile-orders';
+import { ADMIN_PRODUCTS_ROUTE } from '@/shared/constants/routes/admin';
 
 export const ProfilePropdown = () => {
 	const { isLoading, isError, data: user } = useGetProfileApi();
@@ -92,6 +89,23 @@ export const ProfilePropdown = () => {
 							</Link>
 						</DropdownMenuItem>
 					</div>
+					{user.roles.find(r => r.title === 'ADMIN') && (
+						<>
+							<Separator className='my-1' />
+							<div>
+								<DropdownMenuItem>
+									<Link
+										prefetch={false}
+										variant='menu'
+										href={ADMIN_PRODUCTS_ROUTE}
+										className='w-full'
+									>
+										Админ-панель
+									</Link>
+								</DropdownMenuItem>
+							</div>
+						</>
+					)}
 				</DropdownMenuContent>
 			</DropdownMenu>
 		);

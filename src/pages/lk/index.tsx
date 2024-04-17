@@ -2,7 +2,6 @@ import { ChangePasswordDialog } from '@/features/lk/change-password/ui/change-pa
 import { EditProfileForm } from '@/features/lk/edit-profile/ui/edit-profile-form';
 import {
 	ModelActionGender,
-	ModelBrand,
 	getApiBrandByGenderCategorySlug,
 	getApiCategoryRelationSlug,
 	getApiCategoryTop,

@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server';
 import {
+	nextMiddlewareCheckAdmin,
 	nextMiddlewareCheckAuth,
 	nextMiddlewareCheckAuthPage,
 } from './shared/api/next-middleware';
@@ -9,6 +10,7 @@ import {
 	LK_ROUTE,
 	WISHLIST_ROUTE,
 } from './shared/constants/routes/public';
+import { ADMIN_ROUTE } from './shared/constants/routes/admin';
 
 export async function middleware(request: NextRequest) {
 	const currentPath = request.nextUrl.clone();
@@ -23,6 +25,10 @@ export async function middleware(request: NextRequest) {
 		currentPath.pathname.startsWith(WISHLIST_ROUTE)
 	) {
 		return nextMiddlewareCheckAuth(request);
+	}
+
+	if (currentPath.pathname.startsWith(ADMIN_ROUTE)) {
+		return nextMiddlewareCheckAdmin(request);
 	}
 }
 

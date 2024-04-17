@@ -106,6 +106,109 @@
                 }
             }
         },
+        "/api/action/by-gender/{gender}": {
+            "get": {
+                "description": "Get actions by gender",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "action"
+                ],
+                "summary": "Get actions by gender",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "action gender",
+                        "name": "gender",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Action"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/action/by-id/{id}": {
+            "get": {
+                "description": "Get action by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "action"
+                ],
+                "summary": "Get action by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "action id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Action"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
         "/api/action/model": {
             "post": {
                 "description": "Add model to action",
@@ -237,59 +340,6 @@
                             "type": "array",
                             "items": {
                                 "$ref": "#/definitions/model.ActionModel"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/fall.ValidationError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/fall.AppErr"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/fall.AppErr"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/action/{gender}": {
-            "get": {
-                "description": "Get actions by gender",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "action"
-                ],
-                "summary": "Get actions by gender",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "action gender",
-                        "name": "gender",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/model.Action"
                             }
                         }
                     },
@@ -3248,6 +3298,62 @@
                 }
             }
         },
+        "/api/order/confirm-online-payment/{orderId}": {
+            "patch": {
+                "description": "Confirm online payment",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "order"
+                ],
+                "summary": "Confirm online payment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Order id",
+                        "name": "orderId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
         "/api/order/my": {
             "get": {
                 "security": [
@@ -4973,6 +5079,58 @@
                         "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/fall.ValidationError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/role/check-for-admin": {
+            "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "description": "Check for admin",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "roles"
+                ],
+                "summary": "Check for admin",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/fall.AppErr"
                         }
                     },
                     "404": {

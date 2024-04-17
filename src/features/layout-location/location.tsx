@@ -23,12 +23,14 @@ export const Location = (): JSX.Element => {
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Are you absolutely sure?</DialogTitle>
-					<DialogDescription>
-						This action cannot be undone. This will permanently delete your
-						account and remove your data from our servers.
-					</DialogDescription>
+					<DialogTitle>Где вы находитесь?</DialogTitle>
 				</DialogHeader>
+				<ul>
+					<li>г. Челябинск</li>
+				</ul>
+				<TypographySmall className='italic underline'>
+					Извините, но магазин работает пока только по Челябинской области
+				</TypographySmall>
 			</DialogContent>
 		</Dialog>
 	);

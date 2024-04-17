@@ -61,7 +61,9 @@ export const ProductCard = ({
 				<div className='flex flex-col'>
 					<TypographySmall className='mb-1'>{card.brand.title}</TypographySmall>
 					<TypographySmall className='min-h-[28px]'>
-						{card.category.short_title}
+						{card.category.short_title
+							? card.category.short_title
+							: card.category.title}
 					</TypographySmall>
 				</div>
 				{withSelectSize ? (

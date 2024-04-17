@@ -16,7 +16,7 @@ export const AuthLayout = ({
 				<WidthContainer>
 					<div className='flex flex-col sm:flex-row items-center relative mt-3'>
 						<Location />
-						<Logo className='sm:absolute sm:top-1/2 sm:-translate-x-2/3 sm:-translate-y-1/2 sm:left-1/2 mb-3 sm:mb-0 italic' />
+						<Logo className='sm:absolute sm:top-1/2 sm:-translate-x-2/3 sm:-translate-y-1/2 sm:left-1/2 sm:mb-0 italic' />
 						<ChangeThemeButton className='ml-auto' />
 					</div>
 				</WidthContainer>

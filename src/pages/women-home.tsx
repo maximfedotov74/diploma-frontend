@@ -2,14 +2,14 @@ import { PopularSlider } from '@/features/popular-models/ui/popular-slider';
 import {
 	ModelAction,
 	ModelActionGender,
-	ModelBrand,
 	ModelCategoryModel,
-	getApiActionGender,
+	getApiActionByGenderGender,
 	getApiBrandByGenderCategorySlug,
 	getApiCategoryLastLevelsSlug,
 	getApiCategoryRelationSlug,
 	getApiCategoryTop,
 } from '@/shared/api/generated';
+import { ACTIONS_ROUTE } from '@/shared/constants/routes/public';
 import { Meta } from '@/shared/meta/meta';
 import { HomePageProps } from '@/shared/types/home-page';
 import { ActionSlider } from '@/shared/ui/action-slider';
@@ -55,7 +55,11 @@ const WomenHome = ({
 						<div className='hidden md:flex flex-col'>
 							{lastTwo.map(a => (
 								<div key={a.id} className='mb-3 last:mb-0'>
-									<Link variant='menu' href='/' className='mb-1 block'>
+									<Link
+										variant='menu'
+										href={`${ACTIONS_ROUTE}/${a.id}`}
+										className='mb-1 block'
+									>
 										<Image
 											className='w-full h-[210px] lg:h-[260px]  rounded-md'
 											alt={a.title}
@@ -88,7 +92,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res, req }) => {
 
 	const topLevels = await getApiCategoryTop();
 	const menu = await getApiCategoryRelationSlug(ModelActionGender.women);
-	const actions = await getApiActionGender(ModelActionGender.women);
+	const actions = await getApiActionByGenderGender(ModelActionGender.women);
 	const lastLevelCategories = await getApiCategoryLastLevelsSlug(
 		ModelActionGender.women
 	);

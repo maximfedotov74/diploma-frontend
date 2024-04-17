@@ -3,7 +3,7 @@ import {
 	ModelBrand,
 	ModelCategoryRelation,
 } from '@/shared/api/generated';
-import { CATALOG_ROUTE } from '@/shared/constants/routes/public';
+import { ACTIONS_ROUTE, CATALOG_ROUTE } from '@/shared/constants/routes/public';
 import { Link } from '@/shared/ui/link';
 import {
 	NavigationMenu,
@@ -74,6 +74,12 @@ export const HoverMenu = ({
 							</NavigationMenuContent>
 						</NavigationMenuItem>
 					)}
+					<Link
+						className='text-primary hover:text-primary font-medium'
+						href={ACTIONS_ROUTE}
+					>
+						Все акции
+					</Link>
 				</NavigationMenuList>
 			</NavigationMenu>
 		</div>

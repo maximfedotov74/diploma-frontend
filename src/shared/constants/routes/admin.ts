@@ -1,3 +1,5 @@
+export const ADMIN_ROUTE = '/admin';
+
 export const ADMIN_BRAND_ROUTE = '/admin/brands';
 export const ADMIN_CATEGORY_ROUTE = '/admin/categories';
 export const ADMIN_DELIVERY_ROUTE = '/admin/delivery-points';

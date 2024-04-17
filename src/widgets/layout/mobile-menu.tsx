@@ -1,5 +1,6 @@
 import {
 	ModelActionGender,
+	ModelBrand,
 	ModelCategoryModel,
 	ModelCategoryRelation,
 } from '@/shared/api/generated';
@@ -11,17 +12,23 @@ import { cn } from '@/shared/utils/cn';
 import { GenderMenu } from './gender-menu';
 
 import { CategoriesMenu } from './categories-menu';
+import { Separator } from '@/shared/ui/separator';
+import { BrandsMenu } from './brands-menu';
+import { Link } from '@/shared/ui/link';
+import { ACTIONS_ROUTE } from '@/shared/constants/routes/public';
 
 export const MobileMenu = ({
 	menu,
 	topLevels,
 	className,
 	currentMenu,
+	brands,
 }: {
 	menu: ModelCategoryRelation;
 	topLevels: ModelCategoryModel[];
 	className?: string;
 	currentMenu: ModelActionGender;
+	brands: ModelBrand[];
 }): JSX.Element => {
 	const secondLevel = menu.subcategories;
 
@@ -40,6 +47,16 @@ export const MobileMenu = ({
 						currentMenu={currentMenu}
 					/>
 					<CategoriesMenu category={secondLevel} />
+					<Separator className='my-3' />
+					<BrandsMenu brands={brands} genderMenu={currentMenu} />
+					<Separator className='my-3' />
+					<Link
+						className='pl-2 text-primary hover:text-primary font-medium'
+						variant='menu'
+						href={ACTIONS_ROUTE}
+					>
+						Все акции
+					</Link>
 				</SheetContent>
 			</Sheet>
 		</div>
