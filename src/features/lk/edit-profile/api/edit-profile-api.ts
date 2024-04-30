@@ -7,8 +7,6 @@ import { AUTH_ROUTE } from '@/shared/constants/routes/public';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 
-//TODO add toasters for api
-
 export const useEditProfileApi = () => {
 	const queryCLient = useQueryClient();
 	const router = useRouter();

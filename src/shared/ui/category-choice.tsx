@@ -18,7 +18,7 @@ const CategoryItemChoice = ({
 
 	const levelShowing = showAll
 		? true
-		: item.subcategories.length === 0 && item.level >= 4;
+		: item.subcategories.length === 0 && item.level >= 3;
 
 	return (
 		<div className='mb-2 last:mb-0'>

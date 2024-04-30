@@ -41,5 +41,3 @@ export const config = {
 		'/cart/:path*',
 	],
 };
-
-//TODO - wishlist and cart pages

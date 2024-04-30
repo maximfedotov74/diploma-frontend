@@ -13,10 +13,10 @@ export const ProductInfoFeedback = ({
 		<>
 			<div className=''>
 				<div className='font-medium text-xl'>
-					Количество отзывов: {feedback?.rate_count}
+					Количество отзывов: {feedback?.rate_count ?? 0}
 				</div>
 				<div className='font-medium text-xl mb-2'>
-					Средняя оценка: {feedback?.avg_rate}
+					Средняя оценка: {feedback?.avg_rate ?? 0}
 				</div>
 				<AddFeedback modelId={modelId} />
 

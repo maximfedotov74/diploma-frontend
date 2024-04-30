@@ -6,6 +6,11 @@ export const useCatalogPriceFilter = (price: ModelCatalogPrice) => {
 	const [min, setMin] = useState<number>(price.min_price);
 	const [max, setMax] = useState<number>(price.max_price);
 
+	useEffect(() => {
+		setMin(price.min_price);
+		setMax(price.max_price);
+	}, [price]);
+
 	const router = useRouter();
 
 	const onMinChange = useCallback(

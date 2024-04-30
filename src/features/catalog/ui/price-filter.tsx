@@ -3,8 +3,6 @@ import { Button } from '@/shared/ui/button';
 import { Icon } from '@/shared/ui/icon';
 import { Input } from '@/shared/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
-import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
 import { useCatalogPriceFilter } from '../hooks/use-price-filter';
 
 export const PriceFilter = ({

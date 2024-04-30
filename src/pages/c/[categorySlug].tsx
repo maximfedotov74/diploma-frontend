@@ -74,15 +74,23 @@ const CatalogPage = ({
 					</div>
 				) : (
 					<div>
-						<div className='text-2xl font-bold'>
+						<div className='text-2xl font-bold mb-6'>
 							По вашему запросу ничего не найдено!
 						</div>
-						<Link
-							className='text-lg'
-							href={`${CATALOG_ROUTE}/${catalogCategoriesResponse.current.slug}`}
-						>
-							Очистить фильтры
-						</Link>
+						<div className='flex flex-col items-start'>
+							<Link
+								className='mb-4 text-lg'
+								href={`${CATALOG_ROUTE}/${catalogCategoriesResponse.catalog_categories.slug}`}
+							>
+								Перейти к: {catalogCategoriesResponse.catalog_categories.title}
+							</Link>
+							<Link
+								className='text-lg'
+								href={`${CATALOG_ROUTE}/${catalogCategoriesResponse.current.slug}`}
+							>
+								Очистить фильтры
+							</Link>
+						</div>
 					</div>
 				)}
 			</Layout>
