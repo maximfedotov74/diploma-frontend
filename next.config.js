@@ -4,12 +4,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = withBundleAnalyzer({
-	// env: {
-	// 	API_HOST: process.env.API_HOST,
-	// 	API_PORT: process.env.API_PORT,
-	// 	API_PROTOCOL: process.env.API_PROTOCOL,
-	// 	API_URL: process.env.API_URL,
-	// },
 	reactStrictMode: false,
 	images: {
 		remotePatterns: [
@@ -17,7 +11,7 @@ const nextConfig = withBundleAnalyzer({
 				hostname: process.env.API_HOST,
 				pathname: `/images/**`,
 				protocol: process.env.API_PROTOCOL,
-				port: process.env.API_PORT,
+				port: process.env.STORAGE_PORT,
 			},
 		],
 	},

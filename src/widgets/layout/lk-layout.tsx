@@ -48,6 +48,7 @@ export const LKLayout = ({
 								menu={menu}
 								topLevels={topLevels}
 								currentMenu={genderMenu}
+								brands={brands}
 							/>
 							<Search
 								className='ml-3 w-full md:ml-auto md:w-[300px]'
